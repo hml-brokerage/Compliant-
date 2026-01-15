@@ -2046,10 +2046,7 @@ app.post('/entities/:entityName', apiLimiter, authenticateToken, async (req, res
   // Validate required fields
   const validation = validateRequiredFields(entityName, data);
   if (!validation.valid) {
-    return res.status(400).json({ 
-      error: validation.error,
-      missingFields: validation.missingFields 
-    });
+    return sendError(res, 400, validation.error, { missingFields: validation.missingFields });
   }
 
   const newItem = {
@@ -2089,9 +2086,20 @@ app.patch('/entities/:entityName/:id', authenticateToken, (req, res) => {
     return res.status(404).json({ error: 'Item not found' });
   }
 
-  entities[entityName][index] = {
+  // Get the merged result after applying updates
+  const mergedEntity = {
     ...entities[entityName][index],
-    ...updates,
+    ...updates
+  };
+
+  // Validate that required fields are not being set to empty/null values
+  const validation = validateRequiredFields(entityName, mergedEntity);
+  if (!validation.valid) {
+    return sendError(res, 400, validation.error, { missingFields: validation.missingFields });
+  }
+
+  entities[entityName][index] = {
+    ...mergedEntity,
     updatedAt: new Date().toISOString(),
     updatedBy: req.user.id
   };

@@ -89,13 +89,41 @@ app.post('/entities/:entityName', apiLimiter, authenticateToken, async (req, res
   // Validate required fields
   const validation = validateRequiredFields(entityName, data);
   if (!validation.valid) {
-    return res.status(400).json({ 
-      error: validation.error,
-      missingFields: validation.missingFields 
-    });
+    return sendError(res, 400, validation.error, { missingFields: validation.missingFields });
   }
 
   // Continue with entity creation...
+});
+```
+
+### 4. Integrated into PATCH Endpoint
+
+The `PATCH /entities/:entityName/:id` endpoint validates that updates don't set required fields to empty values:
+
+```javascript
+app.patch('/entities/:entityName/:id', authenticateToken, (req, res) => {
+  const { entityName, id } = req.params;
+  const updates = req.body;
+  
+  // Find existing entity
+  const index = entities[entityName].findIndex(item => item.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Item not found' });
+  }
+
+  // Merge updates with existing data
+  const mergedEntity = {
+    ...entities[entityName][index],
+    ...updates
+  };
+
+  // Validate that required fields are still present after update
+  const validation = validateRequiredFields(entityName, mergedEntity);
+  if (!validation.valid) {
+    return sendError(res, 400, validation.error, { missingFields: validation.missingFields });
+  }
+
+  // Continue with entity update...
 });
 ```
 
@@ -114,8 +142,12 @@ app.post('/entities/:entityName', apiLimiter, authenticateToken, async (req, res
 **Example Error Response:**
 ```json
 {
+  "success": false,
   "error": "Missing required fields: company_name, contractor_type",
-  "missingFields": ["company_name", "contractor_type"]
+  "details": {
+    "missingFields": ["company_name", "contractor_type"]
+  },
+  "timestamp": "2026-01-15T20:50:00.000Z"
 }
 ```
 
@@ -173,8 +205,12 @@ curl -X POST http://localhost:3001/entities/Contractor \
 
 # Response: 400 Bad Request
 {
+  "success": false,
   "error": "Missing required fields: company_name, contractor_type",
-  "missingFields": ["company_name", "contractor_type"]
+  "details": {
+    "missingFields": ["company_name", "contractor_type"]
+  },
+  "timestamp": "2026-01-15T20:50:00.000Z"
 }
 ```
 
@@ -190,8 +226,32 @@ curl -X POST http://localhost:3001/entities/Project \
 
 # Response: 400 Bad Request
 {
+  "success": false,
   "error": "Missing required fields: project_name",
-  "missingFields": ["project_name"]
+  "details": {
+    "missingFields": ["project_name"]
+  },
+  "timestamp": "2026-01-15T20:50:00.000Z"
+}
+```
+
+### Invalid PATCH (Removing Required Field)
+```bash
+curl -X PATCH http://localhost:3001/entities/Contractor/gc-001 \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "company_name": ""
+  }'
+
+# Response: 400 Bad Request
+{
+  "success": false,
+  "error": "Missing required fields: company_name",
+  "details": {
+    "missingFields": ["company_name"]
+  },
+  "timestamp": "2026-01-15T20:50:00.000Z"
 }
 ```
 
@@ -228,15 +288,16 @@ The backend already has validation for:
 The backend field validation is now **robust and production-ready**:
 
 ✅ **19 entities** covered with required field validation  
+✅ **POST and PATCH endpoints** both validate required fields  
+✅ **Consistent error formatting** using `sendError` utility  
 ✅ **Clear error messages** with specific missing field information  
-✅ **Consistent validation** across all entity types  
-✅ **Data integrity** ensured before persistence  
+✅ **Data integrity** ensured for both creation and updates  
 ✅ **Backward compatible** with existing valid requests  
 ✅ **Easy to extend** for future validation requirements  
 
-The validation prevents incomplete or malformed data from entering the system, ensuring data quality and reducing runtime errors.
+The validation prevents incomplete or malformed data from entering the system, ensuring data quality and reducing runtime errors. Both creation (POST) and update (PATCH) operations validate that required fields remain populated.
 
 ---
 
-**Implementation Location:** `/backend/server.js` (lines 229-280, 2037-2047)  
-**Status:** ✅ Active and enforced on all POST /entities/:entityName requests
+**Implementation Location:** `/backend/server.js` (lines 229-280, 2046-2053, 2076-2110)  
+**Status:** ✅ Active and enforced on all POST and PATCH /entities/:entityName requests
