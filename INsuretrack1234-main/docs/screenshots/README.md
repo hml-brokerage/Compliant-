@@ -13,7 +13,7 @@ The administrative dashboard showing system overview, quick actions, and COI app
 - **GitHub Preview:** https://github.com/user-attachments/assets/95a3c592-3a3e-4edf-a089-8b23627805ab
 
 ### 3. contractor-dashboard.png
-The contractor's view for managing insurance documents and tracking compliance status.
+The insurance documents management view within the admin interface. Shows document upload, approval status tracking, and insurance coverage requirements. Note: This is part of the admin interface (visible by the admin sidebar), not a separate contractor portal.
 - **GitHub Preview:** https://github.com/user-attachments/assets/838408ce-750f-435c-b4ee-9ba342d5cabf
 
 ### 4. subcontractor-access-required.png

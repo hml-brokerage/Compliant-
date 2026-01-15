@@ -6,7 +6,7 @@ This document provides visual documentation of all the dashboards in the complia
 
 1. [Login Page](#login-page)
 2. [Admin Dashboard](#admin-dashboard)
-3. [Contractor Dashboard](#contractor-dashboard)
+3. [Insurance Documents View (Admin Interface)](#insurance-documents-view-admin-interface)
 4. [Subcontractor Portal](#subcontractor-portal)
 5. [Broker Dashboard](#broker-dashboard)
 6. [GC Dashboard](#gc-dashboard)
@@ -74,11 +74,11 @@ The main administrative dashboard providing overview of the system.
 
 ---
 
-## Contractor Dashboard
+## Insurance Documents View (Admin Interface)
 
-Dashboard for contractors to manage their insurance documents and track compliance.
+Admin interface view for managing insurance documents - accessed at `/contractor-dashboard`. This view is available within the admin interface and shows the insurance document management interface.
 
-![Contractor Dashboard](screenshots/contractor-dashboard.png)
+![Insurance Documents View](screenshots/contractor-dashboard.png)
 
 **GitHub Preview URL:** https://github.com/user-attachments/assets/838408ce-750f-435c-b4ee-9ba342d5cabf
 
@@ -96,8 +96,8 @@ Dashboard for contractors to manage their insurance documents and track complian
   - And other coverage types
 - **Upload Functionality**: Easy access to document upload
 
-**Purpose:**
-Provides contractors with a centralized location to manage all insurance documentation and track approval status across their projects.
+**Note:**
+This is part of the admin interface (note the admin sidebar on the left). It provides a contractor-focused view for managing insurance documentation within the admin system. This is distinct from the separate portal dashboards (GC, Broker, Subcontractor) which have their own dedicated authentication and interfaces.
 
 ---
 
@@ -170,12 +170,12 @@ General Contractors log in through `/gc-login` with their company credentials an
 - `/insurance-programs` - Program management
 - `/archives` - Archived items
 - `/admin-management` - User administration
+- `/contractor-dashboard` - Insurance documents view (admin interface)
 
-### Authenticated User Routes
-- `/contractor-dashboard` - Contractor view
+### Authenticated Portal Routes (Separate Logins)
 - `/subcontractor-dashboard?id=<subId>` - Subcontractor portal (with ID)
-- `/broker-dashboard` - Broker view (after authentication)
-- `/gc-dashboard?id=<gcId>` - GC view (after authentication)
+- `/broker-dashboard` - Broker portal (after broker authentication)
+- `/gc-dashboard?id=<gcId>` - GC portal (after GC authentication)
 
 ---
 
