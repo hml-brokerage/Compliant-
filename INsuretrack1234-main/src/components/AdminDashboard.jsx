@@ -148,6 +148,8 @@ export default function AdminDashboard() {
             // or messages sent/received by the super admin themselves
             return msg.recipient_id === currentUser.id || msg.sender_id === currentUser.id;
           });
+        } else if (currentUser?.role === 'admin') {
+          // Assistant admins only see their own messages
         } else if (currentUser?.role === 'admin' || currentUser?.role === 'regular_admin') {
           // Assistant admins and regular admins only see their own messages
           return allMessages.filter(msg => 
