@@ -266,7 +266,7 @@ If emails appear to send but don't arrive:
 
 ## ⚠️ Important Notes
 
-- **In-Memory Storage:** Data resets on server restart (development only)
-- **Optional Services:** Email (SMTP), Adobe PDF Services, and AI Analysis are optional - the app works without them but uses mock data for those features
-- **Configuration:** See [docs/COMPLETE_CONFIGURATION_GUIDE.md](docs/COMPLETE_CONFIGURATION_GUIDE.md) to configure all services and eliminate mocking
-- **Environment Files:** Required for backend connection. Files are included for local development
+- **Production Ready:** Backend is configured to fail fast without mock data - all services must be properly configured
+- **Required Configuration:** See [docs/PRODUCTION_CONFIG.md](docs/PRODUCTION_CONFIG.md) for complete setup guide
+- **Data Storage:** Uses in-memory storage (resets on restart) - migrate to PostgreSQL/MongoDB for production persistence
+- **Environment Files:** `.env` file must be configured with real credentials for production deployment
