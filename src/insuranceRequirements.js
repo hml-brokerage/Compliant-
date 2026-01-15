@@ -4,6 +4,17 @@
  */
 
 // ============================================================================
+// VALIDATION THRESHOLDS AND CONSTANTS
+// ============================================================================
+
+// Deductible thresholds for flagging high deductibles
+const HIGH_DEDUCTIBLE_THRESHOLD_GL = 25000; // $25k for GL
+const HIGH_DEDUCTIBLE_THRESHOLD_UMBRELLA = 50000; // $50k for Umbrella
+
+// Height-sensitive trades that should not have height/interior limitations
+const HEIGHT_SENSITIVE_TRADES = ['roofing', 'scaffold', 'exterior', 'siding', 'window', 'curtain wall'];
+
+// ============================================================================
 // BASE INSURANCE REQUIREMENTS - UNIVERSAL REQUIREMENTS FOR ALL PROJECTS
 // ============================================================================
 
@@ -409,13 +420,23 @@ export async function validateCOICompliance(coi, project, subTrades) {
       });
     }
 
-    // Check for hammer clauses (hard or soft cost hammer)
+    // Check for hammer clauses (consent to settle clause)
+    // Hard hammer: Insurer can settle without insured's consent; insurer's liability capped at settlement
+    //              amount if insured rejects and loses more at trial (insured pays excess)
+    // Soft hammer: If insured rejects settlement, costs above settlement amount are shared between
+    //              insurer and insured (typically 50/50 split)
     if (coi.gl_has_hammer_clause) {
       const hammerType = coi.gl_hammer_clause_type || 'unknown';
+      const hammerDetails = hammerType === 'hard hammer' 
+        ? 'insurer can settle without consent; insured pays excess if settlement rejected'
+        : hammerType === 'soft hammer'
+        ? 'costs above rejected settlement are shared between insurer and insured'
+        : 'limits insured\'s control over settlements';
+      
       warnings.push({
         type: 'HAMMER_CLAUSE_PRESENT',
         field: 'GL Hammer Clause',
-        detail: `Policy contains ${hammerType} hammer clause - limits insured's control over settlements`,
+        detail: `Policy contains ${hammerType} (${hammerDetails})`,
         hammerType: hammerType,
         severity: 'warning',
       });
