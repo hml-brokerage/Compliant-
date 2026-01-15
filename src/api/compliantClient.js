@@ -12,12 +12,10 @@
  * - Authentication (JWT with token refresh)
  * - Integration methods (email, file upload, LLM, Adobe Sign)
  * - Automatic retry logic with exponential backoff
- * - Mock mode fallback when backend is not configured (development only)
  * 
  * Configuration:
- * - Backend URL: Set via VITE_API_BASE_URL environment variable
+ * - Backend URL: Set via VITE_API_BASE_URL environment variable (REQUIRED)
  * - Auto-detection: Codespaces and localhost URLs are automatically detected
- * - Mock mode: Activated when VITE_API_BASE_URL is not set (logs warnings)
  */
 
 import { getAuthHeader, clearToken, refreshAccessToken } from '../auth.js';
@@ -45,54 +43,16 @@ const computedCodespacesUrl = (() => {
 const baseUrl = envUrl || computedCodespacesUrl || null;
 
 // Backend configuration error messages
-const BACKEND_NOT_CONFIGURED_ERROR = 'Backend not configured. Cannot save data. For Vercel deployments: Add VITE_API_BASE_URL environment variable in your Vercel dashboard and redeploy. For local development: Configure VITE_API_BASE_URL in .env file.';
-const BACKEND_NOT_CONFIGURED_CONSOLE_MSG = `❌ MOCK MODE ACTIVE: Backend URL not configured!
-❌ Data will NOT be saved to the database.
-❌ For Vercel/Netlify/Render: Add VITE_API_BASE_URL environment variable in your deployment dashboard and redeploy.
-❌ For local development: Configure VITE_API_BASE_URL in .env file.
-❌ Example: VITE_API_BASE_URL=https://your-backend.vercel.app`;
-const EMAIL_NOT_CONFIGURED_CONSOLE_MSG = '❌ MOCK MODE: Cannot send email - backend not configured!';
+const BACKEND_NOT_CONFIGURED_ERROR = 'Backend not configured. For Vercel deployments: Add VITE_API_BASE_URL environment variable in your Vercel dashboard and redeploy. For local development: Configure VITE_API_BASE_URL in .env file.';
 
 // Log backend configuration status on startup
 if (typeof window !== 'undefined') {
   if (!baseUrl) {
     console.error(`❌ CRITICAL: Backend URL not configured!
-❌ Data will NOT be saved. Create operations will fail.
+❌ All operations will fail.
 ❌ For Vercel/Netlify/Render: Add VITE_API_BASE_URL environment variable in your deployment dashboard and redeploy.
 ❌ For local development: Configure VITE_API_BASE_URL in .env file.
 ❌ Example: VITE_API_BASE_URL=https://your-backend.vercel.app`);
-    
-    // Add visual warning banner to the page
-    const addWarningBanner = () => {
-      const existingBanner = document.getElementById('backend-not-configured-warning');
-      if (existingBanner) return; // Already added
-      
-      const banner = document.createElement('div');
-      banner.id = 'backend-not-configured-warning';
-      banner.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #dc2626;
-        color: white;
-        padding: 12px 20px;
-        text-align: center;
-        font-weight: bold;
-        z-index: 999999;
-        font-size: 14px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      `;
-      banner.innerHTML = `⚠️ WARNING: MOCK MODE ACTIVE - Backend not configured. Data will NOT be saved! Configure VITE_API_BASE_URL in .env file.`;
-      document.body.prepend(banner);
-    };
-    
-    // Add banner when DOM is ready
-    if (document.body) {
-      addWarningBanner();
-    } else {
-      document.addEventListener('DOMContentLoaded', addWarningBanner);
-    }
   } else {
     console.log(`✅ Backend configured: ${baseUrl}`);
   }
@@ -195,8 +155,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     return {
       list: async (sort) => {
         if (!basePath) {
-          console.warn('⚠️ MOCK MODE: Backend not configured. Data will not persist.');
-          return [];
+          throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const url = new URL(basePath);
         if (sort) url.searchParams.set('sort', sort);
@@ -206,16 +165,14 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
       filter: async (params) => {
         if (!basePath) {
-          console.warn('⚠️ MOCK MODE: Backend not configured. Data will not persist.');
-          return [];
+          throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         return await doFetch(`${basePath}/query`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(params || {}) }, { retries: 1 });
       },
 
       read: async (id) => {
         if (!basePath) {
-          console.warn('⚠️ MOCK MODE: Backend not configured. Data will not persist.');
-          return { id };
+          throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const url = new URL(basePath);
         url.searchParams.set('id', id);
@@ -237,15 +194,13 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
       update: async (id, data) => {
         if (!basePath) {
-          console.warn('⚠️ MOCK MODE: Backend not configured. Data will not persist.');
-          return { id, ...data };
+          throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         return await doFetch(`${basePath}/${id}`, { method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) }, { retries: 0 });
       },
 
       create: async (data) => {
         if (!basePath) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         return await doFetch(basePath, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) }, { retries: 0 });
@@ -253,8 +208,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
       delete: async (id) => {
         if (!basePath) {
-          console.warn('⚠️ MOCK MODE: Backend not configured. Data will not persist.');
-          return { id };
+          throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         return await doFetch(`${basePath}/${id}`, { method: 'DELETE' }, { retries: 0 });
       }
@@ -304,7 +258,6 @@ const shim = {
 
       SendEmail: async (payload) => {
         if (!baseUrl) {
-          console.error(EMAIL_NOT_CONFIGURED_CONSOLE_MSG);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
@@ -338,7 +291,6 @@ const shim = {
       // Helper function for file upload
       _uploadFileHelper: async (endpoint, payload, { timeout = 60000, retries = 1 } = {}) => {
         if (!baseUrl) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         
