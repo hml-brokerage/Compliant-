@@ -1,25 +1,68 @@
 # Render Blueprint: Infrastructure as Code for Render.com
 # Documentation: https://render.com/docs/blueprint-spec
-# For Static Sites: https://render.com/docs/static-sites
 #
 # Repository: miriamsabel1-lang/INsuretrack1234
 # Branch: main
 #
-# This file defines a Static Site for the INsuretrack frontend.
-# buildCommand: Runs build.js which installs deps and builds with Vite
-# staticPublishPath: Directory containing the built static files
+# This file defines both the backend API and frontend static site for INsuretrack.
 #
-# SPA Routing: The public/_redirects file is automatically copied to dist/
-# during build and configures all routes to fall back to /index.html for
-# client-side routing (React Router).
+# IMPORTANT: Set environment variables in Render dashboard:
+# 1. Frontend (insuretrack-frontend):
+#    - VITE_API_BASE_URL: URL of the backend service (e.g., https://insuretrack-backend.onrender.com)
 #
-# IMPORTANT: Set VITE_API_BASE_URL in Render dashboard:
-# Dashboard > Your Static Site > Environment > Add Environment Variable
-# Example: VITE_API_BASE_URL=https://your-backend.onrender.com
+# 2. Backend (insuretrack-backend):
+#    - JWT_SECRET: Secure random string for JWT signing
+#    - FRONTEND_URL: URL of the frontend (e.g., https://insuretrack-frontend.onrender.com)
+#    - NODE_ENV: production
+#    - SMTP_HOST: Email server hostname (optional, e.g., smtp.office365.com)
+#    - SMTP_PORT: Email server port (optional, e.g., 587)
+#    - SMTP_USER: Email username (optional)
+#    - SMTP_PASS: Email password (optional)
+#    - SMTP_FROM: From email address (optional)
+#    - SMTP_SECURE: false (optional)
+#    - SMTP_REQUIRE_TLS: true (optional)
 
 services:
+  # Backend API Service
+  - type: web
+    name: insuretrack-backend
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: backend
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: SMTP_SECURE
+        sync: false
+      - key: SMTP_REQUIRE_TLS
+        sync: false
+
+  # Frontend Static Site
   - type: web
     name: insuretrack-frontend
     env: static
     buildCommand: node build.js
     staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
