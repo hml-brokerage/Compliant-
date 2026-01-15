@@ -147,7 +147,7 @@ After the blueprint is applied, configure the backend:
 4. **Test Health Endpoint**
    ```bash
    curl https://insuretrack-backend.onrender.com/health
-   # Should return: {"status":"ok","timestamp":"..."}
+   # Should return: {"success":true,"data":{"status":"ok"},"timestamp":"..."}
    ```
 
 ### Important Notes for Render
@@ -376,7 +376,7 @@ If you see an error like: `Environment Variable "VITE_API_BASE_URL" references S
 **Backend health:**
 ```bash
 curl https://your-backend.vercel.app/health
-# Should return: {"status":"ok","timestamp":"..."}
+# Should return: {"success":true,"data":{"status":"ok"},"timestamp":"..."}
 ```
 
 **Backend login test:**

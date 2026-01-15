@@ -32,8 +32,6 @@ services:
     rootDir: backend
     healthCheckPath: /health
     envVars:
-      - key: PORT
-        value: 3001
       - key: NODE_ENV
         value: production
       - key: JWT_SECRET
