@@ -1,6 +1,11 @@
 /**
+ * EXAMPLE CODE - NOT EXECUTABLE
+ * 
  * Enhanced Entity Endpoints with Versioning, Auditing, and Archiving
- * Add these endpoints to backend/server.js
+ * These are code examples showing how to add these endpoints to backend/server.js
+ * 
+ * This file contains reference implementations and should not be directly executed.
+ * Variables like `app`, `authenticateToken`, `entities`, etc. are defined in server.js
  */
 
 // =======================

@@ -224,7 +224,7 @@ const shim = {
   auth: {
     me: async () => {
       if (!baseUrl) {
-        console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+        console.error(BACKEND_NOT_CONFIGURED_ERROR);
         throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
       }
       const headers = { ...getAuthHeader() };
@@ -242,7 +242,7 @@ const shim = {
     Core: {
       InvokeLLM: async (payload) => {
         if (!baseUrl) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+          console.error(BACKEND_NOT_CONFIGURED_ERROR);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
@@ -384,7 +384,7 @@ const shim = {
 
       GenerateImage: async (payload) => {
         if (!baseUrl) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+          console.error(BACKEND_NOT_CONFIGURED_ERROR);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
@@ -400,7 +400,7 @@ const shim = {
 
       ExtractDataFromUploadedFile: async (payload) => {
         if (!baseUrl) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+          console.error(BACKEND_NOT_CONFIGURED_ERROR);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const headers = { 
@@ -419,7 +419,7 @@ const shim = {
 
       ParseProgramPDF: async (payload) => {
         if (!baseUrl) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+          console.error(BACKEND_NOT_CONFIGURED_ERROR);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
@@ -435,7 +435,7 @@ const shim = {
 
       CreateFileSignedUrl: async (payload) => {
         if (!baseUrl) {
-          console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+          console.error(BACKEND_NOT_CONFIGURED_ERROR);
           throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
         }
         const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
@@ -458,7 +458,7 @@ const shim = {
         // Upload a transient document to Adobe (returns transientDocumentId)
         CreateTransientDocument: async (payload) => {
           if (!baseUrl) {
-            console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+            console.error(BACKEND_NOT_CONFIGURED_ERROR);
             throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
           }
           const headers = { ...getAuthHeader() };
@@ -475,7 +475,7 @@ const shim = {
         // Create an agreement using a transientDocumentId
         CreateAgreement: async (payload) => {
           if (!baseUrl) {
-            console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+            console.error(BACKEND_NOT_CONFIGURED_ERROR);
             throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
           }
           const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
@@ -492,7 +492,7 @@ const shim = {
         // Get a signing URL for an agreement
         GetSigningUrl: async (agreementId) => {
           if (!baseUrl) {
-            console.error(BACKEND_NOT_CONFIGURED_CONSOLE_MSG);
+            console.error(BACKEND_NOT_CONFIGURED_ERROR);
             throw new Error(BACKEND_NOT_CONFIGURED_ERROR);
           }
           const headers = { ...getAuthHeader() };
