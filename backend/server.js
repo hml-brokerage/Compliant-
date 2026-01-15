@@ -226,6 +226,59 @@ const upload = multer({
   }
 });
 
+// =======================
+// ENTITY FIELD VALIDATION
+// =======================
+// Define required fields for each entity to ensure data integrity
+const ENTITY_REQUIRED_FIELDS = {
+  Contractor: ['company_name', 'contractor_type'],
+  Project: ['project_name', 'gc_id'],
+  ProjectSubcontractor: ['project_id', 'subcontractor_id', 'trade_types'],
+  InsuranceDocument: ['subcontractor_name', 'project_id', 'document_type'],
+  User: ['username', 'email', 'role'],
+  Trade: ['trade_name'],
+  InsuranceProgram: ['program_name'],
+  SubInsuranceRequirement: ['program_id', 'trade_name', 'tier', 'insurance_type'],
+  StateRequirement: ['state_code', 'insurance_type', 'minimum_amount'],
+  GeneratedCOI: ['project_id', 'subcontractor_id'],
+  BrokerUploadRequest: ['project_id', 'subcontractor_id', 'broker_email'],
+  Broker: ['broker_name', 'email'],
+  Subscription: ['user_id', 'plan_type'],
+  PolicyDocument: ['policy_number', 'insurance_type'],
+  COIDocument: ['coi_number', 'project_id'],
+  ComplianceCheck: ['project_id', 'subcontractor_id', 'status'],
+  ProgramTemplate: ['template_name'],
+  Portal: ['portal_name', 'portal_type'],
+  Message: ['sender_id', 'recipient_id', 'message_content']
+};
+
+// Validate required fields for entity creation
+function validateRequiredFields(entityName, data) {
+  const requiredFields = ENTITY_REQUIRED_FIELDS[entityName];
+  if (!requiredFields) {
+    return { valid: true }; // No validation defined for this entity
+  }
+
+  const missingFields = requiredFields.filter(field => {
+    const value = data[field];
+    // Check if field is missing, null, undefined, or empty string/array
+    if (value === null || value === undefined) return true;
+    if (typeof value === 'string' && value.trim() === '') return true;
+    if (Array.isArray(value) && value.length === 0) return true;
+    return false;
+  });
+
+  if (missingFields.length > 0) {
+    return {
+      valid: false,
+      error: `Missing required fields: ${missingFields.join(', ')}`,
+      missingFields
+    };
+  }
+
+  return { valid: true };
+}
+
 // In-memory storage (replace with database in production)
 const entities = {
   InsuranceDocument: [
@@ -1988,6 +2041,15 @@ app.post('/entities/:entityName', apiLimiter, authenticateToken, async (req, res
   
   if (!entities[entityName]) {
     return res.status(404).json({ error: `Entity ${entityName} not found` });
+  }
+
+  // Validate required fields
+  const validation = validateRequiredFields(entityName, data);
+  if (!validation.valid) {
+    return res.status(400).json({ 
+      error: validation.error,
+      missingFields: validation.missingFields 
+    });
   }
 
   const newItem = {
