@@ -145,8 +145,6 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
                 const newHeaders = { ...(opts.headers || {}), ...getAuthHeader() };
                 finalOpts.headers = newHeaders;
                 continue; // Retry with new token without counting toward attempt limit
-                attempt++; // Count token refresh attempt to prevent infinite retries
-                continue; // Retry with new token
               } catch (err) {
                 console.error('Token refresh failed:', err);
                 try { clearToken(); } catch(e){}
