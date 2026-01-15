@@ -328,6 +328,23 @@ export function validateTradeRestrictions(coi, trade) {
     }
   }
 
+  // Height/Interior limitation checks for trades that commonly work at heights
+  const heightSensitiveTrades = ['roofing', 'scaffold', 'exterior', 'siding', 'window', 'curtain wall'];
+  if (heightSensitiveTrades.some(t => tradeLower.includes(t))) {
+    if (coi.gl_height_limitation || coi.gl_interior_only) {
+      const heightLimit = coi.gl_height_limitation_feet || 0;
+      const limitType = coi.gl_interior_only ? 'interior only' : `no work above ${heightLimit} feet`;
+      
+      restrictions.push({
+        type: 'error',
+        message: `Policy has height/interior limitation (${limitType}) which conflicts with ${trade} work`,
+        trade,
+        heightLimit: heightLimit,
+        interiorOnly: coi.gl_interior_only || false,
+      });
+    }
+  }
+
   return restrictions;
 }
 

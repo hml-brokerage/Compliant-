@@ -372,6 +372,68 @@ export async function validateCOICompliance(coi, project, subTrades) {
         severity: 'error',
       });
     }
+
+    // Check for height/interior limitations
+    // Some contractors have restrictions like "interior work only" or "no work above X feet"
+    if (coi.gl_height_limitation || coi.gl_interior_only) {
+      const heightLimit = coi.gl_height_limitation_feet || 0;
+      const limitType = coi.gl_interior_only ? 'interior only' : `no work above ${heightLimit} feet`;
+      
+      issues.push({
+        type: 'HEIGHT_LIMITATION_PRESENT',
+        field: 'GL Height/Interior Limitation',
+        detail: `Policy has height/interior limitation: ${limitType}`,
+        heightLimit: heightLimit,
+        interiorOnly: coi.gl_interior_only || false,
+        severity: 'error',
+      });
+    }
+
+    // Check for employee exclusions
+    if (coi.gl_excludes_employees) {
+      issues.push({
+        type: 'EMPLOYEE_EXCLUSION_PRESENT',
+        field: 'GL Employee Exclusion',
+        detail: 'Policy excludes coverage for employees - this is not acceptable',
+        severity: 'error',
+      });
+    }
+
+    // Check for subcontractor exclusions
+    if (coi.gl_excludes_subcontractors) {
+      issues.push({
+        type: 'SUBCONTRACTOR_EXCLUSION_PRESENT',
+        field: 'GL Subcontractor Exclusion',
+        detail: 'Policy excludes coverage for subcontractors - this is not acceptable',
+        severity: 'error',
+      });
+    }
+
+    // Check for hammer clauses (hard or soft cost hammer)
+    if (coi.gl_has_hammer_clause) {
+      const hammerType = coi.gl_hammer_clause_type || 'unknown';
+      warnings.push({
+        type: 'HAMMER_CLAUSE_PRESENT',
+        field: 'GL Hammer Clause',
+        detail: `Policy contains ${hammerType} hammer clause - limits insured's control over settlements`,
+        hammerType: hammerType,
+        severity: 'warning',
+      });
+    }
+
+    // Check for high deductibles
+    // Deductibles above $25,000 are considered high and may be problematic
+    const HIGH_DEDUCTIBLE_THRESHOLD = 25000;
+    if (coi.gl_deductible && coi.gl_deductible > HIGH_DEDUCTIBLE_THRESHOLD) {
+      warnings.push({
+        type: 'HIGH_DEDUCTIBLE',
+        field: 'GL Deductible',
+        detail: `Policy has high deductible of $${coi.gl_deductible.toLocaleString()}`,
+        deductible: coi.gl_deductible,
+        threshold: HIGH_DEDUCTIBLE_THRESHOLD,
+        severity: 'warning',
+      });
+    }
   }
 
   // ========================================================================
@@ -399,6 +461,19 @@ export async function validateCOICompliance(coi, project, subTrades) {
         type: 'UMBRELLA_WAIVER_SUBROGATION',
         field: 'Umbrella Waiver of Subrogation',
         severity: 'error',
+      });
+    }
+
+    // Check for high deductibles on umbrella
+    const UMBRELLA_HIGH_DEDUCTIBLE_THRESHOLD = 50000;
+    if (coi.umbrella_deductible && coi.umbrella_deductible > UMBRELLA_HIGH_DEDUCTIBLE_THRESHOLD) {
+      warnings.push({
+        type: 'HIGH_DEDUCTIBLE',
+        field: 'Umbrella Deductible',
+        detail: `Umbrella policy has high deductible of $${coi.umbrella_deductible.toLocaleString()}`,
+        deductible: coi.umbrella_deductible,
+        threshold: UMBRELLA_HIGH_DEDUCTIBLE_THRESHOLD,
+        severity: 'warning',
       });
     }
   }
