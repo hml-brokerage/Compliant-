@@ -19,6 +19,8 @@ The main login page for the application with the compliant.team branding.
 
 ![Login Page](screenshots/login-page.png)
 
+**GitHub Preview URL:** https://github.com/user-attachments/assets/00206d0d-4df4-4cca-b0e8-7b12dd12be8c
+
 **Features:**
 - Username and password authentication
 - "Forgot password?" functionality
@@ -36,6 +38,8 @@ The main login page for the application with the compliant.team branding.
 The main administrative dashboard providing overview of the system.
 
 ![Admin Dashboard](screenshots/admin-dashboard.png)
+
+**GitHub Preview URL:** https://github.com/user-attachments/assets/95a3c592-3a3e-4edf-a089-8b23627805ab
 
 **Key Features:**
 - **Quick Search**: Search for GCs, trades, carriers, or subcontractors
@@ -76,6 +80,8 @@ Dashboard for contractors to manage their insurance documents and track complian
 
 ![Contractor Dashboard](screenshots/contractor-dashboard.png)
 
+**GitHub Preview URL:** https://github.com/user-attachments/assets/838408ce-750f-435c-b4ee-9ba342d5cabf
+
 **Key Features:**
 - **Document Upload**: Upload insurance certificates
 - **Statistics Cards**:
@@ -100,6 +106,8 @@ Provides contractors with a centralized location to manage all insurance documen
 Access page for the subcontractor portal.
 
 ![Subcontractor Access Required](screenshots/subcontractor-access-required.png)
+
+**GitHub Preview URL:** https://github.com/user-attachments/assets/788b91ac-65f9-44a2-a7cd-a410fc1318ed
 
 **Access Method:**
 Subcontractors receive secure email links with unique IDs to access their personalized portal. Direct navigation without proper authentication shows the "Access Required" page.
