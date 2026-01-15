@@ -191,7 +191,7 @@ Identify all deficiencies and compliance gaps. Return JSON array with objects: {
    * Parse AI compliance response
    * @private
    */
-  parseComplianceResponse(response, coiData) {
+  parseComplianceResponse(response, _coiData) {
     try {
       const deficiencies = this.parseJSON(response) || [];
       return {
