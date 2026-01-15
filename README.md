@@ -57,16 +57,27 @@ For email configuration, see [docs/EMAIL_SETUP.md](docs/EMAIL_SETUP.md).
 
 ### Deployment
 
-For production deployment, see [docs/DEPLOY.md](docs/DEPLOY.md) for complete instructions.
+**Quick Deploy to Render (Recommended):**
+
+The repository includes a `render.yaml` blueprint for one-click deployment of both frontend and backend:
+
+1. Sign in to [Render](https://render.com/) with your GitHub account
+2. Create New → Blueprint
+3. Connect this repository
+4. Click "Apply" - Render will automatically deploy both services
+5. Configure environment variables in the Render dashboard (see [docs/DEPLOY.md](docs/DEPLOY.md))
+
+**Alternative:** Deploy to Vercel or other platforms. See [docs/DEPLOY.md](docs/DEPLOY.md) for complete instructions.
 
 ## 📚 Documentation
 
 - [docs/COMPLETE_CONFIGURATION_GUIDE.md](docs/COMPLETE_CONFIGURATION_GUIDE.md) - **🔧 Complete guide to remove ALL mocking**
 - [docs/BACKEND_CONNECTION_SETUP.md](docs/BACKEND_CONNECTION_SETUP.md) - **🔧 Fix "Backend is Mocked" issue**
 - [docs/SECURITY_CREDENTIAL_ROTATION.md](docs/SECURITY_CREDENTIAL_ROTATION.md) - **⚠️ CRITICAL: Post-merge credential rotation required**
+- [docs/RENDER_DEPLOYMENT.md](docs/RENDER_DEPLOYMENT.md) - **🚀 Quick Render deployment guide**
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) - Quick start guide
 - [docs/EMAIL_SETUP.md](docs/EMAIL_SETUP.md) - Email configuration guide
-- [docs/DEPLOY.md](docs/DEPLOY.md) - Deployment instructions
+- [docs/DEPLOY.md](docs/DEPLOY.md) - Complete deployment instructions (all platforms)
 - [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) - Full API reference
 - [docs/DATA_MODEL.md](docs/DATA_MODEL.md) - Database schema and entities
 - [docs/SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md) - System design and architecture
