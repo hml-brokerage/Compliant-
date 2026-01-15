@@ -27,9 +27,143 @@ This guide walks you through deploying both the frontend and backend of INsuretr
 └─────────────────┘         └──────────────────┘
 ```
 
-## Step 1: Deploy Backend API
+## Deployment Options
 
-### Deploy Backend to Vercel
+You can deploy INsuretrack to either:
+- **Render** (Recommended - Simple, uses `render.yaml` for infrastructure as code)
+- **Vercel** (Alternative - CLI-based deployment)
+
+---
+
+## Option 1: Deploy to Render (Recommended)
+
+Render supports deploying both frontend and backend using the `render.yaml` blueprint file included in the repository.
+
+### Prerequisites
+- GitHub account connected to Render
+- Repository pushed to GitHub
+
+### Step 1: Deploy Using Blueprint
+
+1. **Login to Render**
+   - Go to https://render.com/
+   - Sign in with GitHub
+
+2. **Create New Blueprint Instance**
+   - Click "New" → "Blueprint"
+   - Connect your GitHub repository: `hml-brokerage/Compliant-` (or your fork)
+   - Select the branch you want to deploy (e.g., `main`)
+   - Click "Apply"
+
+3. **Render will automatically create TWO services:**
+   - `insuretrack-backend` - Node.js web service (backend API)
+   - `insuretrack-frontend` - Static site (React frontend)
+
+### Step 2: Configure Backend Environment Variables
+
+After the blueprint is applied, configure the backend:
+
+1. **Go to Backend Service:**
+   - Dashboard → Select `insuretrack-backend`
+   - Go to "Environment" tab
+
+2. **Set Required Variables:**
+   ```
+   JWT_SECRET=your-secure-random-string-at-least-32-chars
+   FRONTEND_URL=https://insuretrack-frontend.onrender.com
+   NODE_ENV=production
+   ```
+
+3. **Set Optional Email Variables (for notifications):**
+   
+   **Option A: Microsoft 365**
+   ```
+   SMTP_HOST=smtp.office365.com
+   SMTP_PORT=587
+   SMTP_USER=your.email@yourdomain.com
+   SMTP_PASS=your-password
+   SMTP_FROM=your.email@yourdomain.com
+   SMTP_SECURE=false
+   SMTP_REQUIRE_TLS=true
+   ```
+   
+   **Option B: Gmail**
+   ```
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=your.email@gmail.com
+   SMTP_PASS=your-16-char-app-password
+   SMTP_FROM=your.email@gmail.com
+   SMTP_REQUIRE_TLS=true
+   ```
+
+4. **Save Changes** - Backend will automatically redeploy
+
+### Step 3: Configure Frontend Environment Variables
+
+1. **Go to Frontend Service:**
+   - Dashboard → Select `insuretrack-frontend`
+   - Go to "Environment" tab
+
+2. **Set Backend URL:**
+   ```
+   VITE_API_BASE_URL=https://insuretrack-backend.onrender.com
+   ```
+   
+   **Important:** Use the actual URL of your backend service from Render
+
+3. **Save Changes** - Frontend will automatically redeploy
+
+### Step 4: Get Service URLs
+
+1. **Backend URL:**
+   - Go to `insuretrack-backend` service
+   - Copy the URL (e.g., `https://insuretrack-backend.onrender.com`)
+
+2. **Frontend URL:**
+   - Go to `insuretrack-frontend` service
+   - Copy the URL (e.g., `https://insuretrack-frontend.onrender.com`)
+
+### Step 5: Update CORS Configuration
+
+1. **Update Backend FRONTEND_URL:**
+   - Go back to backend Environment variables
+   - Update `FRONTEND_URL` to match your actual frontend URL
+   - Save (will trigger automatic redeploy)
+
+### Step 6: Test Deployment
+
+1. **Visit Frontend URL**
+   - Open the frontend URL in your browser
+
+2. **Verify Backend Connection**
+   - You should NOT see "Backend not configured" warning
+   - Check browser console (F12) for backend URL confirmation
+
+3. **Test Login**
+   - Username: `admin`
+   - Password: `INsure2026!`
+
+4. **Test Health Endpoint**
+   ```bash
+   curl https://insuretrack-backend.onrender.com/health
+   # Should return: {"success":true,"data":{"status":"ok"},"timestamp":"..."}
+   ```
+
+### Important Notes for Render
+
+- **Free Tier:** Backend services spin down after 15 minutes of inactivity
+- **First Request:** May be slow as service spins up
+- **Persistent Data:** In-memory storage resets on restart (use database for production)
+- **Custom Domains:** Can be configured in service settings
+
+---
+
+## Option 2: Deploy to Vercel
+
+### Step 1: Deploy Backend API
+
+#### Deploy Backend to Vercel
 
 1. **Install Vercel CLI** (if needed)
    ```bash
@@ -86,9 +220,9 @@ This guide walks you through deploying both the frontend and backend of INsuretr
 
 5. **Copy the backend URL** (e.g., `https://compliant-backend.vercel.app`)
 
-## Step 2: Deploy & Configure Frontend
+### Step 2: Deploy & Configure Frontend (Vercel)
 
-### Deploy Frontend to Vercel
+#### Deploy Frontend to Vercel
 
 1. **Deploy Frontend** (if not already deployed)
    ```bash
@@ -122,7 +256,7 @@ This guide walks you through deploying both the frontend and backend of INsuretr
    OR use dashboard:
    - Deployments tab → Redeploy latest
 
-## Step 3: Test End-to-End
+### Step 3: Test End-to-End (Vercel)
 
 1. **Open Frontend**
    - Visit: https://insuretrack1234.vercel.app/
@@ -242,7 +376,7 @@ If you see an error like: `Environment Variable "VITE_API_BASE_URL" references S
 **Backend health:**
 ```bash
 curl https://your-backend.vercel.app/health
-# Should return: {"status":"ok","timestamp":"..."}
+# Should return: {"success":true,"data":{"status":"ok"},"timestamp":"..."}
 ```
 
 **Backend login test:**
