@@ -136,8 +136,11 @@ model Session {
 
 **Environment Variables**:
 ```env
-JWT_SECRET=
-JWT_REFRESH_SECRET=
+# SECURITY WARNING: Generate cryptographically secure random secrets
+# JWT secrets MUST be at least 256-bit (32 characters) for production
+# Use: openssl rand -base64 32
+JWT_SECRET=your-256-bit-secret-minimum-32-characters-here
+JWT_REFRESH_SECRET=your-256-bit-refresh-secret-minimum-32-characters
 JWT_EXPIRATION=15m
 JWT_REFRESH_EXPIRATION=7d
 REDIS_URL=redis://localhost:6379
@@ -1753,10 +1756,14 @@ Create `.env` files in each package:
 
 **packages/backend/.env**:
 ```env
+# ⚠️ SECURITY WARNING: All secrets below are EXAMPLES ONLY
+# Generate production secrets using: openssl rand -base64 32
+# NEVER commit real secrets to version control
+
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/compliant_dev
 
-# JWT
+# JWT - MUST be 256-bit (32+ characters) cryptographically secure random strings
 JWT_SECRET=your-jwt-secret-minimum-32-characters
 JWT_REFRESH_SECRET=your-refresh-secret-minimum-32-characters
 JWT_EXPIRATION=15m
@@ -2758,18 +2765,88 @@ echo -e "${GREEN}Deployment completed successfully!${NC}"
 
 ### Required GitHub Secrets
 
-Configure these secrets in your GitHub repository:
+Configure these secrets in your GitHub repository (Settings → Secrets and variables → Actions):
 
 ```
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_REGION
-CLOUDFRONT_DISTRIBUTION_ID
-PRODUCTION_API_URL
-LOAD_BALANCER_URL
-PRIVATE_SUBNETS
-ECS_SECURITY_GROUP
-SLACK_WEBHOOK (optional)
+AWS_ACCESS_KEY_ID              # IAM user with minimal required permissions
+AWS_SECRET_ACCESS_KEY          # Corresponding secret key
+AWS_REGION                     # e.g., us-east-1
+CLOUDFRONT_DISTRIBUTION_ID     # CloudFront distribution ID
+PRODUCTION_API_URL             # Production API endpoint
+LOAD_BALANCER_URL              # ALB DNS name
+PRIVATE_SUBNETS                # Comma-separated subnet IDs
+ECS_SECURITY_GROUP             # Security group ID for ECS tasks
+SLACK_WEBHOOK                  # (optional) For deployment notifications
+```
+
+**Security Best Practices for GitHub Secrets**:
+1. **Principle of Least Privilege**: Create dedicated IAM user with only required permissions
+2. **Use IAM Roles**: Consider using OIDC for GitHub Actions instead of long-lived credentials
+3. **Rotate Secrets Regularly**: Rotate AWS credentials every 90 days
+4. **Audit Access**: Enable CloudTrail logging for all API calls
+5. **Separate Environments**: Use different AWS accounts/credentials for staging and production
+6. **Never Log Secrets**: Ensure secrets are not printed in GitHub Actions logs
+7. **Use Environment Protection**: Enable required reviewers for production deployments
+
+**Minimal IAM Policy for GitHub Actions**:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecs:UpdateService",
+        "ecs:DescribeServices",
+        "ecs:DescribeTaskDefinition",
+        "ecs:RegisterTaskDefinition",
+        "ecs:RunTask"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::compliant-frontend-prod",
+        "arn:aws:s3:::compliant-frontend-prod/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudfront:CreateInvalidation"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:PassRole"
+      ],
+      "Resource": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole"
+    }
+  ]
+}
 ```
 
 ---
