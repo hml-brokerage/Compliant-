@@ -7,13 +7,16 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { GetUser } from '../../common/decorators/get-user.decorator';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
+// Rate limiting configuration for auth endpoints
+const AUTH_THROTTLE_CONFIG = { default: { limit: 10, ttl: 60000 } };
+
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
+  @Throttle(AUTH_THROTTLE_CONFIG)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'User login' })
   @ApiResponse({ status: 200, description: 'Login successful' })
@@ -24,7 +27,7 @@ export class AuthController {
   }
 
   @Post('refresh')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
+  @Throttle(AUTH_THROTTLE_CONFIG)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Refresh access token' })
   @ApiResponse({ status: 200, description: 'Token refreshed' })
@@ -35,7 +38,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
+  @Throttle(AUTH_THROTTLE_CONFIG)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
   @HttpCode(HttpStatus.OK)
