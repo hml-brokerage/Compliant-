@@ -12,6 +12,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { HealthModule } from './modules/health/health.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { CacheModule } from './modules/cache/cache.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 import { EncryptionModule } from './common/encryption/encryption.module';
 import { PrismaModule } from './config/prisma.module';
 import { winstonConfig } from './config/logger.config';
@@ -39,6 +40,7 @@ import { AllExceptionsFilter } from './common/filters/http-exception.filter';
     ContractorsModule,
     GeneratedCOIModule,
     ProjectsModule,
+    TasksModule,
   ],
   providers: [
     {
