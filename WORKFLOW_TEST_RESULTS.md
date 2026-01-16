@@ -16,6 +16,9 @@ This document provides a comprehensive test of the Compliant Platform workflow, 
 - **Test Accounts**:
   - Admin: `admin@compliant.com` / `Admin123!@#`
   - Manager: `manager@compliant.com` / `Manager123!@#`
+  - Contractor: `contractor@compliant.com` / `Contractor123!@#` (role-specific dashboard available)
+  - Subcontractor: `subcontractor@compliant.com` / `Subcontractor123!@#` (role-specific dashboard available)
+  - Broker: `broker@compliant.com` / `Broker123!@#` (role-specific dashboard available)
 
 ## Test Results
 
@@ -206,7 +209,91 @@ Four action cards with links:
 
 ---
 
-### 6. API Endpoint Details ✅
+### 6. Additional Role-Specific Dashboards 📋
+
+The application includes three additional role-specific dashboards that are implemented but not captured in screenshots due to environment limitations. These dashboards automatically route based on user role.
+
+**6.1 Contractor/GC Dashboard**
+- **File:** `packages/frontend/app/dashboard/components/ContractorDashboard.tsx`
+- **Role Badge:** Blue "CONTRACTOR" badge
+- **Purpose:** General Contractors manage their projects and subcontractors
+
+**Statistics Cards:**
+1. **My Projects**: 5 Active jobs
+2. **My Subcontractors**: 18 Across all projects
+3. **Compliance Issues**: 2 Need attention
+
+**Quick Actions:**
+- My Projects - View and manage construction projects
+- Add Subcontractors - Add subcontractors to projects
+- Compliance Status - Monitor subcontractor insurance compliance
+- Project Reports - Generate project compliance reports
+
+**Features:**
+- Clean professional interface with blue accent colors
+- Info banner explaining GC role
+- Project and subcontractor management focus
+
+---
+
+**6.2 Subcontractor Dashboard**
+- **File:** `packages/frontend/app/dashboard/components/SubcontractorDashboard.tsx`
+- **Role Badge:** Purple "SUBCONTRACTOR" badge
+- **Purpose:** Subcontractors manage their broker information and insurance documentation
+
+**Statistics Cards:**
+1. **Active Assignments**: 3 Active projects
+2. **Insurance Status**: ✓ Valid - Broker verified
+3. **Pending Items**: 1 Needs attention
+
+**Quick Actions:**
+- My Assignments - View current project assignments
+- Insurance Documents - Manage insurance documentation
+- Timesheets - Submit and track work hours
+- Profile - Update personal information
+
+**Features:**
+- Purple accent colors for visual differentiation
+- Focus on broker assignment and insurance status
+- Info banner explaining subcontractor's role in providing broker information
+- Integration with broker upload workflow
+
+---
+
+**6.3 Broker Dashboard**
+- **File:** `packages/frontend/app/dashboard/components/BrokerDashboard.tsx`
+- **Role Badge:** Emerald "BROKER" badge
+- **Purpose:** Insurance brokers upload and manage COI documents for their assigned contractors
+
+**Statistics Cards:**
+1. **My Contractors**: 12 Assigned to you
+2. **Pending COI Uploads**: 5 Need your attention
+3. **Expiring Soon**: 3 Within 30 days
+
+**Quick Actions:**
+- My Contractors - View contractors and subcontractors assigned to you
+- Upload COI - Upload Certificate of Insurance documents
+- Manage Documents - View and update existing COI documents
+- Expiring Policies - Track and renew expiring insurance policies
+
+**Features:**
+- Emerald/teal accent colors for broker branding
+- Focus on COI document upload and management
+- Expiration tracking and renewal reminders
+- Info banner explaining broker's document upload responsibilities
+
+---
+
+**Role-Based Routing:**
+The dashboard page (`packages/frontend/app/dashboard/page.tsx`, lines 38-50) automatically routes users to the appropriate dashboard based on their role:
+- `CONTRACTOR` → ContractorDashboard
+- `SUBCONTRACTOR` → SubcontractorDashboard
+- `BROKER` → BrokerDashboard
+- `ADMIN`, `MANAGER`, `USER` → AdminDashboard (default)
+
+---
+
+### 7. API Endpoint Details ✅
 
 **URL:** http://localhost:3001/api/docs#/Contractors/ContractorsController_findAll
 
@@ -270,6 +357,10 @@ Four action cards with links:
    - ✅ Statistics displayed
    - ✅ Quick actions available
    - ✅ Role-specific badges shown
+   - ✅ Additional role-specific dashboards implemented:
+     - Contractor/GC Dashboard (blue badge, project management focus)
+     - Subcontractor Dashboard (purple badge, broker assignment focus)
+     - Broker Dashboard (emerald badge, COI upload focus)
 
 4. **API Documentation**
    - ✅ Swagger UI accessible
@@ -474,11 +565,15 @@ The Compliant Platform workflow has been successfully tested and documented. The
 - ✅ Login/Authentication
 - ✅ Admin Dashboard
 - ✅ Manager Dashboard
+- ✅ Contractor/GC Dashboard (implemented, code-verified)
+- ✅ Subcontractor Dashboard (implemented, code-verified)
+- ✅ Broker Dashboard (implemented, code-verified)
 - ✅ API Documentation
 - ✅ Logout
-- ✅ Role-based Access
+- ✅ Role-based Access Routing
 
 **Total Screenshots:** 5  
+**Total Dashboards:** 5 (2 tested with screenshots, 3 code-verified)
 **Total Endpoints Tested:** 25+  
 **Critical Issues Found:** 0  
 **Issues Fixed:** 3
