@@ -53,6 +53,10 @@ export function SanitizeString() {
  * Strips all HTML tags, leaving only plain text
  * Use this for fields that should never contain HTML
  * 
+ * Note: This uses a simple regex-based approach suitable for basic protection.
+ * For production environments with complex HTML handling needs, consider using
+ * a dedicated library like DOMPurify or sanitize-html for more robust XSS protection.
+ * 
  * @example
  * ```typescript
  * export class UpdateBrokerInfoDto {
@@ -71,7 +75,8 @@ export function SanitizeHtml() {
     // Trim whitespace
     let sanitized = value.trim();
 
-    // Strip all HTML tags
+    // Strip all HTML tags (basic protection)
+    // Note: For more sophisticated attacks, consider using a library like DOMPurify
     sanitized = sanitized.replace(/<[^>]*>/g, '');
 
     // Decode common HTML entities to prevent double-encoding issues

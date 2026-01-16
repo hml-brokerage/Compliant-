@@ -9,6 +9,10 @@ import { AuthService } from '../auth/auth.service';
  */
 @Injectable()
 export class TasksService {
+  // Configuration for token cleanup batch processing
+  private readonly BATCH_SIZE = 1000;
+  private readonly BATCH_DELAY_MS = 1000; // 1 second between batches
+  
   constructor(
     private authService: AuthService,
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
@@ -19,6 +23,9 @@ export class TasksService {
    * Clean up expired refresh tokens daily at 2 AM
    * Runs automatically via cron scheduler
    * Processes in batches to prevent database overload
+   * 
+   * Note: In multi-instance deployments, consider adding distributed locking
+   * to prevent multiple instances from running cleanup simultaneously.
    */
   @Cron(CronExpression.EVERY_DAY_AT_2AM)
   async handleTokenCleanup() {
@@ -30,18 +37,17 @@ export class TasksService {
     try {
       let totalDeleted = 0;
       let batchDeleted = 0;
-      const batchSize = 1000;
 
       // Process in batches until no more expired tokens
       do {
-        batchDeleted = await this.authService.cleanupExpiredTokens(batchSize);
+        batchDeleted = await this.authService.cleanupExpiredTokens(this.BATCH_SIZE);
         totalDeleted += batchDeleted;
 
-        if (batchDeleted === batchSize) {
-          // More tokens to process, wait a bit before next batch
-          await new Promise(resolve => setTimeout(resolve, 1000));
+        if (batchDeleted === this.BATCH_SIZE) {
+          // More tokens to process, wait before next batch
+          await new Promise(resolve => setTimeout(resolve, this.BATCH_DELAY_MS));
         }
-      } while (batchDeleted === batchSize);
+      } while (batchDeleted === this.BATCH_SIZE);
 
       this.logger.log({
         message: 'Completed automated refresh token cleanup',

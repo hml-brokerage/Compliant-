@@ -46,16 +46,11 @@ export class IsSafeUrlConstraint implements ValidatorConstraintInterface {
 
       // Block private IP ranges (IPv4)
       // 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16
-      const ipv4Regex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+      const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
       const ipv4Match = hostname.match(ipv4Regex);
       
       if (ipv4Match) {
-        const octets = ipv4Match.slice(1).map(Number);
-        
-        // Check if it's a valid IPv4 address
-        if (octets.some(octet => octet > 255)) {
-          return false;
-        }
+        const octets = hostname.split('.').map(Number);
         
         // Block private ranges
         if (
@@ -69,6 +64,9 @@ export class IsSafeUrlConstraint implements ValidatorConstraintInterface {
       }
 
       // Block internal domains
+      // Note: This checks for common internal TLDs at the end of the hostname
+      // For production use with untrusted external URLs, consider implementing
+      // a whitelist of allowed domains or using a more sophisticated TLD validation
       const internalDomains = ['.local', '.internal', '.lan', '.intranet'];
       if (internalDomains.some(domain => hostname.endsWith(domain))) {
         return false;
