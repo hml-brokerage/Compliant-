@@ -210,6 +210,300 @@ deficiencies.push({
 });
 ```
 
+## Additional Features from Original App
+
+### ✅ Features Already Documented:
+1. Role-based dashboards (Admin, Broker, Subcontractor, Contractor/GC)
+2. Adobe PDF Services & eSign integration
+3. AI-powered COI compliance analysis and auto-extraction
+4. Automated email notifications (8 types)
+5. Admin/Assistant Admin hierarchy with assignment system
+6. Project requirements and tracking
+7. Date tracking and expiration risk calculation
+8. Hold harmless & indemnification tracking
+
+### 🔍 Additional Features Found (Not Yet Documented):
+
+#### 1. **Expiring Policies Dashboard**
+- Dedicated page to monitor policies expiring within 30 days
+- Severity-based color coding (5 days = red, 15 days = amber, 30 days = yellow)
+- Sorted by days until expiration
+- Quick actions: Contact broker, view subcontractor
+- Automatic email reminders triggered at 30 days
+
+#### 2. **NYC DOB (Department of Buildings) Integration**
+- Automated property data lookup via NYC DOB NOW API
+- Extracts: Block, Lot, BIN, Address, Borough, ZIP
+- Retrieves permit information: Job type, GC, unit count, stories
+- ACRIS integration for owner/entity lookup via BBL
+- ZOLA integration for adjacent property identification
+- Auto-populates additional insured entities
+- AI-powered data extraction with internet context
+- Validation: 5-digit block, 4-digit lot formatting
+
+#### 3. **NYC Permit Lookup**
+- Similar integration for permit-specific data
+- Links permits to projects
+- Tracks permit status and compliance
+
+#### 4. **Financial Management / Bookkeeping System**
+- **Revenue Tracking:**
+  - Total revenue from paid projects
+  - Pending revenue from unpaid projects
+  - Monthly Recurring Revenue (MRR) from subscriptions
+  - Annual Recurring Revenue (ARR)
+- **Revenue by GC:**
+  - Per-GC revenue breakdown
+  - Project count per GC
+  - Subscription revenue per GC
+- **Charts & Analytics:**
+  - Bar charts for revenue trends
+  - Pie charts for revenue distribution
+  - Area charts for monthly trends
+  - Date range filtering
+- **Invoice Management:**
+  - Generate invoices per project
+  - Track payment status (paid/unpaid)
+  - Payment date tracking
+  - Email invoices to GCs
+
+#### 5. **GC Subscription / Payment System**
+- **3 Subscription Tiers:**
+  1. **Pay Per Project** ($299) - Single project, unlimited subs
+  2. **Monthly Plan** ($499) - Up to 5 projects, most popular
+  3. **Annual Plan** ($4,990) - Unlimited projects, 17% savings
+- **Features per tier:**
+  - Project limits
+  - Subcontractor limits (all unlimited)
+  - Support level (email, priority, phone + dedicated manager)
+  - Compliance reports
+  - Custom integrations (annual only)
+- **Payment Processing:**
+  - Credit card payment form
+  - Simulated payment gateway integration
+  - Auto-renewal options
+  - Subscription status tracking (active, cancelled, expired)
+  - Next billing date calculation
+- **Subscription Management:**
+  - View current plan
+  - Upgrade/downgrade options
+  - Cancel subscription
+  - View billing history
+
+#### 6. **Deficiency Messenger / Communication System**
+- **Direct Messaging:**
+  - Admin → Broker deficiency notifications
+  - Broker → Admin clarification requests
+  - Message threading/history
+- **Attachment Support:**
+  - Upload files with messages (10MB limit)
+  - Multiple attachment support
+  - File type validation
+- **Deficiency Integration:**
+  - Auto-include deficiency list in message
+  - Deficiency severity display
+  - Required actions highlighted
+- **Email Integration:**
+  - Messages trigger email notifications
+  - Include deficiency details in email
+  - Link back to platform
+
+#### 7. **Notification System**
+- **Notification Panel:**
+  - Real-time notifications (30-second polling)
+  - Notification types: COI upload, approval, deficiency, expiration
+  - Read/unread status
+  - Notification badges with counts
+- **Notification Actions:**
+  - Mark as read
+  - Quick response
+  - Navigate to related item (COI, project, etc.)
+- **Notification Categories:**
+  - Critical (expiring policies, deficiencies)
+  - Info (new uploads, assignments)
+  - Success (approvals, completions)
+
+#### 8. **Address Autocomplete Integration**
+- Google Places API integration
+- Autocomplete for project addresses
+- Auto-fill city, state, ZIP from selection
+- Validation for NYC addresses
+
+#### 9. **Document Management System**
+- **AllDocuments Page:**
+  - Centralized document repository
+  - Filter by type, status, date
+  - Search functionality
+  - Bulk download options
+- **Document Types:**
+  - COIs, Policies, Permits, Invoices, Reports
+- **Version Control:**
+  - Track document revisions
+  - Replace documents while maintaining history
+
+#### 10. **Archive System**
+- **ArchivePage:**
+  - Archived projects
+  - Archived contractors
+  - Archived COIs
+- **Archive Actions:**
+  - Soft delete with restore option
+  - Permanent deletion (admin only)
+  - Archive reasons tracking
+
+#### 11. **Compliance Review Tools**
+- **ComplianceReview Component:**
+  - Side-by-side COI and requirements comparison
+  - Checklist validation
+  - Coverage gap identification
+  - Endorsement verification
+- **Review History:**
+  - Track all review actions
+  - Reviewer name and timestamp
+  - Review notes/comments
+
+#### 12. **Admin Bookkeeping / Reports**
+- **AdminBookkeeping Component:**
+  - Financial reports generation
+  - Export to CSV/Excel
+  - Custom date ranges
+  - Revenue by period
+  - Outstanding invoices
+  - Payment reconciliation
+
+#### 13. **GC Project Portal**
+- **GCProjects Component:**
+  - GC-specific project list
+  - Project details view (GCProjectView)
+  - Subcontractor assignments per project
+  - Compliance status per project
+- **GC Login:**
+  - Separate login for GCs
+  - Limited access (own projects only)
+  - No admin functions
+
+#### 14. **Broker Portal & Login**
+- **BrokerLogin:**
+  - Email-based authentication
+  - Magic link login option
+  - Session-based (no JWT)
+- **BrokerPortal:**
+  - Landing page for brokers
+  - Quick stats dashboard
+  - Pending requests
+- **BrokerRequestsTracking:**
+  - Track all requests sent to broker
+  - Request status tracking
+  - Reminder system
+
+#### 15. **Broker Verification System**
+- **BrokerVerification Component:**
+  - Subcontractor verifies broker info before renewal
+  - Confirms broker still managing policies
+  - Updates broker contact info if changed
+  - Required for policy renewals (30-day window)
+
+#### 16. **Insurance Programs**
+- **InsurancePrograms Component:**
+  - Template program requirements
+  - Project-specific program customization
+  - Coverage limit templates
+  - Endorsement templates
+
+#### 17. **Admin Management**
+- **AdminManagement Component:**
+  - Create/edit admin users
+  - Assign admin roles (super vs assistant)
+  - Manage admin permissions
+  - View admin activity logs
+
+#### 18. **Contractor Management**
+- **Contractors Component:**
+  - List all contractors (GCs + Subs)
+  - Filter by type, status
+  - Bulk actions
+  - Import/export functionality
+
+#### 19. **Pending Reviews Dashboard**
+- **PendingReviews Component:**
+  - Dedicated page for items awaiting review
+  - Priority sorting
+  - Assignment to admins
+  - Bulk approval options
+
+#### 20. **GC Details Page**
+- **GCDetails Component:**
+  - Detailed GC profile
+  - Subscription status
+  - Project history
+  - Revenue contribution
+  - Subcontractor network
+
+### Environment Variables Summary:
+
+```bash
+# Adobe PDF Services
+ADOBE_API_KEY=
+ADOBE_CLIENT_ID=
+
+# AI Analysis
+AI_PROVIDER=openai  # or anthropic
+AI_API_KEY=
+AI_MODEL=gpt-4-turbo-preview
+
+# Email/SMTP
+SMTP_HOST=smtp.office365.com
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+ADMIN_EMAILS=admin1@domain.com,admin2@domain.com
+
+# NYC API Integrations
+NYC_DOB_API_KEY=  # For DOB NOW
+GOOGLE_PLACES_API_KEY=  # For address autocomplete
+
+# Payment Processing
+STRIPE_SECRET_KEY=  # or other payment gateway
+STRIPE_PUBLISHABLE_KEY=
+
+# Database
+DATABASE_URL=postgresql://...
+
+# JWT
+JWT_SECRET=
+
+# Frontend
+VITE_API_BASE_URL=http://localhost:3001
+FRONTEND_URL=http://localhost:5175
+```
+
+### Complete Feature List Summary:
+
+✅ **Core Workflow** (7 items documented)
+✅ **Additional Features** (20 items found):
+1. Expiring Policies Dashboard
+2. NYC DOB Integration
+3. NYC Permit Lookup
+4. Financial Management
+5. GC Subscription System
+6. Deficiency Messenger
+7. Notification System
+8. Address Autocomplete
+9. Document Management
+10. Archive System
+11. Compliance Review Tools
+12. Admin Bookkeeping
+13. GC Project Portal
+14. Broker Portal & Login
+15. Broker Verification
+16. Insurance Programs
+17. Admin Management
+18. Contractor Management
+19. Pending Reviews
+20. GC Details
+
+**Total: 27 major feature sets** to implement in new architecture.
+
 ### AI Integration & Automated Analysis
 
 **YES - The original app has comprehensive AI-powered analysis** (`backend/integrations/ai-analysis-service.js`)
