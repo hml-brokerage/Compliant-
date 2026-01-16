@@ -66,7 +66,7 @@ This monorepo implements a professional, production-ready architecture following
 # Install pnpm if not already installed
 npm install -g pnpm
 
-# Navigate to the new-architecture directory from repository root
+# From repository root, navigate to the new-architecture directory
 cd new-architecture
 
 # Install all dependencies
@@ -209,6 +209,8 @@ pnpm test:e2e    # Playwright E2E tests
 ```
 
 ## 📁 Project Structure
+
+The following structure exists within the `/new-architecture` directory:
 
 ```
 new-architecture/
