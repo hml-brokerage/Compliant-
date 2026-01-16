@@ -246,51 +246,7 @@ deficiencies.push({
 - Links permits to projects
 - Tracks permit status and compliance
 
-#### 4. **Financial Management / Bookkeeping System**
-- **Revenue Tracking:**
-  - Total revenue from paid projects
-  - Pending revenue from unpaid projects
-  - Monthly Recurring Revenue (MRR) from subscriptions
-  - Annual Recurring Revenue (ARR)
-- **Revenue by GC:**
-  - Per-GC revenue breakdown
-  - Project count per GC
-  - Subscription revenue per GC
-- **Charts & Analytics:**
-  - Bar charts for revenue trends
-  - Pie charts for revenue distribution
-  - Area charts for monthly trends
-  - Date range filtering
-- **Invoice Management:**
-  - Generate invoices per project
-  - Track payment status (paid/unpaid)
-  - Payment date tracking
-  - Email invoices to GCs
-
-#### 5. **GC Subscription / Payment System**
-- **3 Subscription Tiers:**
-  1. **Pay Per Project** ($299) - Single project, unlimited subs
-  2. **Monthly Plan** ($499) - Up to 5 projects, most popular
-  3. **Annual Plan** ($4,990) - Unlimited projects, 17% savings
-- **Features per tier:**
-  - Project limits
-  - Subcontractor limits (all unlimited)
-  - Support level (email, priority, phone + dedicated manager)
-  - Compliance reports
-  - Custom integrations (annual only)
-- **Payment Processing:**
-  - Credit card payment form
-  - Simulated payment gateway integration
-  - Auto-renewal options
-  - Subscription status tracking (active, cancelled, expired)
-  - Next billing date calculation
-- **Subscription Management:**
-  - View current plan
-  - Upgrade/downgrade options
-  - Cancel subscription
-  - View billing history
-
-#### 6. **Deficiency Messenger / Communication System**
+#### 4. **Deficiency Messenger / Communication System**
 - **Direct Messaging:**
   - Admin → Broker deficiency notifications
   - Broker → Admin clarification requests
@@ -336,7 +292,7 @@ deficiencies.push({
   - Search functionality
   - Bulk download options
 - **Document Types:**
-  - COIs, Policies, Permits, Invoices, Reports
+  - COIs, Policies, Permits, Reports
 - **Version Control:**
   - Track document revisions
   - Replace documents while maintaining history
@@ -362,16 +318,7 @@ deficiencies.push({
   - Reviewer name and timestamp
   - Review notes/comments
 
-#### 12. **Admin Bookkeeping / Reports**
-- **AdminBookkeeping Component:**
-  - Financial reports generation
-  - Export to CSV/Excel
-  - Custom date ranges
-  - Revenue by period
-  - Outstanding invoices
-  - Payment reconciliation
-
-#### 13. **GC Project Portal**
+#### 12. **GC Project Portal**
 - **GCProjects Component:**
   - GC-specific project list
   - Project details view (GCProjectView)
@@ -382,7 +329,7 @@ deficiencies.push({
   - Limited access (own projects only)
   - No admin functions
 
-#### 14. **Broker Portal & Login**
+#### 13. **Broker Portal & Login**
 - **BrokerLogin:**
   - Email-based authentication
   - Magic link login option
@@ -396,28 +343,28 @@ deficiencies.push({
   - Request status tracking
   - Reminder system
 
-#### 15. **Broker Verification System**
+#### 14. **Broker Verification System**
 - **BrokerVerification Component:**
   - Subcontractor verifies broker info before renewal
   - Confirms broker still managing policies
   - Updates broker contact info if changed
   - Required for policy renewals (30-day window)
 
-#### 16. **Insurance Programs**
+#### 15. **Insurance Programs**
 - **InsurancePrograms Component:**
   - Template program requirements
   - Project-specific program customization
   - Coverage limit templates
   - Endorsement templates
 
-#### 17. **Admin Management**
+#### 16. **Admin Management**
 - **AdminManagement Component:**
   - Create/edit admin users
   - Assign admin roles (super vs assistant)
   - Manage admin permissions
   - View admin activity logs
 
-#### 18. **Contractor Management**
+#### 17. **Contractor Management**
 - **Contractors Component:**
   - List all contractors (GCs + Subs)
   - Filter by type, status
@@ -431,12 +378,10 @@ deficiencies.push({
   - Assignment to admins
   - Bulk approval options
 
-#### 20. **GC Details Page**
+#### 19. **GC Details Page**
 - **GCDetails Component:**
   - Detailed GC profile
-  - Subscription status
   - Project history
-  - Revenue contribution
   - Subcontractor network
 
 ### Environment Variables Summary:
@@ -462,10 +407,6 @@ ADMIN_EMAILS=admin1@domain.com,admin2@domain.com
 NYC_DOB_API_KEY=  # For DOB NOW
 GOOGLE_PLACES_API_KEY=  # For address autocomplete
 
-# Payment Processing
-STRIPE_SECRET_KEY=  # or other payment gateway
-STRIPE_PUBLISHABLE_KEY=
-
 # Database
 DATABASE_URL=postgresql://...
 
@@ -480,29 +421,26 @@ FRONTEND_URL=http://localhost:5175
 ### Complete Feature List Summary:
 
 ✅ **Core Workflow** (7 items documented)
-✅ **Additional Features** (20 items found):
+✅ **Additional Features** (17 items found):
 1. Expiring Policies Dashboard
 2. NYC DOB Integration
 3. NYC Permit Lookup
-4. Financial Management
-5. GC Subscription System
-6. Deficiency Messenger
-7. Notification System
-8. Address Autocomplete
-9. Document Management
-10. Archive System
-11. Compliance Review Tools
-12. Admin Bookkeeping
-13. GC Project Portal
-14. Broker Portal & Login
-15. Broker Verification
-16. Insurance Programs
-17. Admin Management
-18. Contractor Management
-19. Pending Reviews
-20. GC Details
+4. Deficiency Messenger
+5. Notification System
+6. Address Autocomplete
+7. Document Management
+8. Archive System
+9. Compliance Review Tools
+10. GC Project Portal
+11. Broker Portal & Login
+12. Broker Verification
+13. Insurance Programs
+14. Admin Management
+15. Contractor Management
+16. Pending Reviews
+17. GC Details
 
-**Total: 27 major feature sets** to implement in new architecture.
+**Total: 24 major feature sets** to implement in new architecture.
 
 ### AI Integration & Automated Analysis
 
