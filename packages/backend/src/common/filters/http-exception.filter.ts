@@ -11,10 +11,35 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
-      exception instanceof HttpException
-        ? exception.getResponse()
-        : { message: 'Internal server error' };
+    // Determine if we're in production mode
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    // Get the error message
+    let message: string | object;
+    
+    if (exception instanceof HttpException) {
+      const exceptionResponse = exception.getResponse();
+      
+      // In production, sanitize error messages to prevent information leakage
+      if (isProduction && status >= 500) {
+        // For 5xx errors in production, return generic message
+        message = { message: 'Internal server error' };
+      } else {
+        // For 4xx errors or non-production, return the actual message
+        message = exceptionResponse;
+      }
+    } else {
+      // For non-HTTP exceptions, always return generic message in production
+      if (isProduction) {
+        message = { message: 'Internal server error' };
+      } else {
+        // In development, include error details for debugging
+        message = {
+          message: exception instanceof Error ? exception.message : 'Internal server error',
+          stack: exception instanceof Error ? exception.stack : undefined,
+        };
+      }
+    }
 
     response.status(status).json({
       statusCode: status,
