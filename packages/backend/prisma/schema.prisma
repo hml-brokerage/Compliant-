@@ -228,3 +228,45 @@ model File {
   @@map("files")
 }
 
+// ============================================
+// PR #3: AI & Document Processing Models
+// ============================================
+
+// AIAnalysis Model - for AI-powered document analysis
+model AIAnalysis {
+  id             String   @id @default(uuid())
+  documentId     String
+  provider       String   // openai, claude
+  model          String   // gpt-4, claude-3-opus
+  prompt         String   @db.Text
+  response       Json
+  tokensUsed     Int
+  cost           Float
+  processingTime Int      // milliseconds
+  confidence     Float?
+  extractedData  Json?
+  createdAt      DateTime @default(now())
+
+  @@index([documentId])
+  @@index([createdAt])
+  @@map("ai_analyses")
+}
+
+// ExtractionResult Model - for automated data extraction results
+model ExtractionResult {
+  id             String    @id @default(uuid())
+  documentId     String
+  extractionType String
+  extractedData  Json
+  confidence     Float
+  needsReview    Boolean   @default(false)
+  reviewedBy     String?
+  reviewedAt     DateTime?
+  corrections    Json?
+  createdAt      DateTime  @default(now())
+
+  @@index([documentId])
+  @@index([needsReview])
+  @@map("extraction_results")
+}
+
