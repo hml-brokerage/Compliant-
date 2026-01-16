@@ -489,12 +489,25 @@ FRONTEND_URL=http://localhost:5175
    - Expert insurance compliance guidance
    - Suggests specific corrective actions
 
-6. **Automated Deficiency Detection**
-   - Coverage amount checks (GL < $2M flagged)
-   - Missing policy detection (WC, Auto, Umbrella)
-   - Expiration date warnings (<30 days = critical)
-   - Additional insured verification
-   - Waiver of subrogation checks
+6. **Automated Deficiency Detection & Policy-to-Requirements Comparison**
+   - **Coverage Amount Validation:** Compares actual coverage to project minimums (GL < $2M flagged)
+   - **Missing Policy Detection:** Checks WC, Auto, Umbrella against required policy types
+   - **Expiration Date Warnings:** Critical if <30 days, High if <90 days
+   - **Additional Insured Verification:** Validates project owner/GC listed as additional insured
+   - **Waiver of Subrogation Checks:** Verifies waiver clauses present
+   - **Named Insured Matching:** Compares policy holder name to subcontractor's registered name
+   - **Policy Date Alignment:** Validates policy dates cover project timeline
+   - **Endorsement Requirements:** Checks for CG 20 10, additional insured, waiver endorsements
+   
+7. **Always-Flagged Exclusions (Automatic Compliance Checks)**
+   - **Named Insured Mismatch:** Policy holder name differs from subcontractor name in system
+   - **Coverage Gaps:** Policy limits below project minimums (e.g., GL $1M when $2M required)
+   - **Missing Endorsements:** CG 20 10, additional insured, or waiver of subrogation absent
+   - **Date Misalignment:** Policy doesn't cover full project timeline
+   - **Additional Insured Missing:** Project owner or GC not listed as additional insured on policy
+   - **Expired/Expiring Policies:** Already expired or expiring within 30 days
+   - **Wrong Policy Types:** Missing required policy types (GL, WC, Auto, Umbrella)
+   - **Insufficient Aggregates:** Aggregate limits below project requirements
 
 #### AI Provider Support:
 - **OpenAI** (GPT-4, GPT-4-turbo) - default
