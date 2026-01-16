@@ -20,7 +20,8 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@compliant/shared": ["../shared/dist"]
     }
   },
   "include": ["src/**/*"],

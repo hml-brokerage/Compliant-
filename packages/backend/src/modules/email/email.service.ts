@@ -44,7 +44,9 @@ export class EmailService {
       this.logger.log(`Email sent successfully: ${info.messageId}`);
       return true;
     } catch (error) {
-      this.logger.error(`Failed to send email: ${error.message}`, error.stack);
+      const message = error instanceof Error ? error.message : String(error);
+      const stack = error instanceof Error ? error.stack : undefined;
+      this.logger.error(`Failed to send email: ${message}`, stack);
       return false;
     }
   }
