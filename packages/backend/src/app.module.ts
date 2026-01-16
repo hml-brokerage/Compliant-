@@ -6,6 +6,9 @@ import { ContractorsModule } from './modules/contractors/contractors.module';
 import { EmailModule } from './modules/email/email.module';
 import { FilesModule } from './modules/files/files.module';
 import { SessionsModule } from './modules/sessions/sessions.module';
+import { PdfModule } from './modules/pdf/pdf.module';
+import { AIModule } from './modules/ai/ai.module';
+import { ExtractionModule } from './modules/extraction/extraction.module';
 import { PrismaModule } from './config/prisma.module';
 
 @Module({
@@ -20,6 +23,9 @@ import { PrismaModule } from './config/prisma.module';
     EmailModule,
     FilesModule,
     SessionsModule,
+    PdfModule,
+    AIModule,
+    ExtractionModule,
   ],
 })
 export class AppModule {}
