@@ -186,11 +186,17 @@ export class GeneratedCOIService {
       );
     }
 
+    // Broker signs COI in-system using Adobe eSign integration
+    // signPoliciesDto contains signatureGlUrl, signatureUmbrellaUrl, etc.
+    // These are Adobe eSign agreement IDs or signed document URLs from Adobe API
+    // The broker portal UI calls Adobe eSign widget, broker signs electronically,
+    // Adobe returns signed document URL which is saved here
     return this.prisma.generatedCOI.update({
       where: { id },
       data: {
         ...signPoliciesDto,
         status: COIStatus.AWAITING_ADMIN_REVIEW,
+        signedAt: new Date(), // Record when broker signed in system
       },
     });
   }
