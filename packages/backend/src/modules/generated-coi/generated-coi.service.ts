@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../config/prisma.service';
 import { CreateCOIDto } from './dto/create-coi.dto';
 import { UpdateBrokerInfoDto } from './dto/update-broker-info.dto';
 import { UploadPoliciesDto } from './dto/upload-policies.dto';
