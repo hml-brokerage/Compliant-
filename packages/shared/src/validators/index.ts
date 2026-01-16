@@ -71,7 +71,7 @@ export const createInsuranceDocumentSchema = z.object({
   ]),
   provider: z.string().min(1, 'Provider is required'),
   policyNumber: z.string().min(1, 'Policy number is required'),
-  coverageAmount: z.number().positive('Coverage amount must be positive'),
+  coverageAmount: z.coerce.number().positive('Coverage amount must be positive'),
   effectiveDate: z.coerce.date(),
   expirationDate: z.coerce.date(),
   fileUrl: z.string().url('Invalid file URL').optional(),

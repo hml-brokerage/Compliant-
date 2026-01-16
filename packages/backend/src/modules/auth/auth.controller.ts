@@ -44,7 +44,7 @@ export class AuthController {
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Get current user' })
   @ApiResponse({ status: 200, description: 'User retrieved' })
-  async getProfile(@GetUser() user: any) {
+  async getProfile(@GetUser() user: { id: string; email: string; role: string }) {
     return user;
   }
 }
