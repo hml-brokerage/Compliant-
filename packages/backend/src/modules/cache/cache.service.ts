@@ -26,7 +26,7 @@ export class CacheService implements OnModuleInit {
               this.logger.warn('Redis connection failed after 5 retries, falling back to memory cache');
               return null;
             }
-            // Exponential backoff: 100ms, 200ms, 400ms, 800ms, 1600ms
+            // Linear backoff with cap: 100ms, 200ms, 300ms, 400ms, 500ms (capped at 2000ms)
             return Math.min(times * 100, 2000);
           },
           maxRetriesPerRequest: 5,
