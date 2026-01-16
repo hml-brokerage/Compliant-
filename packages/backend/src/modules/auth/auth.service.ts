@@ -108,7 +108,7 @@ export class AuthService {
           const isValid = await bcrypt.compare(refreshTokenString, user.refreshTokenHash);
           if (isValid) {
             validUser = user;
-            break;
+            // Continue checking all tokens to maintain constant-time behavior
           }
         }
       }
