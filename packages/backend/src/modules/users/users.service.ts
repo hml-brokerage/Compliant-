@@ -89,33 +89,43 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    await this.findOne(id);
+    try {
+      const user = await this.prisma.user.update({
+        where: { id },
+        data: updateUserDto,
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
 
-    const user = await this.prisma.user.update({
-      where: { id },
-      data: updateUserDto,
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
-    return user;
+      return user;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 
   async remove(id: string) {
-    await this.findOne(id);
+    try {
+      await this.prisma.user.delete({
+        where: { id },
+      });
 
-    await this.prisma.user.delete({
-      where: { id },
-    });
-
-    return { message: 'User deleted successfully' };
+      return { message: 'User deleted successfully' };
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 }

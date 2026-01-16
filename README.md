@@ -176,6 +176,8 @@ cd packages/backend && pnpm db:seed
 - ✅ Input validation
 - ✅ SQL injection prevention (Prisma)
 
+**Note**: This demo uses localStorage for token storage. For production deployments, consider using httpOnly cookies to protect against XSS attacks.
+
 ## 📝 License
 
 MIT License

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../config/prisma.service';
 import { CreateContractorDto } from './dto/create-contractor.dto';
 import { UpdateContractorDto } from './dto/update-contractor.dto';
-import { InsuranceStatus } from '@compliant/shared';
+import { InsuranceStatus, ContractorStatus } from '@compliant/shared';
 
 @Injectable()
 export class ContractorsService {
@@ -31,7 +31,12 @@ export class ContractorsService {
 
   async findAll(page = 1, limit = 10, status?: string) {
     const skip = (page - 1) * limit;
-    const where = status ? { status: status as any } : {};
+    
+    // Validate status against enum if provided
+    const where: any = {};
+    if (status && Object.values(ContractorStatus).includes(status as ContractorStatus)) {
+      where.status = status as ContractorStatus;
+    }
 
     const [contractors, total] = await Promise.all([
       this.prisma.contractor.findMany({
@@ -107,34 +112,44 @@ export class ContractorsService {
   }
 
   async update(id: string, updateContractorDto: UpdateContractorDto) {
-    await this.findOne(id);
-
-    const contractor = await this.prisma.contractor.update({
-      where: { id },
-      data: updateContractorDto,
-      include: {
-        createdBy: {
-          select: {
-            id: true,
-            email: true,
-            firstName: true,
-            lastName: true,
+    try {
+      const contractor = await this.prisma.contractor.update({
+        where: { id },
+        data: updateContractorDto,
+        include: {
+          createdBy: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    return contractor;
+      return contractor;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Contractor with ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 
   async remove(id: string) {
-    await this.findOne(id);
+    try {
+      await this.prisma.contractor.delete({
+        where: { id },
+      });
 
-    await this.prisma.contractor.delete({
-      where: { id },
-    });
-
-    return { message: 'Contractor deleted successfully' };
+      return { message: 'Contractor deleted successfully' };
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Contractor with ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 
   async getInsuranceStatus(id: string) {
@@ -160,7 +175,7 @@ export class ContractorsService {
     if (insuranceStatus !== contractor.insuranceStatus) {
       await this.prisma.contractor.update({
         where: { id },
-        data: { insuranceStatus: insuranceStatus as any },
+        data: { insuranceStatus },
       });
     }
 

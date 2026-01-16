@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(userData);
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
+        // Auth check failed - clear tokens and continue
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
       } finally {
@@ -42,23 +42,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (credentials: LoginDto) => {
-    try {
-      const response = await authApi.login(credentials);
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      setUser(response.user as User);
-      router.push('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
-    }
+    const response = await authApi.login(credentials);
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    setUser(response.user as User);
+    router.push('/dashboard');
   };
 
   const logout = async () => {
     try {
       await authApi.logout();
-    } catch (error) {
-      console.error('Logout error:', error);
     } finally {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
