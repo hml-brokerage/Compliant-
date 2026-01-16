@@ -25,7 +25,8 @@ apiClient.interceptors.response.use(
       try {
         // Attempt to refresh token - cookies are sent automatically
         // Use apiClient to ensure X-API-Version header is included
-        await apiClient.post('/auth/refresh');
+        // Set _retry flag to prevent infinite loop if refresh fails
+        await apiClient.post('/auth/refresh', {}, { _retry: true } as any);
 
         // Retry the original request
         return apiClient(originalRequest);
