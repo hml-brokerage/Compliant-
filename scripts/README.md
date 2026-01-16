@@ -40,23 +40,15 @@ Add to your GitHub Actions workflow:
 
 ### v1.1 - Fixed AUDIT_FAILED Flag Bug
 
-**Issue**: When `AUDIT_FAILED` was set to 1, the global `FAILED` flag was not being set, allowing deployments with vulnerabilities to proceed.
+**Issue**: When audit failures occurred, the global `FAILED` flag was not being set, allowing deployments with vulnerabilities to proceed.
 
-**Fix**: Added `FAILED=1` assignment when `AUDIT_FAILED=1` is detected in the `run_audit()` function.
+**Fix**: Updated `run_audit()` function to directly set `FAILED=1` when package audits fail.
 
 ```bash
-# Before (BUGGY):
+# Fixed implementation:
 if ! pnpm audit --audit-level=high --json > /tmp/audit-${package_name}.json 2>&1; then
-    AUDIT_FAILED=1
     echo -e "${RED}✗ Security vulnerabilities found in ${package_name}${NC}"
-    # Missing: FAILED=1
-fi
-
-# After (FIXED):
-if ! pnpm audit --audit-level=high --json > /tmp/audit-${package_name}.json 2>&1; then
-    AUDIT_FAILED=1
-    echo -e "${RED}✗ Security vulnerabilities found in ${package_name}${NC}"
-    # FIX: Set global FAILED flag when AUDIT_FAILED is true
+    # FIX: Set global FAILED flag when audit fails
     FAILED=1
 fi
 ```
