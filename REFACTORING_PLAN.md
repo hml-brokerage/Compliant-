@@ -49,10 +49,10 @@
 
 | Item | Amount | Percentage |
 |------|--------|------------|
-| Contingency Buffer | $20,000 | 10% |
+| Contingency Buffer | $18,384 | ~10% |
 | Documentation & Knowledge Transfer | $5,000 | Lump sum |
 | Third-party API costs (Adobe, AI) | $1,000 | Setup/testing |
-| **Subtotal** | | **$26,000** |
+| **Subtotal** | | **$24,384** |
 
 ### Total Budget Summary
 
@@ -61,10 +61,10 @@
 | Personnel | $193,200 | 85.5% |
 | Infrastructure | $6,700 | 3.0% |
 | Software & Tools | $716 | 0.3% |
-| Contingency | $26,000 | 11.2% |
-| **TOTAL** | **$226,616** | **100%** |
+| Contingency | $24,384 | 10.8% |
+| **TOTAL** | **$225,000** | **100%** |
 
-**Recommended Budget:** $225,000 (rounded)
+**Recommended Budget:** $225,000
 
 ### Budget Scenarios
 

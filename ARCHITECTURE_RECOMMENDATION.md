@@ -343,13 +343,13 @@ compliant-platform/
 - **Total: $600k**
 
 **Option B (Refactor Now):**
-- Initial: $200k (refactor + migration)
+- Initial: $225k (refactor + migration)
 - Year 1: $80k (maintenance + features)
 - Year 2: $90k (maintenance + features)
 - Year 3: $100k (maintenance + features)
-- **Total: $470k**
+- **Total: $495k**
 
-**Savings: $130k over 3 years (22% cost reduction)**
+**Savings: $105k over 3 years (17.5% cost reduction)**
 
 ## Risk Assessment
 
@@ -455,11 +455,11 @@ The current codebase has served its purpose as a proof-of-concept but lacks the 
 - ✅ Built-in scalability patterns
 - ✅ Enterprise-grade security
 - ✅ Comprehensive testing framework
-- ✅ 22% cost savings over 3 years
+- ✅ 17.5% cost savings over 3 years
 
 **Timeline:** 14 weeks (3.5 months) for complete migration
 **Investment:** $225k initial investment (see REFACTORING_PLAN.md for detailed breakdown)
-**ROI:** $130k savings over 3 years + faster feature velocity
+**ROI:** $105k savings over 3 years + faster feature velocity
 
 This refactor is not just a technical improvement—it's a business investment that enables faster growth, reduces risk, and positions the platform for long-term success.
 

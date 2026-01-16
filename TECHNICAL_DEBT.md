@@ -372,8 +372,8 @@ The current codebase has **30-35 weeks of identified technical debt**. The choic
 
 **Financial Analysis:**
 - Fixing current architecture: $600k over 3 years + eventual refactor
-- Refactoring now: $470k over 3 years (includes migration)
-- **Savings: $130k (22%)**
+- Refactoring now: $495k over 3 years (includes migration)
+- **Savings: $105k (17.5%)**
 
 **Recommendation:** Invest in professional refactoring now. The math is clear—refactoring costs less than half the effort of fixing the current architecture, provides a better long-term foundation, and saves money over 3 years.
 
@@ -428,6 +428,6 @@ The current codebase has **30-35 weeks of identified technical debt**. The choic
 
 - [ARCHITECTURE_RECOMMENDATION.md](./ARCHITECTURE_RECOMMENDATION.md) - Detailed refactor plan
 - [README.md](./README.md) - Current architecture documentation
-- [docs/SECURITY_CREDENTIAL_ROTATION.md](./docs/SECURITY_CREDENTIAL_ROTATION.md) - Security remediation guide
+- [docs/SECURITY_CREDENTIAL_ROTATION.md](docs/SECURITY_CREDENTIAL_ROTATION.md) - Security remediation guide
 - [Martin Fowler - Technical Debt](https://martinfowler.com/bliki/TechnicalDebt.html)
 - [Clean Architecture by Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
