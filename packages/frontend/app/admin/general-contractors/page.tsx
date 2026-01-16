@@ -182,7 +182,12 @@ export default function GeneralContractorsPage() {
                   {contractors.map((contractor) => (
                     <tr key={contractor.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{contractor.name}</div>
+                        <button
+                          onClick={() => router.push(`/admin/general-contractors/${contractor.id}`)}
+                          className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          {contractor.name}
+                        </button>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{contractor.company || '-'}</div>
