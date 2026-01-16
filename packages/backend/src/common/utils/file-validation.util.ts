@@ -38,13 +38,9 @@ export function isValidFileUrl(url: string | undefined): boolean {
       parsedUrl.hostname.endsWith(domain) // proper subdomain match
     );
     
-    // Allow URLs without extensions if they are from trusted domains or contain common patterns
-    const hasValidPattern = 
-      pathname.includes('policy') || 
-      pathname.includes('document') ||
-      isTrustedDomain;
-
-    return hasValidExtension || hasValidPattern;
+    // For non-trusted domains, require valid file extensions
+    // Trusted domains can have any path structure
+    return hasValidExtension || isTrustedDomain;
   } catch (error) {
     return false;
   }

@@ -3,10 +3,10 @@ import * as DOMPurify from 'isomorphic-dompurify';
 /**
  * Sanitizes text input to prevent XSS attacks
  * @param text - The text to sanitize
- * @returns Sanitized text safe for storage and display
+ * @returns Sanitized text safe for storage and display, or undefined/null if input is undefined/null
  */
-export function sanitizeText(text: string | undefined): string | undefined {
-  if (!text) {
+export function sanitizeText(text: string | undefined | null): string | undefined | null {
+  if (text === undefined || text === null) {
     return text;
   }
   
