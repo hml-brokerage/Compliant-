@@ -30,6 +30,7 @@ model User {
   contractorsCreated    Contractor[]   @relation("ContractorCreator")
   projects              Project[]
   generatedCOIsAssigned GeneratedCOI[] @relation("AssignedAdmin")
+  auditLogs             AuditLog[]
 
   @@map("users")
 }
@@ -309,4 +310,25 @@ enum DocumentStatus {
   VERIFIED
   REJECTED
   EXPIRED
+}
+
+// Audit Log Model for security and compliance tracking
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action     String   // CREATE, UPDATE, DELETE, LOGIN, LOGOUT, VIEW, etc.
+  resource   String   // USER, CONTRACTOR, PROJECT, INSURANCE_DOCUMENT, etc.
+  resourceId String?  // ID of the affected resource
+  changes    Json?    // JSON object with before/after values for updates
+  metadata   Json?    // Additional context (e.g., request headers, IP, etc.)
+  ipAddress  String?
+  userAgent  String?
+  timestamp  DateTime @default(now())
+
+  @@index([userId])
+  @@index([resource, resourceId])
+  @@index([timestamp])
+  @@index([action])
+  @@map("audit_logs")
 }

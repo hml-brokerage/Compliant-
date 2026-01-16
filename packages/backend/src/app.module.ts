@@ -1,24 +1,32 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { WinstonModule } from 'nest-winston';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ContractorsModule } from './modules/contractors/contractors.module';
 import { GeneratedCOIModule } from './modules/generated-coi/generated-coi.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { HealthModule } from './modules/health/health.module';
+import { AuditModule } from './modules/audit/audit.module';
 import { PrismaModule } from './config/prisma.module';
+import { winstonConfig } from './config/logger.config';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    WinstonModule.forRoot(winstonConfig),
     ThrottlerModule.forRoot([{
       ttl: 60000, // 60 seconds in milliseconds
       limit: 10,
     }]),
     PrismaModule,
+    HealthModule,
+    AuditModule,
     AuthModule,
     UsersModule,
     ContractorsModule,
@@ -29,6 +37,10 @@ import { PrismaModule } from './config/prisma.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
   ],
 })
