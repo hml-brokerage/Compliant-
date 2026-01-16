@@ -129,6 +129,8 @@ export class AuthService {
       });
 
       // Check if token exists and is not expired
+      // Note: Expiration check after query is acceptable since tokens expire after 7 days
+      // and the window for race condition is negligible in practice
       if (!tokenRecord || tokenRecord.expiresAt < new Date()) {
         throw new UnauthorizedException('Invalid or expired refresh token');
       }
