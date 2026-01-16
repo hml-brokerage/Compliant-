@@ -60,6 +60,9 @@ model Contractor {
   insuranceDocuments InsuranceDocument[]
   projectContractors ProjectContractor[]
   coiReviews         COIReview[]
+  dobRecords         DOBRecord[]
+  placeVerifications PlaceVerification[]
+  generatedCOIs      GeneratedCOI[]
 
   @@map("contractors")
 }
@@ -426,5 +429,86 @@ model Reminder {
 
   @@index([deficiencyId])
   @@map("reminders")
+}
+
+// ============================================
+// PR #5: External Integrations & COI Generation
+// ============================================
+
+// DOBRecord Model - NYC DOB API integration data
+model DOBRecord {
+  id             String     @id @default(uuid())
+  contractorId   String
+  contractor     Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  licenseNumber  String
+  businessName   String
+  licenseType    String
+  licenseStatus  String
+  expirationDate DateTime?
+  violations     Json?
+  complaints     Json?
+  lastVerified   DateTime   @default(now())
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([contractorId])
+  @@index([licenseNumber])
+  @@map("dob_records")
+}
+
+// PlaceVerification Model - Google Places API integration data
+model PlaceVerification {
+  id               String     @id @default(uuid())
+  contractorId     String
+  contractor       Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  placeId          String
+  name             String
+  address          String
+  phone            String?
+  website          String?
+  businessStatus   String
+  rating           Float?
+  userRatingsTotal Int?
+  verified         Boolean    @default(false)
+  verifiedAt       DateTime   @default(now())
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@index([contractorId])
+  @@index([placeId])
+  @@map("place_verifications")
+}
+
+// GeneratedCOI Model - Generated Certificate of Insurance tracking
+model GeneratedCOI {
+  id                String     @id @default(uuid())
+  contractorId      String
+  contractor        Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  projectId         String?
+  certificateNumber String     @unique
+  producer          String
+  insured           String
+  address           String
+  coverages         Json
+  effectiveDate     DateTime
+  expirationDate    DateTime
+  certificateHolder String
+  description       String?    @db.Text
+  fileId            String?
+  generatedBy       String
+  generatedAt       DateTime   @default(now())
+  status            COIStatus  @default(DRAFT)
+
+  @@index([contractorId])
+  @@index([certificateNumber])
+  @@index([status])
+  @@map("generated_cois")
+}
+
+enum COIStatus {
+  DRAFT
+  ISSUED
+  EXPIRED
+  CANCELLED
 }
 
