@@ -17,6 +17,9 @@ import { GooglePlacesModule } from './modules/integrations/google-places/google-
 import { MessagingModule } from './modules/messaging/messaging.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { PolicyAlertsModule } from './modules/policy-alerts/policy-alerts.module';
+import { AdminModule } from './modules/admin/admin.module';
+import { GCPortalModule } from './modules/portals/gc-portal/gc-portal.module';
+import { BrokerPortalModule } from './modules/portals/broker-portal/broker-portal.module';
 import { PrismaModule } from './config/prisma.module';
 
 @Module({
@@ -42,6 +45,9 @@ import { PrismaModule } from './config/prisma.module';
     MessagingModule,
     NotificationsModule,
     PolicyAlertsModule,
+    AdminModule,
+    GCPortalModule,
+    BrokerPortalModule,
   ],
 })
 export class AppModule {}
