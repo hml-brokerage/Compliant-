@@ -11,6 +11,9 @@ import { AIModule } from './modules/ai/ai.module';
 import { ExtractionModule } from './modules/extraction/extraction.module';
 import { COIReviewModule } from './modules/coi-review/coi-review.module';
 import { DeficienciesModule } from './modules/deficiencies/deficiencies.module';
+import { COIGeneratorModule } from './modules/coi-generator/coi-generator.module';
+import { NYCDOBModule } from './modules/integrations/nyc-dob/nyc-dob.module';
+import { GooglePlacesModule } from './modules/integrations/google-places/google-places.module';
 import { PrismaModule } from './config/prisma.module';
 
 @Module({
@@ -30,6 +33,9 @@ import { PrismaModule } from './config/prisma.module';
     ExtractionModule,
     COIReviewModule,
     DeficienciesModule,
+    COIGeneratorModule,
+    NYCDOBModule,
+    GooglePlacesModule,
   ],
 })
 export class AppModule {}
