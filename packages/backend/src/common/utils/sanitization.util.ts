@@ -1,4 +1,4 @@
-import DOMPurify from 'isomorphic-dompurify';
+import * as DOMPurify from 'isomorphic-dompurify';
 
 /**
  * Sanitizes text input to prevent XSS attacks
