@@ -93,11 +93,13 @@ export class AuthService {
     try {
       // Find all users with non-null, non-expired refresh tokens
       // This prevents timing attacks by always performing the same database query
+      // Limited to 1000 users to prevent DoS (most apps will have far fewer active sessions)
       const users = await this.prisma.user.findMany({
         where: {
           refreshTokenHash: { not: null },
           refreshTokenExpiresAt: { gte: new Date() },
         },
+        take: 1000,
       });
 
       // Find the user with a matching refresh token hash using constant-time comparison
