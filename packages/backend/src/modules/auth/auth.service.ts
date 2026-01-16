@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject, LoggerService } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { PrismaService } from '../../config/prisma.service';
@@ -17,6 +18,8 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private prisma: PrismaService,
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -37,6 +40,12 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const user = await this.validateUser(loginDto.email, loginDto.password);
     if (!user) {
+      // Log failed login attempt
+      this.logger.warn({
+        message: 'Failed login attempt',
+        context: 'Auth',
+        email: loginDto.email,
+      });
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -57,6 +66,14 @@ export class AuthService {
         refreshToken: refreshTokenString,
         refreshTokenExpiresAt: refreshTokenExpiresAt,
       },
+    });
+
+    // Log successful login
+    this.logger.log({
+      message: 'User logged in successfully',
+      context: 'Auth',
+      userId: user.id,
+      email: user.email,
     });
 
     return {
@@ -103,11 +120,24 @@ export class AuthService {
         },
       });
 
+      // Log token refresh
+      this.logger.log({
+        message: 'Token refreshed successfully',
+        context: 'Auth',
+        userId: user.id,
+      });
+
       return {
         accessToken,
         refreshToken: newRefreshTokenString,
       };
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error({
+        message: 'Token refresh failed',
+        context: 'Auth',
+        error: errorMessage,
+      });
       throw new UnauthorizedException('Invalid refresh token');
     }
   }
@@ -120,6 +150,13 @@ export class AuthService {
         refreshToken: null,
         refreshTokenExpiresAt: null,
       },
+    });
+
+    // Log logout
+    this.logger.log({
+      message: 'User logged out successfully',
+      context: 'Auth',
+      userId,
     });
 
     return { message: 'Logged out successfully' };

@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Get, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, HttpCode, HttpStatus, Res, Req, UnauthorizedException } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
@@ -9,6 +10,17 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 
 // Rate limiting configuration for auth endpoints
 const AUTH_THROTTLE_CONFIG = { default: { limit: 10, ttl: 60000 } };
+
+// Cookie configuration for secure token storage
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'strict' as const,
+  path: '/',
+};
+
+const ACCESS_TOKEN_COOKIE = 'access_token';
+const REFRESH_TOKEN_COOKIE = 'refresh_token';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -22,8 +34,22 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Login successful' })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   @ApiResponse({ status: 429, description: 'Too many requests' })
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) response: Response) {
+    const result = await this.authService.login(loginDto);
+    
+    // Set httpOnly cookies for tokens
+    response.cookie(ACCESS_TOKEN_COOKIE, result.accessToken, {
+      ...COOKIE_OPTIONS,
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+    
+    response.cookie(REFRESH_TOKEN_COOKIE, result.refreshToken, {
+      ...COOKIE_OPTIONS,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+    
+    // Return user data without tokens (tokens are in cookies)
+    return { user: result.user };
   }
 
   @Post('refresh')
@@ -33,8 +59,28 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Token refreshed' })
   @ApiResponse({ status: 401, description: 'Invalid refresh token' })
   @ApiResponse({ status: 429, description: 'Too many requests' })
-  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
-    return this.authService.refresh(refreshTokenDto.refreshToken);
+  async refresh(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
+    // Try to get refresh token from cookie first, fallback to body for backward compatibility
+    const refreshToken = request.cookies[REFRESH_TOKEN_COOKIE] || request.body.refreshToken;
+    
+    if (!refreshToken) {
+      throw new UnauthorizedException('No refresh token provided');
+    }
+    
+    const result = await this.authService.refresh(refreshToken);
+    
+    // Set new httpOnly cookies
+    response.cookie(ACCESS_TOKEN_COOKIE, result.accessToken, {
+      ...COOKIE_OPTIONS,
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+    
+    response.cookie(REFRESH_TOKEN_COOKIE, result.refreshToken, {
+      ...COOKIE_OPTIONS,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+    
+    return { success: true };
   }
 
   @Post('logout')
@@ -45,8 +91,14 @@ export class AuthController {
   @ApiOperation({ summary: 'User logout' })
   @ApiResponse({ status: 200, description: 'Logout successful' })
   @ApiResponse({ status: 429, description: 'Too many requests' })
-  async logout(@GetUser('id') userId: string) {
-    return this.authService.logout(userId);
+  async logout(@GetUser('id') userId: string, @Res({ passthrough: true }) response: Response) {
+    await this.authService.logout(userId);
+    
+    // Clear httpOnly cookies
+    response.clearCookie(ACCESS_TOKEN_COOKIE, COOKIE_OPTIONS);
+    response.clearCookie(REFRESH_TOKEN_COOKIE, COOKIE_OPTIONS);
+    
+    return { message: 'Logged out successfully' };
   }
 
   @Get('me')

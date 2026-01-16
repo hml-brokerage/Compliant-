@@ -1,12 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
+import { WINSTON_MODULE_NEST_PROVIDER, WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
+import { winstonConfig } from './config/logger.config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Create app with Winston logger
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger(winstonConfig),
+  });
 
-  // Enable CORS
+  // Use Winston logger as the application logger
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+
+  // Enable cookie parser for secure token storage
+  app.use(cookieParser());
+
+  // Enable CORS with credentials for cookie support
   app.enableCors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true,
