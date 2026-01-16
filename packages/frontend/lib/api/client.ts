@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 
 const API_VERSION = '1';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -25,7 +25,8 @@ apiClient.interceptors.response.use(
       try {
         // Attempt to refresh token - cookies are sent automatically
         // Use apiClient to ensure X-API-Version header is included
-        await apiClient.post('/auth/refresh');
+        // Set _retry flag to prevent infinite loop if refresh fails
+        await apiClient.post('/auth/refresh', {}, { _retry: true } as AxiosRequestConfig & { _retry: boolean });
 
         // Retry the original request
         return apiClient(originalRequest);
