@@ -153,4 +153,8 @@ export default function(data) {
 
 export function teardown(data) {
   console.log('Contractors load test completed');
+  // Note: In a production scenario, you would want to clean up
+  // any test contractors created during the load test to prevent
+  // database accumulation. This could be done by tracking created IDs
+  // and making DELETE requests here.
 }

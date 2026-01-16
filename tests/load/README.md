@@ -13,7 +13,7 @@ brew install k6
 sudo gpg -k
 sudo gpg --no-default-keyring \
   --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
-  --keyserver hkp://keyserver.ubuntu.com:80 \
+  --keyserver hkps://keys.openpgp.org \
   --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
 echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | \
   sudo tee /etc/apt/sources.list.d/k6.list
@@ -131,7 +131,7 @@ Each test tracks:
 - Set appropriate thresholds based on your SLA requirements
 - Run tests against staging environment first
 - Monitor server resources during tests
-- Clean up test data after load tests
+- Clean up test data after load tests (e.g., delete created contractors)
 
 ### DON'T ❌
 - Use production credentials or production endpoints
@@ -139,6 +139,7 @@ Each test tracks:
 - Run load tests against production without approval
 - Skip authentication in load tests
 - Hardcode sensitive credentials in test files
+- Leave test data accumulating in the database
 
 ## Security Notes
 
