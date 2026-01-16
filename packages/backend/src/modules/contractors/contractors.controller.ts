@@ -44,20 +44,20 @@ export class ContractorsController {
     return this.contractorsService.findAll(page, limit, status);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get contractor by ID' })
-  @ApiResponse({ status: 200, description: 'Contractor retrieved successfully' })
-  @ApiResponse({ status: 404, description: 'Contractor not found' })
-  findOne(@Param('id') id: string) {
-    return this.contractorsService.findOne(id);
-  }
-
   @Get(':id/insurance-status')
   @ApiOperation({ summary: 'Get contractor insurance status' })
   @ApiResponse({ status: 200, description: 'Insurance status retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Contractor not found' })
   getInsuranceStatus(@Param('id') id: string) {
     return this.contractorsService.getInsuranceStatus(id);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get contractor by ID' })
+  @ApiResponse({ status: 200, description: 'Contractor retrieved successfully' })
+  @ApiResponse({ status: 404, description: 'Contractor not found' })
+  findOne(@Param('id') id: string) {
+    return this.contractorsService.findOne(id);
   }
 
   @Patch(':id')

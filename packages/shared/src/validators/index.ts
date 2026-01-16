@@ -20,7 +20,7 @@ export const updateUserSchema = z.object({
 // Auth Validators
 export const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 export const refreshTokenSchema = z.object({
@@ -49,7 +49,13 @@ export const createProjectSchema = z.object({
   description: z.string().optional(),
   startDate: z.coerce.date(),
   endDate: z.coerce.date().optional(),
-});
+}).refine(
+  (data) => !data.endDate || data.endDate >= data.startDate,
+  {
+    message: 'End date must be after or equal to start date',
+    path: ['endDate'],
+  }
+);
 
 export const updateProjectSchema = z.object({
   name: z.string().min(1, 'Name is required').optional(),
@@ -57,7 +63,13 @@ export const updateProjectSchema = z.object({
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   status: z.enum(['PLANNING', 'ACTIVE', 'ON_HOLD', 'COMPLETED', 'CANCELLED']).optional(),
-});
+}).refine(
+  (data) => !data.endDate || !data.startDate || data.endDate >= data.startDate,
+  {
+    message: 'End date must be after or equal to start date',
+    path: ['endDate'],
+  }
+);
 
 // Insurance Document Validators
 export const createInsuranceDocumentSchema = z.object({
@@ -75,7 +87,13 @@ export const createInsuranceDocumentSchema = z.object({
   effectiveDate: z.coerce.date(),
   expirationDate: z.coerce.date(),
   fileUrl: z.string().url('Invalid file URL').optional(),
-});
+}).refine(
+  (data) => data.expirationDate > data.effectiveDate,
+  {
+    message: 'Expiration date must be after effective date',
+    path: ['expirationDate'],
+  }
+);
 
 // Pagination Validators
 export const paginationSchema = z.object({
