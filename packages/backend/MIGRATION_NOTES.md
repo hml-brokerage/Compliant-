@@ -22,8 +22,8 @@ model RefreshToken {
   createdAt   DateTime @default(now())
 
   @@index([selector])
-  @@index([userId])
-  @@index([expiresAt])
+  @@index([userId, expiresAt]) // Composite index for user-specific cleanup operations
+  @@map("refresh_tokens")
 }
 ```
 

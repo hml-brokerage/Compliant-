@@ -214,11 +214,24 @@ export class AuthService {
    * @returns Number of tokens deleted
    */
   async cleanupExpiredTokens(batchSize: number = 1000): Promise<number> {
-    const result = await this.prisma.refreshToken.deleteMany({
+    // Find expired tokens with limit (Prisma deleteMany doesn't support take)
+    const expiredTokens = await this.prisma.refreshToken.findMany({
       where: {
         expiresAt: { lt: new Date() },
       },
+      select: { id: true },
       take: batchSize,
+    });
+
+    if (expiredTokens.length === 0) {
+      return 0;
+    }
+
+    // Delete the batch of expired tokens
+    const result = await this.prisma.refreshToken.deleteMany({
+      where: {
+        id: { in: expiredTokens.map(t => t.id) },
+      },
     });
 
     this.logger.log({
