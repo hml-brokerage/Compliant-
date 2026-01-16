@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { PrismaService } from '../../config/prisma.service';
@@ -66,7 +67,16 @@ export class AuthService {
         where: { id: payload.sub },
       });
 
-      if (!user || user.refreshToken !== refreshToken) {
+      if (!user || !user.refreshToken) {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      // Use constant-time comparison to prevent timing attacks
+      const tokenBuffer = Buffer.from(user.refreshToken);
+      const providedBuffer = Buffer.from(refreshToken);
+      
+      if (tokenBuffer.length !== providedBuffer.length || 
+          !crypto.timingSafeEqual(tokenBuffer, providedBuffer)) {
         throw new UnauthorizedException('Invalid refresh token');
       }
 

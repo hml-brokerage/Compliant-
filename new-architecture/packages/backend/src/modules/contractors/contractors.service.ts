@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../config/prisma.service';
 import { CreateContractorDto } from './dto/create-contractor.dto';
 import { UpdateContractorDto } from './dto/update-contractor.dto';
+import { InsuranceStatus } from '@compliant/shared';
 
 @Injectable()
 export class ContractorsService {
@@ -146,13 +147,13 @@ export class ContractorsService {
     const hasNonCompliant = insuranceDocs.some(doc => doc.status === 'REJECTED');
     const hasPending = insuranceDocs.some(doc => doc.status === 'PENDING');
 
-    let insuranceStatus = 'COMPLIANT';
+    let insuranceStatus = InsuranceStatus.COMPLIANT;
     if (hasExpired) {
-      insuranceStatus = 'EXPIRED';
+      insuranceStatus = InsuranceStatus.EXPIRED;
     } else if (hasNonCompliant) {
-      insuranceStatus = 'NON_COMPLIANT';
+      insuranceStatus = InsuranceStatus.NON_COMPLIANT;
     } else if (hasPending || insuranceDocs.length === 0) {
-      insuranceStatus = 'PENDING';
+      insuranceStatus = InsuranceStatus.PENDING;
     }
 
     // Update contractor insurance status if changed

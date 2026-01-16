@@ -39,10 +39,9 @@ export class AuthController {
     return this.authService.logout(userId);
   }
 
-  @Post('me')
+  @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get current user' })
   @ApiResponse({ status: 200, description: 'User retrieved' })
   async getProfile(@GetUser() user: any) {
