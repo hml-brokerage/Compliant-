@@ -22,13 +22,13 @@ export class CacheService implements OnModuleInit {
       if (redisUrl) {
         this.redis = new Redis(redisUrl, {
           retryStrategy: (times) => {
-            if (times > 3) {
+            if (times > 2) {
               this.logger.warn('Redis connection failed, falling back to memory cache');
               return null;
             }
             return Math.min(times * 100, 2000);
           },
-          maxRetriesPerRequest: 3,
+          maxRetriesPerRequest: 2,
         });
 
         this.redis.on('connect', () => {
@@ -97,17 +97,24 @@ export class CacheService implements OnModuleInit {
 
   /**
    * Delete all keys matching a pattern
+   * Note: Use sparingly as this can be expensive with many keys
    */
   async delPattern(pattern: string): Promise<void> {
     try {
       if (this.redis) {
         const keys = await this.redis.keys(pattern);
         if (keys.length > 0) {
+          // Batch delete for better performance
+          if (keys.length > 100) {
+            this.logger.warn(`Deleting ${keys.length} keys matching pattern ${pattern}`);
+          }
           await this.redis.del(...keys);
         }
       } else {
-        // For memory cache, delete all keys that match the pattern
-        const regex = new RegExp(pattern.replace('*', '.*'));
+        // For memory cache, use simple pattern matching
+        // Escape special regex characters except *
+        const escapedPattern = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp('^' + escapedPattern.replace(/\*/g, '.*') + '$');
         for (const key of this.memoryCache.keys()) {
           if (regex.test(key)) {
             this.memoryCache.delete(key);

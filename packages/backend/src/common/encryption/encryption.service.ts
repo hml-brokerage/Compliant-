@@ -22,6 +22,7 @@ export class EncryptionService {
   private initializeKey() {
     try {
       const secret = this.configService.get<string>('ENCRYPTION_KEY');
+      const salt = this.configService.get<string>('ENCRYPTION_SALT') || 'compliant-platform-salt';
       
       if (!secret) {
         this.logger.warn('ENCRYPTION_KEY not set - field encryption will not be available');
@@ -29,7 +30,7 @@ export class EncryptionService {
       }
 
       // Derive a 256-bit key from the secret using scrypt
-      this.encryptionKey = scryptSync(secret, 'salt', this.keyLength);
+      this.encryptionKey = scryptSync(secret, salt, this.keyLength);
       this.logger.log('Encryption key initialized successfully');
     } catch (error) {
       this.logger.error(`Failed to initialize encryption key: ${error.message}`);
