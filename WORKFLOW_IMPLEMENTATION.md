@@ -352,10 +352,17 @@ deficiencies.push({
 
 #### 15. **Insurance Programs**
 - **InsurancePrograms Component:**
-  - Template program requirements
-  - Project-specific program customization
-  - Coverage limit templates
-  - Endorsement templates
+  - **AI-Powered PDF Import** - Upload insurance program PDFs and AI automatically extracts:
+    - Program name and description
+    - Multi-tier requirements (Tier 1, Tier 2, etc.)
+    - Trade-specific coverage requirements
+    - GL, WC, Auto, Umbrella policy limits per trade/tier
+    - Scope and endorsement requirements
+  - **Manual Creation** - Create program templates from scratch
+  - **Template Management** - Store and reuse program requirements across projects
+  - **Project Customization** - Apply program templates to specific projects
+  - **Preview Before Save** - Review AI-extracted data before confirming import
+  - **Update/Overwrite** - Replace existing programs with new PDF versions
 
 #### 16. **Admin Management**
 - **AdminManagement Component:**
@@ -460,19 +467,29 @@ FRONTEND_URL=http://localhost:5175
    - Extracts deductibles, additional insureds, endorsements
    - Works with GL, WC, Auto, Umbrella policies
 
-3. **Risk Assessment**
+3. **Insurance Program PDF Parsing**
+   - **AI-powered extraction of insurance programs from PDF documents**
+   - Extracts program name, description
+   - Identifies multi-tier requirements (Tier 1, Tier 2, etc.)
+   - Parses trade-specific coverage requirements
+   - Extracts GL, WC, Auto, Umbrella limits per trade/tier
+   - Identifies scope and endorsement requirements
+   - Returns structured JSON for preview and import
+   - Endpoint: `apiClient.integrations.Core.ParseProgramPDF()`
+
+4. **Risk Assessment**
    - Rates COI risk level: LOW, MEDIUM, HIGH, CRITICAL
    - Risk score 1-10 with detailed factors
    - Evaluates expiration risk, coverage adequacy
    - Checks subrogation waivers and endorsements
 
-4. **Review Recommendations**
+5. **Review Recommendations**
    - Generates 3-5 actionable recommendations for admin reviewers
    - Based on identified deficiencies
    - Expert insurance compliance guidance
    - Suggests specific corrective actions
 
-5. **Automated Deficiency Detection**
+6. **Automated Deficiency Detection**
    - Coverage amount checks (GL < $2M flagged)
    - Missing policy detection (WC, Auto, Umbrella)
    - Expiration date warnings (<30 days = critical)
