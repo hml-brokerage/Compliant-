@@ -26,8 +26,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  contractors Contractor[]
-  projects    Project[]
+  contractorsCreated Contractor[]  @relation("ContractorCreator")
+  projects           Project[]
   generatedCOIsAssigned GeneratedCOI[] @relation("AssignedAdmin")
 
   @@map("users")
@@ -52,6 +52,14 @@ model Contractor {
   contractorType ContractorType   @default(SUBCONTRACTOR)
   status         ContractorStatus @default(PENDING)
   insuranceStatus InsuranceStatus @default(PENDING)
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  phone           String?
+  company         String?
+  contractorType  ContractorType   @default(SUBCONTRACTOR)
+  status          ContractorStatus @default(PENDING)
+  insuranceStatus InsuranceStatus  @default(PENDING)
   
   // Broker information
   brokerName      String?
@@ -81,6 +89,10 @@ model Contractor {
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  createdById     String
+  createdBy       User             @relation("ContractorCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   insuranceDocuments    InsuranceDocument[]
   projectContractors    ProjectContractor[]
@@ -161,6 +173,7 @@ model ProjectContractor {
   @@map("project_contractors")
 }
 
+// Junction table for Project <-> Subcontractor
 model ProjectSubcontractor {
   id              String     @id @default(uuid())
   projectId       String
@@ -175,6 +188,7 @@ model ProjectSubcontractor {
 }
 
 // Generated COI (Certificate of Insurance) - Core of the workflow
+// Generated COI (Certificate of Insurance) Model
 model GeneratedCOI {
   id                String    @id @default(uuid())
   projectId         String
@@ -259,6 +273,7 @@ enum COIStatus {
   EXPIRED
 }
 
+// Insurance Document Model
 model InsuranceDocument {
   id             String         @id @default(uuid())
   contractorId   String
