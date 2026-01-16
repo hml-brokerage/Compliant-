@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 const API_VERSION = '1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 export const apiClient = axios.create({
   baseURL: API_URL,
@@ -9,21 +9,9 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
     'X-API-Version': API_VERSION,
   },
+  // Enable sending cookies with requests
+  withCredentials: true,
 });
-
-// Request interceptor to add auth token
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    // Ensure X-API-Version header is set for all requests
-    config.headers['X-API-Version'] = API_VERSION;
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
 
 // Response interceptor for token refresh
 apiClient.interceptors.response.use(
@@ -35,22 +23,15 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (refreshToken) {
-          const response = await axios.post(`${API_URL}/auth/refresh`, {
-            refreshToken,
-          });
+        // Attempt to refresh token - cookies are sent automatically
+        // Use apiClient to ensure X-API-Version header is included
+        // Set _retry flag to prevent infinite loop if refresh fails
+        await apiClient.post('/auth/refresh', {}, { _retry: true } as AxiosRequestConfig & { _retry: boolean });
 
-          const { accessToken } = response.data;
-          localStorage.setItem('accessToken', accessToken);
-
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return apiClient(originalRequest);
-        }
+        // Retry the original request
+        return apiClient(originalRequest);
       } catch (refreshError) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        // Use window.location for authentication redirects (acceptable for auth flow)
+        // Redirect to login on refresh failure
         if (typeof window !== 'undefined') {
           window.location.href = '/login';
         }
