@@ -20,7 +20,8 @@ export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     const { method, url, ip, headers } = request;
-    const userAgent = headers['user-agent'] || '';
+    // Sanitize user agent to prevent log injection
+    const userAgent = (headers['user-agent'] || '').substring(0, 200).replace(/[\r\n]/g, '');
     const userId = request.user?.id || 'anonymous';
     const now = Date.now();
 

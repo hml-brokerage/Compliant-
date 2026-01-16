@@ -1,7 +1,11 @@
 import { WinstonModuleOptions } from 'nest-winston';
 import * as winston from 'winston';
 
-// Define log format for different environments
+/**
+ * Get log format configuration based on environment
+ * Returns JSON format for production and pretty-print for development
+ * @returns Winston format configuration
+ */
 const getLogFormat = () => {
   const formats = [
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),

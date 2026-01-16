@@ -59,9 +59,13 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Token refreshed' })
   @ApiResponse({ status: 401, description: 'Invalid refresh token' })
   @ApiResponse({ status: 429, description: 'Too many requests' })
-  async refresh(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
+  async refresh(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+    @Body() body?: { refreshToken?: string }
+  ) {
     // Try to get refresh token from cookie first, fallback to body for backward compatibility
-    const refreshToken = request.cookies[REFRESH_TOKEN_COOKIE] || request.body.refreshToken;
+    const refreshToken = request.cookies[REFRESH_TOKEN_COOKIE] || body?.refreshToken;
     
     if (!refreshToken) {
       throw new UnauthorizedException('No refresh token provided');

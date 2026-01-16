@@ -35,6 +35,17 @@ export interface AuditLogData {
   userAgent?: string;
 }
 
+interface AuditLogFilters {
+  userId?: string;
+  action?: AuditAction;
+  resource?: AuditResource;
+  resourceId?: string;
+  startDate?: Date;
+  endDate?: Date;
+  skip?: number;
+  take?: number;
+}
+
 @Injectable()
 export class AuditService {
   constructor(
@@ -49,11 +60,15 @@ export class AuditService {
    */
   async log(data: AuditLogData): Promise<void> {
     try {
+      // Sanitize metadata to remove sensitive information
+      const sanitizedMetadata = this.sanitizeMetadata(data.metadata);
+      
       // Log to structured logger
       this.logger.log({
         message: `Audit: ${data.action} ${data.resource}`,
         context: 'Audit',
         ...data,
+        metadata: sanitizedMetadata,
       });
 
       // Store in database
@@ -64,9 +79,9 @@ export class AuditService {
           resource: data.resource,
           resourceId: data.resourceId,
           changes: data.changes || {},
-          metadata: data.metadata || {},
+          metadata: sanitizedMetadata || {},
           ipAddress: data.ipAddress,
-          userAgent: data.userAgent,
+          userAgent: data.userAgent ? data.userAgent.substring(0, 200) : null,
         },
       });
     } catch (error) {
@@ -82,6 +97,25 @@ export class AuditService {
         auditData: data,
       });
     }
+  }
+
+  /**
+   * Sanitize metadata to remove sensitive information
+   */
+  private sanitizeMetadata(metadata: any): any {
+    if (!metadata) return {};
+    
+    // Remove sensitive fields
+    const sanitized = { ...metadata };
+    const sensitiveFields = ['password', 'token', 'secret', 'apiKey', 'authorization'];
+    
+    for (const field of sensitiveFields) {
+      if (sanitized[field]) {
+        sanitized[field] = '[REDACTED]';
+      }
+    }
+    
+    return sanitized;
   }
 
   /**
@@ -144,17 +178,14 @@ export class AuditService {
   /**
    * Get all audit logs with filters
    */
-  async getAuditLogs(filters?: {
-    userId?: string;
-    action?: AuditAction;
-    resource?: AuditResource;
-    resourceId?: string;
-    startDate?: Date;
-    endDate?: Date;
-    skip?: number;
-    take?: number;
-  }) {
-    const where: any = {};
+  async getAuditLogs(filters?: AuditLogFilters) {
+    const where: {
+      userId?: string;
+      action?: string;
+      resource?: string;
+      resourceId?: string;
+      timestamp?: { gte?: Date; lte?: Date };
+    } = {};
 
     if (filters?.userId) where.userId = filters.userId;
     if (filters?.action) where.action = filters.action;
