@@ -154,52 +154,77 @@ Comprehensive list of all construction trades:
 - Example: "Plumbing" and "HVAC" for MEP contractor
 - Checkboxes for selecting multiple trades
 
-## 5. Programs Section (Admin Dashboard)
+## 5. Insurance Programs Section (Admin Dashboard)
 
-### Missing Feature: Programs Management
+### Feature: AI-Powered Insurance Program Management
 
 **New Quick Action Card:**
-- **Title**: "Programs"
-- **Description**: "Manage insurance program types and coverage levels"
-- **Link**: `/admin/programs`
+- **Title**: "Insurance Programs"
+- **Description**: "Manage insurance program templates with AI-powered PDF import"
+- **Link**: `/admin/insurance-programs`
 
-### Programs Page Structure:
+### Insurance Programs Features:
 
-**Program Types:**
-1. **Owner Controlled Insurance Program (OCIP)**
-   - Description: Owner purchases insurance for all contractors
-   - Coverage levels: Basic, Enhanced, Comprehensive
-   
-2. **Contractor Controlled Insurance Program (CCIP)**
-   - Description: General Contractor purchases insurance for subs
-   - Coverage levels: Standard, Premium
-   
-3. **Wrap-Up Insurance**
-   - Description: Single policy covering all contractors
-   - Coverage levels: Limited, Full
+**1. AI-Powered PDF Import:**
+- Upload insurance program PDF documents
+- AI automatically extracts and structures:
+  - Program name and description
+  - Multi-tier requirements (Tier 1, Tier 2, Tier 3, etc.)
+  - Trade-specific coverage requirements
+  - GL, WC, Auto, Umbrella policy limits per trade/tier
+  - Scope and endorsement requirements
+  - Additional insured requirements per tier
+- Preview AI-extracted data before confirming import
+- Saves time vs manual data entry
 
-4. **Traditional Insurance**
-   - Description: Each contractor provides own insurance
-   - Coverage levels: Minimum Required, Preferred
+**2. Manual Program Creation:**
+- Create program templates from scratch
+- Define custom tiers and trades
+- Set coverage requirements per tier per trade
+- Configure endorsement requirements
+- Add scope descriptions
 
-### Program Levels Configuration:
-Each program type has configurable levels with:
-- **Coverage Amounts**:
-  - General Liability: $1M - $5M per occurrence
-  - Umbrella: $1M - $10M
-  - Auto Liability: $1M - $2M
-  - Workers Compensation: Statutory
-  
-- **Requirements**:
-  - Additional Insureds: Yes/No
-  - Waiver of Subrogation: Yes/No
-  - Certificate Holders: List
-  - Notice of Cancellation: 30/60/90 days
+**3. Template Management:**
+- **Store & Reuse**: Save program templates for reuse across multiple projects
+- **Update/Overwrite**: Replace existing programs with new PDF versions
+- **Version Control**: Track program template changes over time
+- **Search & Filter**: Find programs by name, tier, or trade type
 
-### Program Assignment:
-- **Project Level**: Each project assigned to a program type and level
-- **Auto Requirements**: Insurance requirements automatically set based on program
-- **Compliance Tracking**: Dashboard shows program compliance status
+**4. Project Customization:**
+- **Apply Templates**: Apply saved program template to specific projects
+- **Customize Requirements**: Override template values for specific projects
+- **Trade Selection**: Choose which trades apply to each project
+- **Tier Assignment**: Assign contractors to appropriate tiers
+
+### Multi-Tier System:
+Programs support multiple tiers with varying requirements:
+- **Tier 1**: Highest risk trades (e.g., structural steel, roofing)
+  - Example: GL $2M/$5M aggregate, Umbrella $5M
+- **Tier 2**: Medium risk trades (e.g., electrical, plumbing)
+  - Example: GL $1M/$2M aggregate, Umbrella $2M
+- **Tier 3**: Lower risk trades (e.g., painting, flooring)
+  - Example: GL $1M/$2M aggregate, Umbrella $1M
+
+### Trade-Specific Requirements:
+Each construction trade can have different coverage requirements:
+- **Structural**: Concrete, Steel, Masonry, Carpentry
+- **Building Envelope**: Roofing, Waterproofing, Windows
+- **Mechanical**: HVAC, Plumbing, Fire Protection
+- **Electrical**: Electrical, Low Voltage, Security
+- **Interior**: Drywall, Painting, Flooring, Tile
+- **Specialty**: Elevators, Scaffolding, Demolition
+
+### Auto-Assignment to Projects:
+- Each project assigned to an insurance program template
+- Insurance requirements automatically populated from template
+- Compliance checking uses program requirements
+- Deficiencies identified based on program vs actual coverage
+
+### Compliance Tracking:
+- Dashboard shows program compliance status per project
+- Visual indicators for compliant/non-compliant trades
+- Drill-down into specific trade compliance
+- Export compliance reports per program
 
 ## 6. Implementation Priority
 
