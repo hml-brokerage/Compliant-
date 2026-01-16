@@ -647,10 +647,10 @@
 
 For questions about this plan or to discuss customization:
 
-- **Technical Questions:** [Technical Lead Email]
-- **Budget Questions:** [Finance Contact]
-- **Timeline Questions:** [Project Manager]
-- **General Inquiries:** [Business Contact]
+- Open an issue in this repository to discuss technical questions
+- Contact your finance team for budget-related questions
+- Schedule a stakeholder alignment meeting to review timeline and customization options
+- Reach out to your project manager or technical lead for general inquiries
 
 ---
 

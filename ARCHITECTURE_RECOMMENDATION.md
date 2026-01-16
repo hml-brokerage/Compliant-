@@ -458,7 +458,7 @@ The current codebase has served its purpose as a proof-of-concept but lacks the 
 - ✅ 22% cost savings over 3 years
 
 **Timeline:** 14 weeks (3.5 months) for complete migration
-**Investment:** $200k initial investment
+**Investment:** $225k initial investment (see REFACTORING_PLAN.md for detailed breakdown)
 **ROI:** $130k savings over 3 years + faster feature velocity
 
 This refactor is not just a technical improvement—it's a business investment that enables faster growth, reduces risk, and positions the platform for long-term success.
@@ -490,7 +490,7 @@ This refactor is not just a technical improvement—it's a business investment t
 - [Domain-Driven Design (DDD)](https://martinfowler.com/bliki/DomainDrivenDesign.html)
 
 ### D. Contact Information
-For questions or to discuss this recommendation, please contact:
-- **Project Lead:** [Name]
-- **Technical Architect:** [Name]
-- **Email:** [Email]
+For questions or to discuss this recommendation:
+- Open an issue in this repository
+- Contact your technical lead or project manager
+- Schedule a stakeholder alignment meeting to review these documents
