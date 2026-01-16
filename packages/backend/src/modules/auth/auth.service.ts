@@ -257,11 +257,20 @@ export class AuthService {
    */
   @Cron('0 2 * * *') // Daily at 2 AM
   async handleTokenCleanup() {
-    this.logger.log({
-      message: 'Starting automated token cleanup',
-      context: 'Auth',
-    });
-    
-    await this.cleanupExpiredTokens();
+    try {
+      this.logger.log({
+        message: 'Starting automated token cleanup',
+        context: 'Auth',
+      });
+      
+      await this.cleanupExpiredTokens();
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error({
+        message: 'Automated token cleanup failed',
+        context: 'Auth',
+        error: errorMessage,
+      });
+    }
   }
 }

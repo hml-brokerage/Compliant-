@@ -167,10 +167,10 @@ export class GeneratedCOIService {
 
     // Validate file URLs and types
     const policyFields = [
-      { field: 'glPolicyUrl', value: uploadPoliciesDto.glPolicyUrl, label: 'GL policy' },
-      { field: 'umbrellaPolicyUrl', value: uploadPoliciesDto.umbrellaPolicyUrl, label: 'Umbrella policy' },
-      { field: 'autoPolicyUrl', value: uploadPoliciesDto.autoPolicyUrl, label: 'Auto policy' },
-      { field: 'wcPolicyUrl', value: uploadPoliciesDto.wcPolicyUrl, label: 'WC policy' },
+      { value: uploadPoliciesDto.glPolicyUrl, label: 'GL policy' },
+      { value: uploadPoliciesDto.umbrellaPolicyUrl, label: 'Umbrella policy' },
+      { value: uploadPoliciesDto.autoPolicyUrl, label: 'Auto policy' },
+      { value: uploadPoliciesDto.wcPolicyUrl, label: 'WC policy' },
     ];
 
     for (const { value, label } of policyFields) {
