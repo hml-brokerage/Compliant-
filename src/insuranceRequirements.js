@@ -4,6 +4,17 @@
  */
 
 // ============================================================================
+// VALIDATION THRESHOLDS AND CONSTANTS
+// ============================================================================
+
+// Deductible thresholds for flagging high deductibles
+const HIGH_DEDUCTIBLE_THRESHOLD_GL = 25000; // $25k for GL
+const HIGH_DEDUCTIBLE_THRESHOLD_UMBRELLA = 50000; // $50k for Umbrella
+
+// Height-sensitive trades that should not have height/interior limitations
+const HEIGHT_SENSITIVE_TRADES = ['roofing', 'scaffold', 'exterior', 'siding', 'window', 'curtain wall'];
+
+// ============================================================================
 // BASE INSURANCE REQUIREMENTS - UNIVERSAL REQUIREMENTS FOR ALL PROJECTS
 // ============================================================================
 
@@ -253,23 +264,36 @@ export async function validateCOICompliance(coi, project, subTrades) {
   if (allRequirements.gl) {
     const glReq = allRequirements.gl;
 
-    // Check limits
-    if (coi.gl_each_occurrence < glReq.minimumLimits.eachOccurrence) {
+    // Check limits - Combined GL + Umbrella
+    // Liability limits mean GL and umbrella combined, so we check the total
+    const glEachOccurrence = coi.gl_each_occurrence || 0;
+    const umbrellaEachOccurrence = coi.umbrella_each_occurrence || 0;
+    const totalEachOccurrence = glEachOccurrence + umbrellaEachOccurrence;
+
+    const glAggregate = coi.gl_general_aggregate || 0;
+    const umbrellaAggregate = coi.umbrella_aggregate || 0;
+    const totalAggregate = glAggregate + umbrellaAggregate;
+
+    if (totalEachOccurrence < glReq.minimumLimits.eachOccurrence) {
       issues.push({
         type: 'GL_LIMIT_INSUFFICIENT',
-        field: 'Each Occurrence',
+        field: 'Each Occurrence (GL + Umbrella Combined)',
         required: glReq.minimumLimits.eachOccurrence,
-        provided: coi.gl_each_occurrence,
+        provided: totalEachOccurrence,
+        gl_provided: glEachOccurrence,
+        umbrella_provided: umbrellaEachOccurrence,
         severity: 'error',
       });
     }
 
-    if (coi.gl_general_aggregate < glReq.minimumLimits.generalAggregate) {
+    if (totalAggregate < glReq.minimumLimits.generalAggregate) {
       issues.push({
         type: 'GL_AGGREGATE_INSUFFICIENT',
-        field: 'General Aggregate',
+        field: 'General Aggregate (GL + Umbrella Combined)',
         required: glReq.minimumLimits.generalAggregate,
-        provided: coi.gl_general_aggregate,
+        provided: totalAggregate,
+        gl_provided: glAggregate,
+        umbrella_provided: umbrellaAggregate,
         severity: 'error',
       });
     }
@@ -359,6 +383,77 @@ export async function validateCOICompliance(coi, project, subTrades) {
         severity: 'error',
       });
     }
+
+    // Check for height/interior limitations
+    // Some contractors have restrictions like "interior work only" or "no work above X feet"
+    if (coi.gl_height_limitation || coi.gl_interior_only) {
+      const heightLimit = coi.gl_height_limitation_feet || 0;
+      const limitType = coi.gl_interior_only ? 'interior only' : `no work above ${heightLimit} feet`;
+      
+      issues.push({
+        type: 'HEIGHT_LIMITATION_PRESENT',
+        field: 'GL Height/Interior Limitation',
+        detail: `Policy has height/interior limitation: ${limitType}`,
+        heightLimit: heightLimit,
+        interiorOnly: coi.gl_interior_only || false,
+        severity: 'error',
+      });
+    }
+
+    // Check for employee exclusions
+    if (coi.gl_excludes_employees) {
+      issues.push({
+        type: 'EMPLOYEE_EXCLUSION_PRESENT',
+        field: 'GL Employee Exclusion',
+        detail: 'Policy excludes coverage for employees - this is not acceptable',
+        severity: 'error',
+      });
+    }
+
+    // Check for subcontractor exclusions
+    if (coi.gl_excludes_subcontractors) {
+      issues.push({
+        type: 'SUBCONTRACTOR_EXCLUSION_PRESENT',
+        field: 'GL Subcontractor Exclusion',
+        detail: 'Policy excludes coverage for subcontractors - this is not acceptable',
+        severity: 'error',
+      });
+    }
+
+    // Check for hammer clauses
+    // Hard hammer: Provision requiring hired subcontractors to carry certain limits/endorsements;
+    //              if not met, contractor has NO coverage in case of a claim
+    // Soft hammer: Same provision but with a higher deductible instead of no coverage
+    if (coi.gl_has_hammer_clause) {
+      const hammerType = coi.gl_hammer_clause_type || 'unknown';
+      const hammerDetails = hammerType === 'hard hammer' 
+        ? 'hired subcontractors must meet insurance requirements or NO coverage for contractor'
+        : hammerType === 'soft hammer'
+        ? 'hired subcontractors must meet insurance requirements or higher deductible applies'
+        : 'subcontractor insurance requirements may affect coverage';
+      
+      warnings.push({
+        type: 'HAMMER_CLAUSE_PRESENT',
+        field: 'GL Hammer Clause',
+        detail: `Policy contains ${hammerType} (${hammerDetails})`,
+        hammerType: hammerType,
+        severity: 'warning',
+      });
+    }
+
+    // Check for high deductibles
+    // Deductibles above $25,000 are considered high and may be problematic
+    const HIGH_DEDUCTIBLE_THRESHOLD = 25000;
+    if (coi.gl_deductible && coi.gl_deductible > HIGH_DEDUCTIBLE_THRESHOLD) {
+      warnings.push({
+        type: 'HIGH_DEDUCTIBLE',
+        field: 'GL Deductible',
+        detail: `Policy has high deductible of $${coi.gl_deductible.toLocaleString()}`,
+        deductible: coi.gl_deductible,
+        threshold: HIGH_DEDUCTIBLE_THRESHOLD,
+        severity: 'warning',
+      });
+    }
   }
 
   // ========================================================================
@@ -367,26 +462,8 @@ export async function validateCOICompliance(coi, project, subTrades) {
   if (allRequirements.umbrella) {
     const umbrellaReq = allRequirements.umbrella;
 
-    // Check limits
-    if (coi.umbrella_each_occurrence < umbrellaReq.minimumLimits.eachOccurrence) {
-      issues.push({
-        type: 'UMBRELLA_LIMIT_INSUFFICIENT',
-        field: 'Umbrella Each Occurrence',
-        required: umbrellaReq.minimumLimits.eachOccurrence,
-        provided: coi.umbrella_each_occurrence,
-        severity: 'error',
-      });
-    }
-
-    if (coi.umbrella_aggregate < umbrellaReq.minimumLimits.aggregate) {
-      issues.push({
-        type: 'UMBRELLA_AGGREGATE_INSUFFICIENT',
-        field: 'Umbrella Aggregate',
-        required: umbrellaReq.minimumLimits.aggregate,
-        provided: coi.umbrella_aggregate,
-        severity: 'error',
-      });
-    }
+    // NOTE: Umbrella limits are checked as part of combined GL + Umbrella validation above
+    // This section only validates umbrella-specific requirements like follow form and endorsements
 
     // Check follow form
     if (umbrellaReq.followForm && !coi.umbrella_follow_form) {
@@ -404,6 +481,19 @@ export async function validateCOICompliance(coi, project, subTrades) {
         type: 'UMBRELLA_WAIVER_SUBROGATION',
         field: 'Umbrella Waiver of Subrogation',
         severity: 'error',
+      });
+    }
+
+    // Check for high deductibles on umbrella
+    const UMBRELLA_HIGH_DEDUCTIBLE_THRESHOLD = 50000;
+    if (coi.umbrella_deductible && coi.umbrella_deductible > UMBRELLA_HIGH_DEDUCTIBLE_THRESHOLD) {
+      warnings.push({
+        type: 'HIGH_DEDUCTIBLE',
+        field: 'Umbrella Deductible',
+        detail: `Umbrella policy has high deductible of $${coi.umbrella_deductible.toLocaleString()}`,
+        deductible: coi.umbrella_deductible,
+        threshold: UMBRELLA_HIGH_DEDUCTIBLE_THRESHOLD,
+        severity: 'warning',
       });
     }
   }
