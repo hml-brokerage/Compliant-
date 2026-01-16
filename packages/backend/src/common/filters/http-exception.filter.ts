@@ -11,10 +11,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
+    // Environment-based error handling
+    const isDev = process.env.NODE_ENV === 'development';
+    
     const message =
       exception instanceof HttpException
-        ? exception.getResponse()
-        : { message: 'Internal server error' };
+        ? (isDev ? exception.getResponse() : 'Internal server error')
+        : (isDev ? { message: 'Internal server error', error: String(exception) } : { message: 'Internal server error' });
 
     response.status(status).json({
       statusCode: status,

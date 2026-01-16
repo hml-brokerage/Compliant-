@@ -6,6 +6,8 @@ import { UploadPoliciesDto } from './dto/upload-policies.dto';
 import { SignPoliciesDto } from './dto/sign-policies.dto';
 import { ReviewCOIDto } from './dto/review-coi.dto';
 import { COIStatus } from '@prisma/client';
+import { isValidFileUrl } from '../../common/utils/file-validation.util';
+import { sanitizeText } from '../../common/utils/sanitization.util';
 
 @Injectable()
 export class GeneratedCOIService {
@@ -135,10 +137,20 @@ export class GeneratedCOIService {
       );
     }
 
+    // Sanitize broker name fields to prevent XSS attacks
+    const sanitizedData = {
+      ...updateBrokerInfoDto,
+      brokerName: sanitizeText(updateBrokerInfoDto.brokerName),
+      brokerGlName: sanitizeText(updateBrokerInfoDto.brokerGlName),
+      brokerUmbrellaName: sanitizeText(updateBrokerInfoDto.brokerUmbrellaName),
+      brokerAutoName: sanitizeText(updateBrokerInfoDto.brokerAutoName),
+      brokerWcName: sanitizeText(updateBrokerInfoDto.brokerWcName),
+    };
+
     return this.prisma.generatedCOI.update({
       where: { id },
       data: {
-        ...updateBrokerInfoDto,
+        ...sanitizedData,
         status: COIStatus.AWAITING_BROKER_UPLOAD,
       },
     });
@@ -151,6 +163,20 @@ export class GeneratedCOIService {
       throw new BadRequestException(
         `Cannot upload policies. Current status: ${coi.status}`,
       );
+    }
+
+    // Validate file URLs and types
+    if (!isValidFileUrl(uploadPoliciesDto.glPolicyUrl)) {
+      throw new BadRequestException('Invalid file URL for GL policy');
+    }
+    if (!isValidFileUrl(uploadPoliciesDto.umbrellaPolicyUrl)) {
+      throw new BadRequestException('Invalid file URL for Umbrella policy');
+    }
+    if (!isValidFileUrl(uploadPoliciesDto.autoPolicyUrl)) {
+      throw new BadRequestException('Invalid file URL for Auto policy');
+    }
+    if (!isValidFileUrl(uploadPoliciesDto.wcPolicyUrl)) {
+      throw new BadRequestException('Invalid file URL for WC policy');
     }
 
     return this.prisma.generatedCOI.update({
