@@ -41,7 +41,11 @@ export class ContractorsController {
     @Query('limit') limit?: number,
     @Query('status') status?: string,
   ) {
-    return this.contractorsService.findAll(page, limit, status);
+    return this.contractorsService.findAll(
+      page ? Number(page) : 1,
+      limit ? Number(limit) : 10,
+      status,
+    );
   }
 
   @Get(':id')
