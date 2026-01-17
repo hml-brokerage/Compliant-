@@ -14,18 +14,24 @@ export class EmailService {
   private transporter: nodemailer.Transporter;
 
   constructor() {
+    // Validate required environment variables
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      throw new Error('SMTP_USER and SMTP_PASS environment variables are required');
+    }
+
     // Initialize SMTP transporter with Microsoft 365 settings
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.office365.com',
-      port: 587,
+      host: process.env.SMTP_HOST || 'smtp.office365.com',
+      port: parseInt(process.env.SMTP_PORT || '587', 10),
       secure: false, // Use STARTTLS
       auth: {
-        user: process.env.SMTP_USER || 'miriamsabel@insuretrack.onmicrosoft.com',
-        pass: process.env.SMTP_PASS || '260Hooper',
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
       tls: {
-        ciphers: 'SSLv3',
-        rejectUnauthorized: false,
+        // Use secure TLS settings - reject unauthorized certificates in production
+        rejectUnauthorized: process.env.NODE_ENV === 'production',
+        minVersion: 'TLSv1.2',
       },
     });
   }
@@ -33,7 +39,7 @@ export class EmailService {
   async sendEmail(options: EmailOptions): Promise<boolean> {
     try {
       const mailOptions = {
-        from: process.env.SMTP_USER || 'miriamsabel@insuretrack.onmicrosoft.com',
+        from: process.env.SMTP_USER,
         to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
         subject: options.subject,
         html: options.html,
@@ -55,21 +61,30 @@ export class EmailService {
   async sendSubcontractorWelcomeEmail(
     email: string,
     name: string,
-    tempPassword: string,
+    resetToken: string,
   ): Promise<boolean> {
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #7c3aed;">Welcome to Compliant Platform</h2>
         <p>Hello ${name},</p>
         <p>Your account has been created. You can now access the Compliant Platform to manage your insurance compliance.</p>
         <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
-          <h3 style="margin-top: 0;">Your Login Credentials:</h3>
+          <h3 style="margin-top: 0;">Set Your Password:</h3>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Temporary Password:</strong> ${tempPassword}</p>
-          <p style="color: #dc2626; font-size: 14px;">⚠️ Please change your password after first login.</p>
+          <p>Click the button below to set your password and activate your account:</p>
+          <p style="margin: 20px 0;">
+            <a href="${resetLink}" 
+               style="display: inline-block; padding: 12px 24px; background-color: #7c3aed; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">
+              Set Your Password
+            </a>
+          </p>
+          <p style="color: #6b7280; font-size: 12px;">This link will expire in 24 hours for security reasons.</p>
+          <p style="color: #6b7280; font-size: 12px;">If the button doesn't work, copy and paste this link into your browser:<br>${resetLink}</p>
         </div>
         <p><strong>Next Steps:</strong></p>
         <ol>
+          <li>Set your password using the link above</li>
           <li>Log in to the platform</li>
           <li>Add your insurance broker information</li>
           <li>Your broker will upload COI documents on your behalf</li>
@@ -81,7 +96,7 @@ export class EmailService {
 
     return this.sendEmail({
       to: email,
-      subject: 'Welcome to Compliant Platform - Account Created',
+      subject: 'Welcome to Compliant Platform - Set Your Password',
       html,
     });
   }
@@ -90,19 +105,27 @@ export class EmailService {
   async sendBrokerWelcomeEmail(
     email: string,
     name: string,
-    tempPassword: string,
+    resetToken: string,
     subcontractorName: string,
   ): Promise<boolean> {
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #10b981;">Welcome to Compliant Platform - Broker Portal</h2>
         <p>Hello ${name},</p>
         <p>You have been designated as the insurance broker for <strong>${subcontractorName}</strong>. Your account has been created to upload and manage COI documents.</p>
         <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
-          <h3 style="margin-top: 0;">Your Login Credentials:</h3>
+          <h3 style="margin-top: 0;">Set Your Password:</h3>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Temporary Password:</strong> ${tempPassword}</p>
-          <p style="color: #dc2626; font-size: 14px;">⚠️ Please change your password after first login.</p>
+          <p>Click the button below to set your password and activate your account:</p>
+          <p style="margin: 20px 0;">
+            <a href="${resetLink}" 
+               style="display: inline-block; padding: 12px 24px; background-color: #10b981; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">
+              Set Your Password
+            </a>
+          </p>
+          <p style="color: #6b7280; font-size: 12px;">This link will expire in 24 hours for security reasons.</p>
+          <p style="color: #6b7280; font-size: 12px;">If the button doesn't work, copy and paste this link into your browser:<br>${resetLink}</p>
         </div>
         <p><strong>Your Responsibilities:</strong></p>
         <ul>
@@ -117,7 +140,7 @@ export class EmailService {
 
     return this.sendEmail({
       to: email,
-      subject: 'Broker Account Created - Action Required',
+      subject: 'Broker Account Created - Set Your Password',
       html,
     });
   }

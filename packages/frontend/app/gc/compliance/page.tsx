@@ -23,9 +23,9 @@ export default function GCCompliancePage() {
       // Fetch compliance data
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/contractors?page=1&limit=100`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
           'X-API-Version': '1',
         },
+        credentials: 'include', // Send cookies with the request
       })
         .then(res => res.json())
         .then(data => {

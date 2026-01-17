@@ -49,9 +49,9 @@ export default function SubcontractorAutocomplete({ projectId, onSelect, onCreat
           `${process.env.NEXT_PUBLIC_API_URL}/contractors/search?q=${encodeURIComponent(searchTerm)}&limit=10`,
           {
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
               'X-API-Version': '1',
             },
+            credentials: 'include', // Send cookies with the request
           }
         );
         
