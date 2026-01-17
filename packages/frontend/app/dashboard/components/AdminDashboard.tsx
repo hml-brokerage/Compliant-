@@ -64,11 +64,15 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               <p className="text-3xl font-bold text-green-600 mt-2">8</p>
               <p className="text-sm text-gray-500 mt-1">Ongoing jobs</p>
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            <button
+              onClick={() => window.location.href = '/admin/coi-reviews'}
+              className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition cursor-pointer text-left"
+            >
               <h3 className="text-lg font-semibold text-gray-700">Pending COI Reviews</h3>
               <p className="text-3xl font-bold text-orange-600 mt-2">5</p>
               <p className="text-sm text-gray-500 mt-1">Awaiting approval</p>
-            </div>
+              <p className="text-xs text-blue-600 mt-2 hover:underline">Click to view all →</p>
+            </button>
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-lg font-semibold text-gray-700">Compliance Rate</h3>
               <p className="text-3xl font-bold text-purple-600 mt-2">87%</p>

@@ -20,7 +20,11 @@
     "incremental": true,
     "removeComments": false,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@compliant/shared": ["packages/shared/dist/index"]
+    }
   },
   "exclude": ["node_modules", "dist", "build", ".next"]
 }
