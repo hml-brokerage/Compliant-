@@ -7,7 +7,7 @@ import {
   getTradeInsuranceRequirements,
   searchTrades,
   getTradeCategoryName,
-} from '@compliant/shared/constants';
+} from '@compliant/shared';
 
 /**
  * Service for managing construction trades

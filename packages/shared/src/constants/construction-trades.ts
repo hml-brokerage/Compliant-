@@ -421,7 +421,7 @@ export const TRADE_INSURANCE_REQUIREMENTS = {
 
 // Helper function to get insurance requirements for a trade
 export function getTradeInsuranceRequirements(trade: string) {
-  return TRADE_INSURANCE_REQUIREMENTS[trade] || TRADE_INSURANCE_REQUIREMENTS.DEFAULT;
+  return (TRADE_INSURANCE_REQUIREMENTS as any)[trade] || TRADE_INSURANCE_REQUIREMENTS.DEFAULT;
 }
 
 // Helper function to search trades
@@ -435,7 +435,7 @@ export function searchTrades(query: string): string[] {
 // Helper function to get category for a trade
 export function getTradeCategoryName(trade: string): string | null {
   for (const [category, trades] of Object.entries(CONSTRUCTION_TRADE_CATEGORIES)) {
-    if (trades.includes(trade)) {
+    if ((trades as string[]).includes(trade)) {
       return category;
     }
   }
