@@ -69,6 +69,9 @@ model Contractor {
   status          ContractorStatus @default(PENDING)
   insuranceStatus InsuranceStatus  @default(PENDING)
 
+  // Trade specialties (array of construction trades)
+  trades String[] @default([])
+
   // Broker information
   brokerName    String?
   brokerEmail   String?
@@ -103,6 +106,7 @@ model Contractor {
   generatedCOIs         GeneratedCOI[]
   projectSubcontractors ProjectSubcontractor[]
 
+  @@index([trades])
   @@map("contractors")
 }
 

@@ -49,3 +49,6 @@ export const PATTERNS = {
   PHONE: /^\+?[\d\s-()]+$/,
   PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
 };
+
+// Export construction trades
+export * from './construction-trades';
