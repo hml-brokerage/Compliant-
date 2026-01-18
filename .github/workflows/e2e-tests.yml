@@ -87,7 +87,7 @@ jobs:
           pnpm start:prod &
           echo $! > backend.pid
           # Wait for backend to be ready
-          timeout 60 bash -c 'until curl -f http://localhost:3001/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -f http://localhost:3001/api/health; do sleep 2; done'
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
           REDIS_URL: redis://localhost:6379
@@ -256,7 +256,7 @@ jobs:
           FRONTEND_PID=$!
           
           # Wait for services
-          timeout 90 bash -c 'until curl -f http://localhost:3001/health && curl -f http://localhost:3000; do sleep 2; done'
+          timeout 90 bash -c 'until curl -f http://localhost:3001/api/health && curl -f http://localhost:3000; do sleep 2; done'
           
           # Run tests with specific browser and viewport
           cd ../..
