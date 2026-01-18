@@ -50,6 +50,7 @@ async function bootstrap() {
   });
 
   // API prefix (removed version from path since we use header-based versioning)
+  // NOTE: Controllers already have full paths, so this adds the /api prefix
   app.setGlobalPrefix("api");
 
   // Swagger documentation
