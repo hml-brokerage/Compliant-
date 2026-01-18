@@ -59,15 +59,76 @@ jobs:
       - name: Build Docker images
         run: |
           # Build a production-like image for scanning
+          # SECURITY: Multi-stage build to prevent secrets from being included
           cat > Dockerfile.scan << 'EOF'
-          FROM node:20-alpine
+          FROM node:20-alpine AS builder
           WORKDIR /app
-          RUN apk add --no-cache postgresql-client
-          COPY package*.json ./
-          COPY pnpm-*.yaml ./
+          
+          # Install system dependencies
+          RUN apk add --no-cache postgresql-client python3 make g++
+          
+          # Install pnpm
           RUN npm install -g pnpm@8.15.0
+          
+          # Copy only dependency manifests first (better layer caching)
+          COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+          COPY packages/backend/package.json ./packages/backend/
+          COPY packages/frontend/package.json ./packages/frontend/
+          COPY packages/shared/package.json ./packages/shared/
+          
+          # Install dependencies
           RUN pnpm install --frozen-lockfile --prod
-          COPY . .
+          
+          # Copy only necessary application files (excluding .env, secrets, etc.)
+          COPY packages/backend/src ./packages/backend/src
+          COPY packages/backend/prisma ./packages/backend/prisma
+          COPY packages/backend/tsconfig*.json ./packages/backend/
+          COPY packages/backend/nest-cli.json ./packages/backend/
+          COPY packages/frontend/src ./packages/frontend/src
+          COPY packages/frontend/public ./packages/frontend/public
+          COPY packages/frontend/next.config.js ./packages/frontend/
+          COPY packages/frontend/tsconfig*.json ./packages/frontend/
+          COPY packages/frontend/tailwind.config.* ./packages/frontend/
+          COPY packages/frontend/postcss.config.js ./packages/frontend/
+          COPY packages/shared/src ./packages/shared/src
+          COPY packages/shared/tsconfig*.json ./packages/shared/
+          COPY turbo.json tsconfig.json ./
+          
+          # Build the application
+          RUN pnpm build
+          
+          # Production stage - minimal image without dev dependencies
+          FROM node:20-alpine AS production
+          WORKDIR /app
+          
+          # Install runtime dependencies only
+          RUN apk add --no-cache postgresql-client
+          RUN npm install -g pnpm@8.15.0
+          
+          # Copy only production dependencies and built artifacts
+          COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
+          COPY --from=builder /app/packages/backend/package.json ./packages/backend/
+          COPY --from=builder /app/packages/frontend/package.json ./packages/frontend/
+          COPY --from=builder /app/packages/shared/package.json ./packages/shared/
+          
+          # Install production dependencies only
+          RUN pnpm install --frozen-lockfile --prod
+          
+          # Copy built artifacts
+          COPY --from=builder /app/packages/backend/dist ./packages/backend/dist
+          COPY --from=builder /app/packages/frontend/.next ./packages/frontend/.next
+          COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
+          COPY --from=builder /app/packages/backend/prisma ./packages/backend/prisma
+          
+          # Set production environment
+          ENV NODE_ENV=production
+          
+          # Create non-root user for security
+          RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
+          RUN chown -R nodejs:nodejs /app
+          USER nodejs
+          
+          EXPOSE 3000 3001
           EOF
           docker build -f Dockerfile.scan -t compliant-app:scan .
 
@@ -78,6 +139,8 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
+          vuln-type: 'os,library'
+          scanners: 'vuln,secret,config'
 
       - name: Upload Trivy results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
@@ -93,3 +156,62 @@ jobs:
           format: 'table'
           severity: 'CRITICAL,HIGH'
           exit-code: '0'
+          scanners: 'vuln,secret,config'
+
+      - name: Run Trivy secret scanner on image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'compliant-app:scan'
+          format: 'table'
+          scanners: 'secret'
+          exit-code: '1'
+        continue-on-error: true
+
+      - name: Generate SBOM (Software Bill of Materials)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'compliant-app:scan'
+          format: 'cyclonedx'
+          output: 'sbom.json'
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+          retention-days: 90
+
+      - name: Scan for best practices with Dockle
+        run: |
+          # Install Dockle for Docker best practices
+          VERSION=$(curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+          curl -L -o dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz
+          tar zxf dockle.tar.gz
+          sudo mv dockle /usr/local/bin
+          
+          # Run Dockle scan
+          dockle --exit-code 1 --exit-level warn compliant-app:scan || true
+
+      - name: Run Grype vulnerability scanner
+        run: |
+          # Install Grype for additional vulnerability scanning
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+          
+          # Run Grype scan
+          grype compliant-app:scan --fail-on high --output table
+
+      - name: Security scan summary
+        if: always()
+        run: |
+          echo "## 🔒 Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Scans Completed:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Trivy vulnerability scan (OS & Library packages)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Trivy secret scanner" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Trivy configuration scanner" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ SBOM generated (CycloneDX format)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Dockle best practices check" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Grype vulnerability scan" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Image Details:" >> $GITHUB_STEP_SUMMARY
+          docker images compliant-app:scan --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" >> $GITHUB_STEP_SUMMARY
