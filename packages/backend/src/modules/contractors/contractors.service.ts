@@ -4,6 +4,33 @@ import { CacheService } from '../cache/cache.service';
 import { CreateContractorDto } from './dto/create-contractor.dto';
 import { UpdateContractorDto } from './dto/update-contractor.dto';
 import { InsuranceStatus } from '@compliant/shared';
+import { Prisma } from '@prisma/client';
+
+// Define the return type for findOne including all relations
+type ContractorWithRelations = Prisma.ContractorGetPayload<{
+  include: {
+    createdBy: {
+      select: {
+        id: true;
+        email: true;
+        firstName: true;
+        lastName: true;
+      };
+    };
+    insuranceDocuments: true;
+    projectContractors: {
+      include: {
+        project: {
+          select: {
+            id: true;
+            name: true;
+            status: true;
+          };
+        };
+      };
+    };
+  };
+}>;
 
 @Injectable()
 export class ContractorsService {
@@ -95,13 +122,13 @@ export class ContractorsService {
     return result;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<ContractorWithRelations> {
     const cacheKey = `${this.CACHE_PREFIX}${id}`;
     
     // Try to get from cache first
     const cached = await this.cacheService.get(cacheKey);
     if (cached) {
-      return cached;
+      return cached as ContractorWithRelations;
     }
 
     const contractor = await this.prisma.contractor.findUnique({
@@ -182,13 +209,13 @@ export class ContractorsService {
   async getInsuranceStatus(id: string) {
     const contractor = await this.findOne(id);
     
-    // Type assertion since we know findOne returns a contractor with insuranceDocuments
-    const insuranceDocs = (contractor as any).insuranceDocuments || [];
+    // Now we can safely access insuranceDocuments without type assertion
+    const insuranceDocs = contractor.insuranceDocuments || [];
     const now = new Date();
 
-    const hasExpired = insuranceDocs.some((doc: any) => new Date(doc.expirationDate) < now);
-    const hasNonCompliant = insuranceDocs.some((doc: any) => doc.status === 'REJECTED');
-    const hasPending = insuranceDocs.some((doc: any) => doc.status === 'PENDING');
+    const hasExpired = insuranceDocs.some((doc) => new Date(doc.expirationDate) < now);
+    const hasNonCompliant = insuranceDocs.some((doc) => doc.status === 'REJECTED');
+    const hasPending = insuranceDocs.some((doc) => doc.status === 'PENDING');
 
     let insuranceStatus = InsuranceStatus.COMPLIANT;
     if (hasExpired) {
@@ -200,10 +227,10 @@ export class ContractorsService {
     }
 
     // Update contractor insurance status if changed
-    if (insuranceStatus !== (contractor as any).insuranceStatus) {
+    if (insuranceStatus !== contractor.insuranceStatus) {
       await this.prisma.contractor.update({
         where: { id },
-        data: { insuranceStatus: insuranceStatus as any },
+        data: { insuranceStatus },
       });
     }
 

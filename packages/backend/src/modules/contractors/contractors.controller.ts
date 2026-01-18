@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { ContractorsService } from './contractors.service';
@@ -36,16 +37,25 @@ export class ContractorsController {
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'status', required: false, type: String })
   @ApiResponse({ status: 200, description: 'Contractors retrieved successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid pagination parameters' })
   findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
+    @Query('page') page?: string,  // Query params are always strings from HTTP requests
+    @Query('limit') limit?: string,  // Query params are always strings from HTTP requests
     @Query('status') status?: string,
   ) {
-    return this.contractorsService.findAll(
-      page ? Number(page) : 1,
-      limit ? Number(limit) : 10,
-      status,
-    );
+    // Validate and convert pagination parameters
+    const pageNum = page ? parseInt(page, 10) : 1;
+    const limitNum = limit ? parseInt(limit, 10) : 10;
+
+    // Validate that conversion was successful and values are positive
+    if (isNaN(pageNum) || pageNum < 1) {
+      throw new BadRequestException('Invalid page parameter: must be a positive number');
+    }
+    if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
+      throw new BadRequestException('Invalid limit parameter: must be a positive number between 1 and 100');
+    }
+
+    return this.contractorsService.findAll(pageNum, limitNum, status);
   }
 
   @Get(':id')
