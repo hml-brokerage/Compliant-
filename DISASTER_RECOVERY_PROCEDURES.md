@@ -120,7 +120,7 @@ This document provides detailed disaster recovery procedures for the Compliant I
 
 **Verification:**
 
-\`\`\`bash
+```bash
 # Check if API is responding
 curl -f https://api.yourdomain.com/api/health
 # Expected if down: Connection refused or timeout
@@ -137,7 +137,7 @@ dig api.yourdomain.com
 # AWS: https://status.aws.amazon.com/
 # Azure: https://status.azure.com/
 # GCP: https://status.cloud.google.com/
-\`\`\`
+```
 
 #### Immediate Actions (First 5 Minutes)
 
@@ -183,7 +183,7 @@ dig api.yourdomain.com
 **Option A: Primary Infrastructure Recovery** (If cause is fixable)
 
 1. **Identify Root Cause** (Technical Lead + Cloud Provider)
-   \`\`\`bash
+   ```bash
    # Check cloud provider status
    aws health describe-events --filter eventTypeCategories=issue
    
@@ -192,10 +192,10 @@ dig api.yourdomain.com
    
    # Check infrastructure changes
    terraform show | grep modified
-   \`\`\`
+   ```
 
 2. **Fix Infrastructure** (Based on cause)
-   \`\`\`bash
+   ```bash
    # If network issue
    aws ec2 describe-route-tables
    aws ec2 describe-security-groups
@@ -205,10 +205,10 @@ dig api.yourdomain.com
    
    # If database issue
    aws rds describe-db-instances --db-instance-identifier compliant-prod
-   \`\`\`
+   ```
 
 3. **Restart Services in Order:**
-   \`\`\`bash
+   ```bash
    # 1. Database first
    aws rds start-db-instance --db-instance-identifier compliant-prod
    # Wait for available status
@@ -226,10 +226,10 @@ dig api.yourdomain.com
    
    # 5. Background workers
    kubectl rollout restart deployment/workers -n production
-   \`\`\`
+   ```
 
 4. **Verify Recovery:**
-   \`\`\`bash
+   ```bash
    # Health checks
    curl https://api.yourdomain.com/api/health
    
@@ -246,12 +246,12 @@ dig api.yourdomain.com
    
    # Check logs for errors
    kubectl logs -f deployment/backend -n production --tail=100
-   \`\`\`
+   ```
 
 **Option B: Failover to DR Region** (If primary region unrecoverable)
 
 1. **Initiate Failover** (Incident Commander approval required)
-   \`\`\`bash
+   ```bash
    # Update DNS to point to DR region
    # Using Route53
    aws route53 change-resource-record-sets \
@@ -273,10 +273,10 @@ dig api.yourdomain.com
    
    # Wait for DNS propagation (5-10 minutes)
    watch -n 10 'dig api.yourdomain.com'
-   \`\`\`
+   ```
 
 2. **Start DR Services:**
-   \`\`\`bash
+   ```bash
    # DR Region: us-west-2 (if primary was us-east-1)
    export AWS_REGION=us-west-2
    
@@ -293,10 +293,10 @@ dig api.yourdomain.com
    # Verify services
    kubectl get pods -n production
    kubectl logs -f deployment/backend -n production
-   \`\`\`
+   ```
 
 3. **Data Verification:**
-   \`\`\`bash
+   ```bash
    # Connect to DR database
    psql $DR_DATABASE_URL -c "SELECT version();"
    
@@ -311,10 +311,10 @@ dig api.yourdomain.com
    
    # Check replication lag
    psql $DR_DATABASE_URL -c "SELECT now() - pg_last_xact_replay_timestamp() AS replication_lag;"
-   \`\`\`
+   ```
 
 4. **Enable DR Redis:**
-   \`\`\`bash
+   ```bash
    # Start Redis in DR region
    aws elasticache create-cache-cluster \
      --cache-cluster-id compliant-redis-dr \
@@ -324,10 +324,10 @@ dig api.yourdomain.com
    
    # Update application config
    kubectl set env deployment/backend REDIS_URL=$DR_REDIS_URL -n production
-   \`\`\`
+   ```
 
 5. **Full System Test:**
-   \`\`\`bash
+   ```bash
    # Run smoke tests
    cd tests/smoke
    npm run test:smoke
@@ -335,12 +335,12 @@ dig api.yourdomain.com
    # Or manual tests
    curl https://api.yourdomain.com/api/health
    curl https://api.yourdomain.com/api/projects -H "Authorization: Bearer $TOKEN"
-   \`\`\`
+   ```
 
 #### Post-Recovery
 
 1. **Data Loss Assessment:**
-   \`\`\`bash
+   ```bash
    # Compare last backup timestamp with current time
    BACKUP_TIME=$(aws rds describe-db-snapshots \
      --db-instance-identifier compliant-prod \
@@ -352,10 +352,10 @@ dig api.yourdomain.com
    
    # Calculate data loss window
    # Should be within RPO (5 minutes for database)
-   \`\`\`
+   ```
 
 2. **Verify Critical Data:**
-   \`\`\`sql
+   ```sql
    -- Check recent transactions
    SELECT COUNT(*), DATE_TRUNC('minute', created_at) 
    FROM audit_log 
@@ -366,7 +366,7 @@ dig api.yourdomain.com
    -- Verify no data corruption
    SELECT COUNT(*) FROM users WHERE email IS NULL;  -- Should be 0
    SELECT COUNT(*) FROM projects WHERE name IS NULL;  -- Should be 0
-   \`\`\`
+   ```
 
 3. **Update Status:**
    ```bash
@@ -417,7 +417,7 @@ dig api.yourdomain.com
 
 **Verification:**
 
-\`\`\`bash
+```bash
 # Check database connectivity
 psql $DATABASE_URL -c "SELECT version();"
 
@@ -445,12 +445,12 @@ psql $DATABASE_URL -c "
 aws rds download-db-log-file-portion \
   --db-instance-identifier compliant-prod \
   --log-file-name error/postgresql.log.2024-01-18
-\`\`\`
+```
 
 #### Immediate Actions
 
 1. **Stop Write Traffic** (Prevent further corruption)
-   \`\`\`bash
+   ```bash
    # Scale down application to read-only mode
    kubectl set env deployment/backend READ_ONLY_MODE=true -n production
    
@@ -459,10 +459,10 @@ aws rds download-db-log-file-portion \
    
    # Update status page
    echo "Database maintenance in progress - read-only mode"
-   \`\`\`
+   ```
 
 2. **Assess Damage:**
-   \`\`\`sql
+   ```sql
    -- Check affected tables
    SELECT schemaname, tablename, last_vacuum, last_analyze
    FROM pg_stat_user_tables
@@ -475,7 +475,7 @@ aws rds download-db-log-file-portion \
    SELECT conname, conrelid::regclass AS table_name
    FROM pg_constraint
    WHERE contype = 'f' AND convalidated = false;
-   \`\`\`
+   ```
 
 3. **Determine Recovery Method:**
    - **Minor corruption**: VACUUM FULL, REINDEX
@@ -486,7 +486,7 @@ aws rds download-db-log-file-portion \
 
 **Option A: Minor Corruption (VACUUM/REINDEX)**
 
-\`\`\`bash
+```bash
 # Connect to database
 psql $DATABASE_URL
 
@@ -504,11 +504,11 @@ ANALYZE;
 # Verify
 SELECT COUNT(*) FROM users;
 SELECT COUNT(*) FROM projects;
-\`\`\`
+```
 
 **Option B: Restore from Latest Snapshot**
 
-\`\`\`bash
+```bash
 # List available snapshots
 aws rds describe-db-snapshots \
   --db-instance-identifier compliant-prod \
@@ -543,11 +543,11 @@ NEW_ENDPOINT=$(aws rds describe-db-instances \
   --output text)
 
 echo "New database endpoint: $NEW_ENDPOINT"
-\`\`\`
+```
 
 **Option C: Point-in-Time Recovery (PITR)**
 
-\`\`\`bash
+```bash
 # Restore to 10 minutes before corruption
 TARGET_TIME=$(date -u -d '10 minutes ago' +%Y-%m-%dT%H:%M:%S)
 
@@ -560,11 +560,11 @@ aws rds restore-db-instance-to-point-in-time \
 # Wait for completion
 aws rds wait db-instance-available \
   --db-instance-identifier compliant-prod-pitr
-\`\`\`
+```
 
 #### Switchover to Restored Database
 
-\`\`\`bash
+```bash
 # 1. Stop application
 kubectl scale deployment/backend --replicas=0 -n production
 kubectl scale deployment/workers --replicas=0 -n production
@@ -584,11 +584,11 @@ kubectl scale deployment/workers --replicas=2 -n production
 # 5. Verify application
 kubectl logs -f deployment/backend -n production --tail=50
 curl https://api.yourdomain.com/api/health
-\`\`\`
+```
 
 #### Data Reconciliation
 
-\`\`\`bash
+```bash
 # Compare old and new database
 # Save old database endpoint for reference
 OLD_DB=$DATABASE_URL
@@ -606,12 +606,12 @@ psql $OLD_DB -c "
 " > /tmp/missing_users.txt
 
 # Manual data recovery may be needed for transactions in the gap
-\`\`\`
+```
 
 #### Post-Recovery
 
 1. **Decommission Old Database** (After verification period)
-   \`\`\`bash
+   ```bash
    # Take final snapshot for forensics
    aws rds create-db-snapshot \
      --db-instance-identifier compliant-prod \
@@ -627,7 +627,7 @@ psql $OLD_DB -c "
      --db-instance-identifier compliant-prod-restored \
      --new-db-instance-identifier compliant-prod \
      --apply-immediately
-   \`\`\`
+   ```
 
 2. **Root Cause Analysis:**
    - Review database logs
@@ -655,7 +655,7 @@ psql $OLD_DB -c "
 
 **Verification:**
 
-\`\`\`bash
+```bash
 # Check recent logins
 psql $DATABASE_URL -c "
   SELECT user_id, ip_address, created_at, user_agent
@@ -682,12 +682,12 @@ psql $DATABASE_URL -c "
 aws cloudtrail lookup-events \
   --lookup-attributes AttributeKey=EventName,AttributeValue=ConsoleLogin \
   --max-results 50
-\`\`\`
+```
 
 #### Immediate Containment (First 15 Minutes)
 
 1. **Isolate Affected Systems:**
-   \`\`\`bash
+   ```bash
    # Block suspicious IP addresses
    aws ec2 authorize-security-group-ingress \
      --group-id sg-12345678 \
@@ -709,10 +709,10 @@ aws cloudtrail lookup-events \
          suspension_reason = 'Security incident'
      WHERE id IN (SELECT DISTINCT user_id FROM suspicious_activity);
    "
-   \`\`\`
+   ```
 
 2. **Revoke All Active Sessions:**
-   \`\`\`bash
+   ```bash
    # Flush Redis (invalidates all JWT tokens)
    redis-cli -u $REDIS_URL FLUSHDB
    
@@ -722,10 +722,10 @@ aws cloudtrail lookup-events \
    
    # Force all users to re-authenticate
    echo "All users will need to log in again"
-   \`\`\`
+   ```
 
 3. **Enable Enhanced Logging:**
-   \`\`\`bash
+   ```bash
    # Increase log level
    kubectl set env deployment/backend LOG_LEVEL=debug -n production
    
@@ -734,7 +734,7 @@ aws cloudtrail lookup-events \
    
    # Stream logs to security tool
    kubectl logs -f deployment/backend -n production | tee /var/log/security-incident.log
-   \`\`\`
+   ```
 
 4. **Notify Authorities:**
    - Inform security team
@@ -745,7 +745,7 @@ aws cloudtrail lookup-events \
 #### Investigation (First Hour)
 
 1. **Preserve Evidence:**
-   \`\`\`bash
+   ```bash
    # Take snapshots of all systems
    aws ec2 create-snapshot --volume-id vol-12345678 --description "Security incident evidence"
    aws rds create-db-snapshot --db-instance-identifier compliant-prod --db-snapshot-identifier security-incident-$(date +%Y%m%d)
@@ -760,10 +760,10 @@ aws cloudtrail lookup-events \
    # Secure evidence
    tar czf evidence-$(date +%Y%m%d-%H%M%S).tar.gz /tmp/*incident*
    aws s3 cp evidence-*.tar.gz s3://compliant-security-evidence/ --sse AES256
-   \`\`\`
+   ```
 
 2. **Determine Scope:**
-   \`\`\`sql
+   ```sql
    -- Identify affected users
    SELECT DISTINCT user_id, ip_address, user_agent, created_at
    FROM audit_log
@@ -784,7 +784,7 @@ aws cloudtrail lookup-events \
    AND created_at BETWEEN $BREACH_START AND $BREACH_END
    GROUP BY user_id, endpoint
    HAVING COUNT(*) > 1000;
-   \`\`\`
+   ```
 
 3. **Identify Attack Vector:**
    - SQL injection?
@@ -796,7 +796,7 @@ aws cloudtrail lookup-events \
 #### Remediation
 
 1. **Patch Vulnerability:**
-   \`\`\`bash
+   ```bash
    # If application vulnerability
    git checkout develop
    git pull origin develop
@@ -809,10 +809,10 @@ aws cloudtrail lookup-events \
    
    # Verify fix
    npm run test:security
-   \`\`\`
+   ```
 
 2. **Rotate All Secrets:**
-   \`\`\`bash
+   ```bash
    # Generate new secrets
    NEW_JWT_SECRET=$(openssl rand -base64 32)
    NEW_DB_PASSWORD=$(openssl rand -base64 32)
@@ -838,10 +838,10 @@ aws cloudtrail lookup-events \
    
    # Restart application to use new secrets
    kubectl rollout restart deployment/backend -n production
-   \`\`\`
+   ```
 
 3. **Strengthen Security:**
-   \`\`\`bash
+   ```bash
    # Enable MFA for all admin accounts
    # Implement IP whitelisting
    # Add rate limiting
@@ -855,11 +855,11 @@ aws cloudtrail lookup-events \
    
    # Enable AWS GuardDuty if not already
    aws guardduty create-detector --enable
-   \`\`\`
+   ```
 
 #### User Notification
 
-\`\`\`bash
+```bash
 # Send breach notification email (if required by law)
 # Template:
 
@@ -896,7 +896,7 @@ EOF
 
 # Send via email service
 # python scripts/send-breach-notification.py --template breach-notification.txt
-\`\`\`
+```
 
 #### Post-Incident
 
@@ -929,7 +929,7 @@ EOF
 
 #### Detection
 
-\`\`\`bash
+```bash
 # Check availability zones
 aws ec2 describe-availability-zones --region us-east-1
 
@@ -943,12 +943,12 @@ aws ec2 describe-instance-status \
 # Check RDS status
 aws rds describe-db-instances \
   --query 'DBInstances[*].[DBInstanceIdentifier,AvailabilityZone,DBInstanceStatus]'
-\`\`\`
+```
 
 #### Immediate Actions
 
 1. **Verify Multi-AZ is Working:**
-   \`\`\`bash
+   ```bash
    # RDS should auto-failover to standby
    aws rds describe-db-instances \
      --db-instance-identifier compliant-prod \
@@ -960,10 +960,10 @@ aws rds describe-db-instances \
      --source-identifier compliant-prod \
      --source-type db-instance \
      --duration 60
-   \`\`\`
+   ```
 
 2. **Failover Application to Different AZ:**
-   \`\`\`bash
+   ```bash
    # Kubernetes should auto-reschedule pods
    kubectl get pods -n production -o wide
    # Check which AZ pods are in
@@ -971,13 +971,13 @@ aws rds describe-db-instances \
    # If manual intervention needed
    kubectl drain node-in-failed-az --ignore-daemonsets --delete-emptydir-data
    kubectl get pods -n production  # Should be rescheduled
-   \`\`\`
+   ```
 
 #### Recovery
 
 Usually automatic with proper multi-AZ setup. Manual steps if needed:
 
-\`\`\`bash
+```bash
 # Force reschedule pods
 kubectl delete pods -n production -l app=backend
 
@@ -988,7 +988,7 @@ kubectl get pods -n production -o custom-columns=NAME:.metadata.name,NODE:.spec.
 aws elbv2 modify-target-group \
   --target-group-arn arn:aws:elasticloadbalancing:... \
   --health-check-enabled
-\`\`\`
+```
 
 ---
 
@@ -1001,7 +1001,7 @@ aws elbv2 modify-target-group \
 
 #### Detection
 
-\`\`\`bash
+```bash
 # Check pod status
 kubectl get pods -n production
 # STATUS: CrashLoopBackOff
@@ -1011,11 +1011,11 @@ kubectl logs deployment/backend -n production --tail=100
 
 # Check events
 kubectl get events -n production --sort-by='.lastTimestamp'
-\`\`\`
+```
 
 #### Diagnosis
 
-\`\`\`bash
+```bash
 # View detailed logs
 kubectl logs deployment/backend -n production --previous
 
@@ -1030,13 +1030,13 @@ kubectl describe pod backend-xxxxx-yyyyy -n production
 # - Missing environment variables
 # - Database connection failure
 # - Dependency unavailable
-\`\`\`
+```
 
 #### Recovery
 
 **Option A: Rollback to Previous Version**
 
-\`\`\`bash
+```bash
 # Check deployment history
 kubectl rollout history deployment/backend -n production
 
@@ -1051,11 +1051,11 @@ kubectl rollout status deployment/backend -n production
 
 # Verify
 curl https://api.yourdomain.com/api/health
-\`\`\`
+```
 
 **Option B: Fix and Redeploy**
 
-\`\`\`bash
+```bash
 # If missing environment variable
 kubectl set env deployment/backend MISSING_VAR=value -n production
 
@@ -1068,11 +1068,11 @@ kubectl set resources deployment/backend \
 # If configuration issue
 kubectl edit configmap backend-config -n production
 kubectl rollout restart deployment/backend -n production
-\`\`\`
+```
 
 **Option C: Emergency Hotfix**
 
-\`\`\`bash
+```bash
 # Build and deploy hotfix
 git checkout main
 git pull origin main
@@ -1092,7 +1092,7 @@ kubectl set image deployment/backend \
 
 # Monitor
 kubectl rollout status deployment/backend -n production
-\`\`\`
+```
 
 ---
 
@@ -1102,7 +1102,7 @@ kubectl rollout status deployment/backend -n production
 
 **Incident Start:**
 
-\`\`\`
+```
 To: Engineering Team, Management
 Subject: [P1 INCIDENT] Platform Outage - $(date)
 
@@ -1122,20 +1122,20 @@ BRIDGE: https://zoom.us/j/emergency
 SLACK: #incident-$(date +%Y%m%d)
 
 Updates every 15 minutes.
-\`\`\`
+```
 
 **Incident Updates (Every 15-30 minutes):**
 
-\`\`\`
+```
 UPDATE $(date +%H:%M):
 - Identified root cause: [description]
 - Started recovery procedure
 - ETA for resolution: [time]
-\`\`\`
+```
 
 **Incident Resolution:**
 
-\`\`\`
+```
 RESOLVED $(date -Iseconds)
 
 INCIDENT: Complete Infrastructure Failure
@@ -1148,7 +1148,7 @@ IMPACT: [Number of users affected]
 POST-MORTEM: Scheduled for [date/time]
 
 All systems operational.
-\`\`\`
+```
 
 ### External Communication
 
@@ -1183,7 +1183,7 @@ All systems operational.
 
 **Email Template:**
 
-\`\`\`
+```
 Subject: Service Disruption Update - Compliant Platform
 
 Dear Valued Customer,
@@ -1214,7 +1214,7 @@ We apologize for any inconvenience this may have caused. If you have any questio
 
 Sincerely,
 Compliant Team
-\`\`\`
+```
 
 ---
 
@@ -1225,7 +1225,7 @@ Compliant Team
 **First Monday of each month:**
 
 1. **Database Backup Verification** (30 minutes)
-   \`\`\`bash
+   ```bash
    # Restore latest backup to test environment
    ./scripts/test-database-restore.sh
    
@@ -1234,7 +1234,7 @@ Compliant Team
    
    # Document results
    echo "$(date): Monthly backup test - PASS" >> dr-test-log.txt
-   \`\`\`
+   ```
 
 2. **Application Deployment Test** (15 minutes)
    - Deploy to staging from scratch
@@ -1277,7 +1277,7 @@ Compliant Team
 
 ### Test Documentation Template
 
-\`\`\`
+```
 DR TEST REPORT
 
 Date: ___________________
@@ -1328,7 +1328,7 @@ PARTICIPANTS:
 SIGN-OFF:
 DR Manager: ______________________ Date: ______
 IT Director: ______________________ Date: ______
-\`\`\`
+```
 
 ---
 
@@ -1379,7 +1379,7 @@ IT Director: ______________________ Date: ______
 
 Each recovery procedure should follow this template:
 
-\`\`\`markdown
+```markdown
 # [Procedure Name]
 
 ## Overview
@@ -1398,14 +1398,14 @@ Brief description of when to use this procedure.
 ### 1. [Step Name]
 Detailed instructions...
 
-\`\`\`bash
+```bash
 # Commands to run
-\`\`\`
+```
 
 **Expected Output:**
-\`\`\`
+```
 Output that indicates success
-\`\`\`
+```
 
 **If it fails:**
 - Troubleshooting step 1
@@ -1422,11 +1422,11 @@ How to undo if needed.
 
 ## Notes
 Additional context or gotchas.
-\`\`\`
+```
 
 ### Quick Reference: Common Commands
 
-\`\`\`bash
+```bash
 # Check system status
 kubectl get pods -n production
 kubectl get services -n production
@@ -1460,7 +1460,7 @@ nslookup api.yourdomain.com
 # Network
 traceroute api.yourdomain.com
 curl -I https://api.yourdomain.com
-\`\`\`
+```
 
 ---
 
@@ -1505,7 +1505,7 @@ curl -I https://api.yourdomain.com
 
 ## Appendix B: Post-Mortem Template
 
-\`\`\`markdown
+```markdown
 # Post-Mortem: [Incident Name]
 
 **Date of Incident:** [Date]  
@@ -1574,7 +1574,7 @@ What can we do to prevent this from happening again?
 
 1. [Prevention measure 1]
 2. [Prevention measure 2]
-\`\`\`
+```
 
 ---
 
