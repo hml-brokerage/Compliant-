@@ -142,19 +142,64 @@ const gcSignatureUrl = `${process.env.FRONTEND_URL}/gc/hold-harmless/${holdHarml
 
 ## 4. Automatic Link Types Summary
 
-### Password Reset Links
+### 4.1 Password Reset Links
 - **Format**: `/reset-password?token={uniqueToken}`
 - **Expiry**: 24 hours
 - **Use**: Account activation and password reset
+- **Recipients**: New subcontractors, new brokers, password reset requests
 
-### Signature Links (Authenticated)
+### 4.2 Signature Links (Authenticated)
 - **Subcontractor**: `/subcontractor/hold-harmless/{agreementId}`
 - **GC**: `/gc/hold-harmless/{agreementId}`
 - **Security**: Requires authentication, uses session-based access
+- **Trigger**: Automatically sent when agreements are ready for signature
 
-### Review Links
-- **Admin COI Review**: `/admin/coi-reviews`
-- **Use**: Quick access for administrators to review pending documents
+### 4.3 Dashboard Access Links
+- **GC Dashboard**: `/gc/dashboard` - Sent when GC account is created
+- **Subcontractor Dashboard**: `/subcontractor/dashboard` - Sent when subcontractor is invited
+- **Broker Dashboard**: `/broker/dashboard` - Sent when broker is assigned to a subcontractor
+- **Admin Dashboard**: `/admin/dashboard` - Sent to administrators
+- **Manager Dashboard**: `/dashboard` - Sent to managers
+
+### 4.4 Workflow-Specific Links
+
+#### When GC is Entered/Created
+- **GC Portal Access**: `/gc/dashboard` with login credentials
+- **Project Management**: `/gc/projects` to view and manage projects
+- **Subcontractor Management**: `/gc/subcontractors` to view all subcontractors
+- **Compliance Overview**: `/gc/compliance` to view insurance compliance status
+
+#### When Subcontractor is Entered/Created
+- **Welcome Email with**: `/reset-password?token={token}` for account activation
+- **Dashboard Access**: `/subcontractor/dashboard` after activation
+- **Broker Setup**: `/subcontractor/broker` to add broker information
+- **Document Upload**: Instructions for broker to upload documents
+- **Compliance Status**: `/subcontractor/compliance` to view status
+
+#### When Broker is Entered/Assigned
+- **Broker Welcome Email**: `/reset-password?token={token}` for account activation
+- **COI Upload Portal**: `/broker/coi-upload/{subcontractorId}` to upload documents
+- **Dashboard**: `/broker/dashboard` to manage multiple subcontractors
+- **Document Templates**: Links to download policy templates
+- **Signature Workflow**: Automatic links for digital signatures
+
+#### When Broker Needs to Upload
+- **Upload Reminder Email** with:
+  - Direct upload link: `/broker/upload/{coiId}`
+  - Subcontractor details and requirements
+  - Deadline information
+  - Template downloads if first-time upload
+
+### 4.5 Review and Approval Links
+- **Admin COI Review**: `/admin/coi-reviews` - Quick access for pending reviews
+- **Manager Review**: `/manager/pending-approvals` - For manager approvals
+- **Specific COI Review**: `/admin/coi/{coiId}/review` - Direct link to specific COI
+
+### 4.6 Notification Links
+- **Expiring Policy Alerts**: Direct links to the specific policy needing renewal
+- **Deficiency Notifications**: Links to resubmit corrected documents
+- **Compliance Confirmation**: Links to view the approved COI
+- **Project Invitations**: Links for contractors to join projects
 
 ## 5. Email Template Features
 
