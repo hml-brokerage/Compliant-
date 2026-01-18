@@ -3,7 +3,7 @@
 import { useAuth } from '../../../lib/auth/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import apiClient from '@/lib/api/client';
+import apiClient from '../../../lib/api/client';
 
 interface Contractor {
   id: string;
