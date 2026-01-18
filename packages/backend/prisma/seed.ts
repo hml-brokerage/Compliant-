@@ -1,127 +1,129 @@
-import { PrismaClient } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
+import { PrismaClient } from "@prisma/client";
+import * as bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log("🌱 Seeding database...");
 
   // Create SUPER_ADMIN user with default credentials
-  const superAdminPassword = await bcrypt.hash('SuperAdmin123!@#', 10);
+  const superAdminPassword = await bcrypt.hash("SuperAdmin123!@#", 10);
   const superAdmin = await prisma.user.upsert({
-    where: { email: 'superadmin@compliant.com' },
+    where: { email: "superadmin@compliant.com" },
     update: {},
     create: {
-      email: 'superadmin@compliant.com',
+      email: "superadmin@compliant.com",
       password: superAdminPassword,
-      firstName: 'Super',
-      lastName: 'Admin',
-      role: 'SUPER_ADMIN',
+      firstName: "Super",
+      lastName: "Admin",
+      role: "SUPER_ADMIN",
       isActive: true,
     },
   });
 
-  console.log('✓ Created super admin user:', superAdmin.email);
+  console.log("✓ Created super admin user:", superAdmin.email);
 
   // Create admin user
-  const adminPassword = await bcrypt.hash('Admin123!@#', 10);
+  const adminPassword = await bcrypt.hash("Admin123!@#", 10);
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@compliant.com' },
+    where: { email: "admin@compliant.com" },
     update: {},
     create: {
-      email: 'admin@compliant.com',
+      email: "admin@compliant.com",
       password: adminPassword,
-      firstName: 'Admin',
-      lastName: 'User',
-      role: 'ADMIN',
+      firstName: "Admin",
+      lastName: "User",
+      role: "ADMIN",
       isActive: true,
     },
   });
 
-  console.log('✓ Created admin user:', admin.email);
+  console.log("✓ Created admin user:", admin.email);
 
   // Create sample manager user
-  const managerPassword = await bcrypt.hash('Manager123!@#', 10);
+  const managerPassword = await bcrypt.hash("Manager123!@#", 10);
   const manager = await prisma.user.upsert({
-    where: { email: 'manager@compliant.com' },
+    where: { email: "manager@compliant.com" },
     update: {},
     create: {
-      email: 'manager@compliant.com',
+      email: "manager@compliant.com",
       password: managerPassword,
-      firstName: 'Manager',
-      lastName: 'User',
-      role: 'MANAGER',
+      firstName: "Manager",
+      lastName: "User",
+      role: "MANAGER",
       isActive: true,
     },
   });
 
-  console.log('✓ Created manager user:', manager.email);
+  console.log("✓ Created manager user:", manager.email);
 
   // Create contractor user (GC role)
-  const contractorPassword = await bcrypt.hash('Contractor123!@#', 10);
+  const contractorPassword = await bcrypt.hash("Contractor123!@#", 10);
   const contractorUser = await prisma.user.upsert({
-    where: { email: 'contractor@compliant.com' },
+    where: { email: "contractor@compliant.com" },
     update: {},
     create: {
-      email: 'contractor@compliant.com',
+      email: "contractor@compliant.com",
       password: contractorPassword,
-      firstName: 'General',
-      lastName: 'Contractor',
-      role: 'CONTRACTOR',
+      firstName: "General",
+      lastName: "Contractor",
+      role: "CONTRACTOR",
       isActive: true,
     },
   });
 
-  console.log('✓ Created contractor user:', contractorUser.email);
+  console.log("✓ Created contractor user:", contractorUser.email);
 
   // Create subcontractor user
-  const subcontractorPassword = await bcrypt.hash('Subcontractor123!@#', 10);
+  const subcontractorPassword = await bcrypt.hash("Subcontractor123!@#", 10);
   const subcontractorUser = await prisma.user.upsert({
-    where: { email: 'subcontractor@compliant.com' },
+    where: { email: "subcontractor@compliant.com" },
     update: {},
     create: {
-      email: 'subcontractor@compliant.com',
+      email: "subcontractor@compliant.com",
       password: subcontractorPassword,
-      firstName: 'Sub',
-      lastName: 'Contractor',
-      role: 'SUBCONTRACTOR',
+      firstName: "Sub",
+      lastName: "Contractor",
+      role: "SUBCONTRACTOR",
       isActive: true,
     },
   });
 
-  console.log('✓ Created subcontractor user:', subcontractorUser.email);
+  console.log("✓ Created subcontractor user:", subcontractorUser.email);
 
   // Create broker user
-  const brokerPassword = await bcrypt.hash('Broker123!@#', 10);
+  const brokerPassword = await bcrypt.hash("Broker123!@#", 10);
   const brokerUser = await prisma.user.upsert({
-    where: { email: 'broker@compliant.com' },
+    where: { email: "broker@compliant.com" },
     update: {},
     create: {
-      email: 'broker@compliant.com',
+      email: "broker@compliant.com",
       password: brokerPassword,
-      firstName: 'Insurance',
-      lastName: 'Broker',
-      role: 'BROKER',
+      firstName: "Insurance",
+      lastName: "Broker",
+      role: "BROKER",
       isActive: true,
     },
   });
 
-  console.log('✓ Created broker user:', brokerUser.email);
+  console.log("✓ Created broker user:", brokerUser.email);
 
-  console.log('✅ Database seeding completed!');
-  console.log('');
-  console.log('📧 Login credentials:');
-  console.log('   Super Admin: superadmin@compliant.com / SuperAdmin123!@#');
-  console.log('   Admin: admin@compliant.com / Admin123!@#');
-  console.log('   Manager: manager@compliant.com / Manager123!@#');
-  console.log('   Contractor: contractor@compliant.com / Contractor123!@#');
-  console.log('   Subcontractor: subcontractor@compliant.com / Subcontractor123!@#');
-  console.log('   Broker: broker@compliant.com / Broker123!@#');
+  console.log("✅ Database seeding completed!");
+  console.log("");
+  console.log("📧 Login credentials:");
+  console.log("   Super Admin: superadmin@compliant.com / SuperAdmin123!@#");
+  console.log("   Admin: admin@compliant.com / Admin123!@#");
+  console.log("   Manager: manager@compliant.com / Manager123!@#");
+  console.log("   Contractor: contractor@compliant.com / Contractor123!@#");
+  console.log(
+    "   Subcontractor: subcontractor@compliant.com / Subcontractor123!@#",
+  );
+  console.log("   Broker: broker@compliant.com / Broker123!@#");
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error seeding database:', e);
+    console.error("❌ Error seeding database:", e);
     process.exit(1);
   })
   .finally(async () => {
