@@ -12,12 +12,15 @@ export interface EmailOptions {
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
   private transporter: nodemailer.Transporter;
+  private readonly emailProvider: string;
+  private readonly fromAddress: string;
 
   constructor() {
-    const emailProvider = process.env.EMAIL_PROVIDER || "smtp";
+    this.emailProvider = process.env.EMAIL_PROVIDER || "smtp";
+    this.fromAddress = process.env.SMTP_USER || process.env.EMAIL_FROM || "noreply@example.com";
 
     // Use test transporter if EMAIL_PROVIDER is set to 'test'
-    if (emailProvider === "test") {
+    if (this.emailProvider === "test") {
       this.logger.log("Using test email provider - emails will not be sent");
       this.transporter = nodemailer.createTransport({
         streamTransport: true,
@@ -53,9 +56,8 @@ export class EmailService {
 
   async sendEmail(options: EmailOptions): Promise<boolean> {
     try {
-      const emailProvider = process.env.EMAIL_PROVIDER || "smtp";
       const mailOptions = {
-        from: process.env.SMTP_USER || process.env.EMAIL_FROM || "noreply@example.com",
+        from: this.fromAddress,
         to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
         subject: options.subject,
         html: options.html,
@@ -64,7 +66,7 @@ export class EmailService {
 
       const info = await this.transporter.sendMail(mailOptions);
       
-      if (emailProvider === "test") {
+      if (this.emailProvider === "test") {
         this.logger.log(`Test email captured: ${options.subject} to ${mailOptions.to}`);
       } else {
         this.logger.log(`Email sent successfully: ${info.messageId}`);
