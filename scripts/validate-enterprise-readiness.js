@@ -301,6 +301,10 @@ class EnterpriseReadinessValidator {
     const score = this.calculateScore();
     
     console.log('');
+    log('IMPORTANT: This validation script checks for FILE EXISTENCE only.', colors.yellow);
+    log('It does NOT validate that features are fully functional or production-ready.', colors.yellow);
+    log('Manual testing and code review are required to verify actual functionality.', colors.yellow);
+    console.log('');
     log(`Total Checks: ${total}`, colors.cyan);
     log(`✓ Passed: ${this.results.passed}`, colors.green);
     log(`✗ Failed: ${this.results.failed}`, colors.red);
@@ -308,17 +312,18 @@ class EnterpriseReadinessValidator {
     console.log('');
     
     if (this.results.failed === 0 && this.results.warnings === 0) {
-      log(`Overall Score: ${score}% - EXCELLENT ✓`, colors.green);
-      log('Status: ✅ PRODUCTION READY', colors.green);
+      log(`File Existence Score: ${score}%`, colors.green);
+      log('Status: ✅ All expected files exist', colors.green);
+      log('Note: This does not guarantee production readiness', colors.yellow);
     } else if (this.results.failed === 0) {
-      log(`Overall Score: ${score}% - GOOD (with warnings)`, colors.yellow);
-      log('Status: ⚠️ PRODUCTION READY (address warnings)', colors.yellow);
+      log(`File Existence Score: ${score}%`, colors.yellow);
+      log('Status: ⚠️ All files exist (with warnings)', colors.yellow);
     } else if (this.results.failed <= 3) {
-      log(`Overall Score: ${score}% - NEEDS IMPROVEMENT`, colors.yellow);
-      log('Status: ⚠️ ADDRESS FAILURES BEFORE DEPLOYMENT', colors.yellow);
+      log(`File Existence Score: ${score}%`, colors.yellow);
+      log('Status: ⚠️ Some expected files are missing', colors.yellow);
     } else {
-      log(`Overall Score: ${score}% - CRITICAL ISSUES`, colors.red);
-      log('Status: ✗ NOT READY FOR PRODUCTION', colors.red);
+      log(`File Existence Score: ${score}%`, colors.red);
+      log('Status: ✗ Multiple expected files are missing', colors.red);
     }
     
     console.log('');
