@@ -1,6 +1,8 @@
 'use client';
 
 import { User } from '@compliant/shared';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface AdminDashboardProps {
   user: User;
@@ -8,6 +10,7 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow">
@@ -65,7 +68,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               <p className="text-sm text-gray-500 mt-1">Ongoing jobs</p>
             </div>
             <button
-              onClick={() => window.location.href = '/admin/coi-reviews'}
+              onClick={() => router.push('/admin/coi-reviews')}
               className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition cursor-pointer text-left"
             >
               <h3 className="text-lg font-semibold text-gray-700">Pending COI Reviews</h3>
@@ -83,7 +86,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a
+              <Link
                 href="/admin/general-contractors"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
               >
@@ -91,15 +94,15 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                 <p className="text-sm text-gray-600 mt-1">
                   Add and manage General Contractors (GCs)
                 </p>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/admin/projects"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
               >
                 <h4 className="font-semibold text-gray-900">Projects</h4>
                 <p className="text-sm text-gray-600 mt-1">Create and manage construction projects</p>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/admin/coi-reviews"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
               >
@@ -107,14 +110,14 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                 <p className="text-sm text-gray-600 mt-1">
                   Review and approve insurance documents submitted by brokers
                 </p>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/admin/reports"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
               >
                 <h4 className="font-semibold text-gray-900">Reports</h4>
                 <p className="text-sm text-gray-600 mt-1">Generate compliance and activity reports</p>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
