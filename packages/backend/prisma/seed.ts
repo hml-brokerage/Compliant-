@@ -6,16 +6,16 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // Create SUPER_ADMIN user with specified credentials
-  const superAdminPassword = await bcrypt.hash('260Hooper', 10);
+  // Create SUPER_ADMIN user with default credentials
+  const superAdminPassword = await bcrypt.hash('SuperAdmin123!@#', 10);
   const superAdmin = await prisma.user.upsert({
-    where: { email: 'miriamsabel@insuretrack.onmicrosoft.com' },
+    where: { email: 'superadmin@compliant.com' },
     update: {},
     create: {
-      email: 'miriamsabel@insuretrack.onmicrosoft.com',
+      email: 'superadmin@compliant.com',
       password: superAdminPassword,
-      firstName: 'Miriam',
-      lastName: 'Sabel',
+      firstName: 'Super',
+      lastName: 'Admin',
       role: 'SUPER_ADMIN',
       isActive: true,
     },
@@ -111,16 +111,16 @@ async function main() {
   // Create sample contractors
   const contractor1 = await prisma.contractor.create({
     data: {
-      name: 'John Doe',
-      email: 'john.doe@contractor.com',
-      phone: '+1-555-0101',
+      name: 'Sample Contractor 1',
+      email: 'contractor1@example.com',
+      phone: '+1-555-0001',
       company: 'ABC Construction',
       status: 'ACTIVE',
       insuranceStatus: 'COMPLIANT',
       brokerType: BrokerType.GLOBAL,
       brokerName: 'Global Insurance Broker',
-      brokerEmail: 'broker@globalinsurance.com',
-      brokerPhone: '+1-555-0200',
+      brokerEmail: 'broker@example.com',
+      brokerPhone: '+1-555-0002',
       brokerCompany: 'Global Insurance Services',
       createdById: admin.id,
     },
@@ -128,19 +128,19 @@ async function main() {
 
   const contractor2 = await prisma.contractor.create({
     data: {
-      name: 'Jane Smith',
-      email: 'jane.smith@contractor.com',
-      phone: '+1-555-0102',
+      name: 'Sample Contractor 2',
+      email: 'contractor2@example.com',
+      phone: '+1-555-0003',
       company: 'XYZ Builders',
       status: 'ACTIVE',
       insuranceStatus: 'PENDING',
       brokerType: BrokerType.PER_POLICY,
       brokerGlName: 'GL Policy Broker',
-      brokerGlEmail: 'gl@policybroker.com',
-      brokerGlPhone: '+1-555-0201',
+      brokerGlEmail: 'gl-broker@example.com',
+      brokerGlPhone: '+1-555-0004',
       brokerWcName: 'WC Policy Broker',
-      brokerWcEmail: 'wc@policybroker.com',
-      brokerWcPhone: '+1-555-0202',
+      brokerWcEmail: 'wc-broker@example.com',
+      brokerWcPhone: '+1-555-0005',
       createdById: manager.id,
     },
   });
@@ -225,7 +225,7 @@ async function main() {
   console.log('✅ Database seeding completed!');
   console.log('');
   console.log('📧 Login credentials:');
-  console.log('   Super Admin: miriamsabel@insuretrack.onmicrosoft.com / 260Hooper');
+  console.log('   Super Admin: superadmin@compliant.com / SuperAdmin123!@#');
   console.log('   Admin: admin@compliant.com / Admin123!@#');
   console.log('   Manager: manager@compliant.com / Manager123!@#');
   console.log('   Contractor: contractor@compliant.com / Contractor123!@#');
