@@ -123,7 +123,9 @@ export class EncryptionService {
       const encrypted = Buffer.from(encryptedHex, "hex");
 
       // Create decipher
-      const decipher = createDecipheriv(this.algorithm, this.encryptionKey, iv);
+      const decipher = createDecipheriv(this.algorithm, this.encryptionKey, iv, {
+        authTagLength: 16, // 128 bits - standard GCM auth tag length
+      });
       decipher.setAuthTag(authTag);
 
       // Decrypt the data
