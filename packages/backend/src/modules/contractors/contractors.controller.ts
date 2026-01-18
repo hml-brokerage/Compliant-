@@ -22,6 +22,7 @@ import { CreateContractorDto } from "./dto/create-contractor.dto";
 import { UpdateContractorDto } from "./dto/update-contractor.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { GetUser } from "../../common/decorators/get-user.decorator";
+import { User } from "@prisma/client";
 
 @ApiTags("Contractors")
 @ApiBearerAuth("JWT-auth")
@@ -82,7 +83,7 @@ export class ContractorsController {
     @Query("search") search?: string,
     @Query("trade") trade?: string,
     @Query("insuranceStatus") insuranceStatus?: string,
-    @GetUser() user?: any, // Get current user for filtering
+    @GetUser() user?: User, // Get current user for filtering
   ) {
     // Validate and convert pagination parameters
     const pageNum = page ? parseInt(page, 10) : 1;

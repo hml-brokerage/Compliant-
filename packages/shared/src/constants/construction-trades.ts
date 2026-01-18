@@ -421,11 +421,22 @@ export const TRADE_INSURANCE_REQUIREMENTS = {
   },
 };
 
+// Type for insurance requirements
+type InsuranceRequirements = {
+  glMinimum: number;
+  wcMinimum: number;
+  autoMinimum: number;
+  umbrellaMinimum: number;
+};
+
 // Helper function to get insurance requirements for a trade
-export function getTradeInsuranceRequirements(trade: string) {
+export function getTradeInsuranceRequirements(
+  trade: string,
+): InsuranceRequirements {
   return (
-    (TRADE_INSURANCE_REQUIREMENTS as any)[trade] ||
-    TRADE_INSURANCE_REQUIREMENTS.DEFAULT
+    (TRADE_INSURANCE_REQUIREMENTS as Record<string, InsuranceRequirements>)[
+      trade
+    ] || TRADE_INSURANCE_REQUIREMENTS.DEFAULT
   );
 }
 

@@ -2,8 +2,23 @@ import { Injectable, Inject, LoggerService } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
 import { PrismaService } from "../../config/prisma.service";
-import { ReminderType } from "@prisma/client";
+import {
+  ReminderType,
+  GeneratedCOI,
+  Project,
+  Contractor,
+} from "@prisma/client";
 import { EmailService } from "../email/email.service";
+
+// Type for COI data with relations
+type COIWithRelations = GeneratedCOI & {
+  project?: Project | null;
+  subcontractor?: Contractor | null;
+  glExpirationDate?: Date | null;
+  autoExpirationDate?: Date | null;
+  umbrellaExpirationDate?: Date | null;
+  wcExpirationDate?: Date | null;
+};
 
 /**
  * Service for automated policy expiration reminders
@@ -176,7 +191,7 @@ export class RemindersService {
     policyType: string,
     expirationDate: Date,
     recipients: string[],
-    coiData: any,
+    coiData: COIWithRelations,
   ): Promise<boolean> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -304,7 +319,7 @@ export class RemindersService {
     daysUntilExpiry: number,
     reminderType: ReminderType,
     recipients: string[],
-    coiData: any,
+    coiData: COIWithRelations,
   ): Promise<void> {
     const subject = this.buildEmailSubject(
       reminderType,
@@ -378,7 +393,7 @@ export class RemindersService {
     reminderType: ReminderType,
     policyType: string,
     daysUntilExpiry: number,
-    coiData: any,
+    coiData: COIWithRelations,
   ): string {
     const policyName = this.getPolicyName(policyType);
     const projectName = coiData.project?.name || "Unknown Project";
@@ -417,13 +432,20 @@ export class RemindersService {
         break;
     }
 
+    const policyExpirationDate = (() => {
+      const fieldName =
+        `${policyType.toLowerCase()}ExpirationDate` as keyof COIWithRelations;
+      const value = coiData[fieldName];
+      return value instanceof Date ? value : new Date();
+    })();
+
     return `
 ${urgencyLevel}: ${policyName} Policy Expiration Reminder
 
 Project: ${projectName}
 Subcontractor: ${subcontractorName}
 Policy Type: ${policyName}
-Expiration Date: ${new Date(coiData[`${policyType.toLowerCase()}ExpirationDate`] || new Date()).toLocaleDateString()}
+Expiration Date: ${policyExpirationDate.toLocaleDateString()}
 Days Until Expiry: ${daysUntilExpiry}
 
 ${actionRequired}

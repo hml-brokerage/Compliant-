@@ -31,7 +31,7 @@ export interface AuditLogEntry {
   action: AuditAction;
   resourceType: AuditResourceType;
   resourceId?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   ipAddress?: string;
   userAgent?: string;
   timestamp: Date;
@@ -127,7 +127,7 @@ export class AuditService {
     userId: string,
     resourceType: AuditResourceType,
     resourceId: string,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ): Promise<void> {
     await this.log({
       userId,
@@ -146,7 +146,7 @@ export class AuditService {
     action: AuditAction.CREATE | AuditAction.UPDATE | AuditAction.DELETE,
     resourceType: AuditResourceType,
     resourceId: string,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ): Promise<void> {
     await this.log({
       userId,
@@ -163,7 +163,7 @@ export class AuditService {
   async logSecurityEvent(
     userId: string | undefined,
     action: AuditAction,
-    details: Record<string, any>,
+    details: Record<string, unknown>,
     ipAddress?: string,
     userAgent?: string,
   ): Promise<void> {
@@ -211,7 +211,7 @@ export class AuditService {
       action: log.action as AuditAction,
       resourceType: log.resource as AuditResourceType,
       resourceId: log.resourceId ?? undefined,
-      details: log.changes as Record<string, any>,
+      details: log.changes as Record<string, unknown>,
       ipAddress: log.ipAddress ?? undefined,
       userAgent: log.userAgent ?? undefined,
       timestamp: log.timestamp,

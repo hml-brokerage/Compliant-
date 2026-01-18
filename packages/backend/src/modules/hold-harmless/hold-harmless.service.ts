@@ -2,9 +2,10 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../../config/prisma.service";
-import { HoldHarmlessStatus } from "@prisma/client";
+import { HoldHarmlessStatus, HoldHarmless, Prisma } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { EmailService } from "../email/email.service";
 
@@ -20,6 +21,8 @@ import { EmailService } from "../email/email.service";
  */
 @Injectable()
 export class HoldHarmlessService {
+  private readonly logger = new Logger(HoldHarmlessService.name);
+
   constructor(
     private prisma: PrismaService,
     private emailService: EmailService,
@@ -119,7 +122,11 @@ export class HoldHarmlessService {
   /**
    * Extract additional insureds from project data
    */
-  private extractAdditionalInsureds(project: any): string[] {
+  private extractAdditionalInsureds(project: {
+    gcName?: string | null;
+    entity?: string | null;
+    additionalInsureds?: string | null;
+  }): string[] {
     const insureds: string[] = [];
 
     if (project.gcName) insureds.push(project.gcName);
@@ -148,7 +155,11 @@ export class HoldHarmlessService {
   /**
    * Send signature notification to subcontractor (authenticated access)
    */
-  private async sendSignatureLinkToSubcontractor(holdHarmless: any) {
+  private async sendSignatureLinkToSubcontractor(holdHarmless: HoldHarmless) {
+    if (!holdHarmless.subcontractorEmail) {
+      throw new BadRequestException("Subcontractor email is required");
+    }
+
     const signatureUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/subcontractor/hold-harmless/${holdHarmless.id}`;
 
     const html = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -257,7 +268,11 @@ export class HoldHarmlessService {
   /**
    * Notify GC to sign (without token link)
    */
-  private async notifyGCToSign(holdHarmless: any) {
+  private async notifyGCToSign(holdHarmless: HoldHarmless) {
+    if (!holdHarmless.gcEmail) {
+      throw new BadRequestException("GC email is required");
+    }
+
     const signatureUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/gc/hold-harmless/${holdHarmless.id}`;
 
     const html = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -358,11 +373,18 @@ export class HoldHarmlessService {
   /**
    * Notify all parties when hold harmless is complete
    */
-  private async notifyAllParties(holdHarmless: any) {
+  private async notifyAllParties(holdHarmless: HoldHarmless) {
     const recipients = [
       holdHarmless.subcontractorEmail,
       holdHarmless.gcEmail,
-    ].filter(Boolean);
+    ].filter((email): email is string => email !== null && email !== undefined);
+
+    if (recipients.length === 0) {
+      this.logger.warn(
+        "No valid recipient emails for hold harmless notification",
+      );
+      return;
+    }
 
     // Send completion notification email to all parties
     const subSignedDate = holdHarmless.subSignedAt
@@ -443,7 +465,10 @@ export class HoldHarmlessService {
   /**
    * Check if a party can sign based on current status
    */
-  private canSign(holdHarmless: any, party: "SUBCONTRACTOR" | "GC"): boolean {
+  private canSign(
+    holdHarmless: HoldHarmless,
+    party: "SUBCONTRACTOR" | "GC",
+  ): boolean {
     if (party === "SUBCONTRACTOR") {
       return holdHarmless.status === HoldHarmlessStatus.PENDING_SUB_SIGNATURE;
     }
@@ -487,7 +512,7 @@ export class HoldHarmlessService {
     status?: HoldHarmlessStatus;
     pendingSignature?: boolean;
   }) {
-    const where: any = {};
+    const where: Prisma.HoldHarmlessWhereInput = {};
 
     if (filters?.status) {
       where.status = filters.status;

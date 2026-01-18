@@ -162,14 +162,17 @@ export class EncryptionService {
    * @param obj The object to encrypt
    * @param fields Array of field names to encrypt
    */
-  encryptFields<T extends Record<string, any>>(obj: T, fields: string[]): T {
+  encryptFields<T extends Record<string, unknown>>(
+    obj: T,
+    fields: string[],
+  ): T {
     const result = { ...obj };
 
     for (const field of fields) {
       if (result[field] && typeof result[field] === "string") {
-        const encrypted = this.encrypt(result[field]);
+        const encrypted = this.encrypt(result[field] as string);
         if (encrypted) {
-          (result as any)[field] = encrypted;
+          (result as Record<string, unknown>)[field] = encrypted;
         }
       }
     }
@@ -182,18 +185,21 @@ export class EncryptionService {
    * @param obj The object to decrypt
    * @param fields Array of field names to decrypt
    */
-  decryptFields<T extends Record<string, any>>(obj: T, fields: string[]): T {
+  decryptFields<T extends Record<string, unknown>>(
+    obj: T,
+    fields: string[],
+  ): T {
     const result = { ...obj };
 
     for (const field of fields) {
       if (
         result[field] &&
         typeof result[field] === "string" &&
-        this.isEncrypted(result[field])
+        this.isEncrypted(result[field] as string)
       ) {
-        const decrypted = this.decrypt(result[field]);
+        const decrypted = this.decrypt(result[field] as string);
         if (decrypted) {
-          (result as any)[field] = decrypted;
+          (result as Record<string, unknown>)[field] = decrypted;
         }
       }
     }

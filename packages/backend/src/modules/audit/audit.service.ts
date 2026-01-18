@@ -1,5 +1,6 @@
 import { Injectable, Inject, LoggerService } from "@nestjs/common";
 import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
+import { Prisma } from "@prisma/client";
 import { PrismaService } from "../../config/prisma.service";
 
 export enum AuditAction {
@@ -29,8 +30,8 @@ export interface AuditLogData {
   action: AuditAction;
   resource: AuditResource;
   resourceId?: string;
-  changes?: any;
-  metadata?: any;
+  changes?: unknown;
+  metadata?: unknown;
   ipAddress?: string;
   userAgent?: string;
 }
@@ -78,8 +79,9 @@ export class AuditService {
           action: data.action,
           resource: data.resource,
           resourceId: data.resourceId ?? null,
-          changes: data.changes ?? {},
-          metadata: sanitizedMetadata ?? {},
+          changes: (data.changes as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+          metadata:
+            (sanitizedMetadata as Prisma.InputJsonValue) ?? Prisma.JsonNull,
           ipAddress: data.ipAddress ?? null,
           userAgent: data.userAgent ? data.userAgent.substring(0, 200) : null,
         },
@@ -103,11 +105,12 @@ export class AuditService {
   /**
    * Sanitize metadata to remove sensitive information
    */
-  private sanitizeMetadata(metadata: any): any {
+  private sanitizeMetadata(metadata: unknown): Record<string, unknown> {
     if (!metadata) return {};
+    if (typeof metadata !== "object" || metadata === null) return {};
 
     // Remove sensitive fields
-    const sanitized = { ...metadata };
+    const sanitized = { ...(metadata as Record<string, unknown>) };
     const sensitiveFields = [
       "password",
       "token",

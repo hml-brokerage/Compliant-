@@ -13,6 +13,7 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
+    "@compliant/shared": "workspace:*",
     "@tanstack/react-query": "^5.17.9",
     "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",
@@ -27,7 +28,6 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@compliant/shared": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
     "@types/jest": "^30.0.0",
