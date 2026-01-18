@@ -1,9 +1,9 @@
 'use client';
 
-import { useAuth } from '@/lib/auth/AuthContext';
+import { useAuth } from '../../../../lib/auth/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import apiClient from '@/lib/api/client';
+import apiClient from '../../../../lib/api/client';
 
 export default function NewProjectPage() {
   const { user, loading, isAuthenticated } = useAuth();
