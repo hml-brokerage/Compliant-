@@ -97,7 +97,7 @@ jobs:
         run: |
           cd packages/backend
           # Start the backend in background
-          NODE_ENV=test pnpm start:prod &
+          pnpm start:prod &
           BACKEND_PID=$!
           
           # Wait for backend to start
@@ -113,7 +113,12 @@ jobs:
           REDIS_URL: redis://localhost:6379
           JWT_SECRET: test-jwt-secret-key-for-integration-tests-32chars
           JWT_REFRESH_SECRET: test-jwt-refresh-secret-key-integration-tests
-          NODE_ENV: test
+          NODE_ENV: production
+          EMAIL_PROVIDER: test
+          EMAIL_FROM: test@example.com
+          ADMIN_EMAIL: admin@example.com
+          ENCRYPTION_KEY: dGVzdC1lbmNyeXB0aW9uLWtleS1mb3ItdGVzdGluZzEyMzQ1Njc4OTA=
+          ENCRYPTION_SALT: 0123456789abcdef0123456789abcdef
         continue-on-error: true
 
       - name: Upload test results
