@@ -63,7 +63,32 @@ async function captureScreenshot(page: Page, name: string, fullPage: boolean = f
   const filename = join(SCREENSHOTS_DIR, `${name}.png`);
   
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000); // Wait for any client-side rendering
+  
+  // Wait for React to hydrate and auth check to complete
+  // Check if we're on a login page (which means auth failed)
+  const isLoginPage = page.url().includes('/login');
+  
+  if (!isLoginPage) {
+    // Wait for authenticated content to appear (not just a loading spinner)
+    try {
+      // Wait for any of these selectors which indicate authenticated content is loaded
+      await Promise.race([
+        page.waitForSelector('button:has-text("Logout")', { timeout: 5000 }),
+        page.waitForSelector('button:has-text("Log Out")', { timeout: 5000 }),
+        page.waitForSelector('[data-testid="dashboard-content"]', { timeout: 5000 }),
+        page.waitForSelector('.dashboard', { timeout: 5000 }),
+        // For API docs page
+        page.waitForSelector('.swagger-ui', { timeout: 5000 }),
+      ]);
+    } catch (e) {
+      // If none of the above selectors are found, just wait a bit more
+      await page.waitForTimeout(3000);
+    }
+  } else {
+    // If we're on login page, just wait a moment
+    await page.waitForTimeout(1000);
+  }
+  
   await page.screenshot({ path: filename, fullPage });
   
   console.log(`  ✓ Captured: ${name}.png`);
