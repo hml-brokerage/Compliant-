@@ -16,9 +16,12 @@ export class EmailService {
   constructor() {
     // Validate required environment variables
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      throw new Error(
-        "SMTP_USER and SMTP_PASS environment variables are required",
+      this.logger.warn(
+        "SMTP_USER and SMTP_PASS environment variables not set. Email functionality will be disabled.",
       );
+      // Create a dummy transporter that logs instead of sending
+      this.transporter = null as any;
+      return;
     }
 
     // Initialize SMTP transporter with Microsoft 365 settings
@@ -39,6 +42,14 @@ export class EmailService {
   }
 
   async sendEmail(options: EmailOptions): Promise<boolean> {
+    // If transporter is not initialized (no SMTP credentials), just log
+    if (!this.transporter) {
+      this.logger.log(
+        `[EMAIL DISABLED] Would send email to: ${options.to}, subject: ${options.subject}`,
+      );
+      return true; // Return true to not break workflows
+    }
+
     try {
       const mailOptions = {
         from: process.env.SMTP_USER,
