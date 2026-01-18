@@ -810,7 +810,7 @@ gunzip < backup_20240101.sql.gz | psql -h localhost -U compliant compliant_prod
 
 ## Performance Optimization
 
-See [PERFORMANCE_OPTIMIZATIONS.md](./PERFORMANCE_OPTIMIZATIONS.md) for detailed performance tuning.
+See [PERFORMANCE_OPTIMIZATION.md](./docs/PERFORMANCE_OPTIMIZATION.md) for detailed performance tuning.
 
 ---
 

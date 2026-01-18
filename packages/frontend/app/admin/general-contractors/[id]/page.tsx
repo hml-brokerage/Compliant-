@@ -2,7 +2,7 @@
 
 import { useAuth } from '../../../../lib/auth/AuthContext';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import apiClient from '../../../../lib/api/client';
 import { ErrorMessage, LoadingSpinner } from '../../../../components/ErrorMessage';
 import { AxiosError } from 'axios';
@@ -47,14 +47,7 @@ export default function ContractorDetailPage() {
     }
   }, [loading, isAuthenticated, router]);
 
-  useEffect(() => {
-    if (isAuthenticated && contractorId) {
-      fetchContractorDetails();
-      fetchContractorProjects();
-    }
-  }, [isAuthenticated, contractorId]);
-
-  const fetchContractorDetails = async () => {
+  const fetchContractorDetails = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -79,16 +72,23 @@ export default function ContractorDetailPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [contractorId]);
 
-  const fetchContractorProjects = async () => {
+  const fetchContractorProjects = useCallback(async () => {
     try {
       const response = await apiClient.get(`/projects/contractor/${contractorId}`);
       setProjects(response.data);
     } catch (err) {
       console.error('Error fetching contractor projects:', err);
     }
-  };
+  }, [contractorId]);
+
+  useEffect(() => {
+    if (isAuthenticated && contractorId) {
+      fetchContractorDetails();
+      fetchContractorProjects();
+    }
+  }, [isAuthenticated, contractorId, fetchContractorDetails, fetchContractorProjects]);
 
   if (loading || !isAuthenticated) {
     return <LoadingSpinner message="Authenticating..." />;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../lib/auth/AuthContext';
 import { ErrorMessage, LoadingSpinner } from '../../../../components/ErrorMessage';
@@ -39,13 +39,7 @@ export default function BrokerUploadSubPage() {
   const [coiDocument, setCoiDocument] = useState<File | null>(null);
   const [holdHarmless, setHoldHarmless] = useState<File | null>(null);
 
-  useEffect(() => {
-    if (subId) {
-      fetchSubcontractor();
-    }
-  }, [subId]);
-
-  const fetchSubcontractor = async () => {
+  const fetchSubcontractor = useCallback(async () => {
     setLoading(true);
     try {
       // TODO: Implement API call to fetch specific subcontractor
@@ -70,7 +64,13 @@ export default function BrokerUploadSubPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [subId, router]);
+
+  useEffect(() => {
+    if (subId) {
+      fetchSubcontractor();
+    }
+  }, [subId, fetchSubcontractor]);
 
   const handleFileChange = (
     policyType: keyof typeof policies,

@@ -2,7 +2,7 @@
 
 import { useAuth } from '../../../../../../lib/auth/AuthContext';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import apiClient from '../../../../../../lib/api/client';
 
 interface Contractor {
@@ -49,13 +49,7 @@ export default function NewProjectForGCPage() {
     }
   }, [loading, isAuthenticated, router]);
 
-  useEffect(() => {
-    if (isAuthenticated && contractorId) {
-      fetchContractorDetails();
-    }
-  }, [isAuthenticated, contractorId]);
-
-  const fetchContractorDetails = async () => {
+  const fetchContractorDetails = useCallback(async () => {
     try {
       const response = await apiClient.get(`/contractors/${contractorId}`);
       setContractor(response.data);
@@ -63,7 +57,13 @@ export default function NewProjectForGCPage() {
       setError('Error connecting to server');
       console.error('Error fetching contractor:', err);
     }
-  };
+  }, [contractorId]);
+
+  useEffect(() => {
+    if (isAuthenticated && contractorId) {
+      fetchContractorDetails();
+    }
+  }, [isAuthenticated, contractorId, fetchContractorDetails]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({
