@@ -88,15 +88,23 @@ async function tryLogin(page) {
     await page.goto(`${BASE_URL}/login`, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
     
+    // Wait for login form to be visible
+    await page.waitForSelector('input#email', { timeout: 10000 });
+    await page.waitForTimeout(1000); // Give extra time for React to hydrate
+    
+    // Use the admin credentials from the seed
+    const adminEmail = 'admin@compliant.com';
+    const adminPassword = 'Admin123!@#';
+    
     // Fill in login form
-    await page.fill('input[type="email"], input[name="email"]', TEST_EMAIL);
-    await page.fill('input[type="password"], input[name="password"]', TEST_PASSWORD);
+    await page.fill('input#email', adminEmail);
+    await page.fill('input#password', adminPassword);
     
     // Click login button
     await page.click('button[type="submit"]');
     
     // Wait for navigation after login
-    await page.waitForURL((url) => !url.pathname.includes('/login'), { timeout: 10000 });
+    await page.waitForURL((url) => !url.pathname.includes('/login'), { timeout: 15000 });
     await waitForNetworkIdle(page);
     
     console.log('✅ Login successful');
@@ -110,7 +118,7 @@ async function tryLogin(page) {
 async function captureAllPages() {
   // Create screenshots directory
   if (!fs.existsSync(SCREENSHOTS_DIR)) {
-    fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
+    fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true});
   }
 
   console.log('🚀 Starting Screenshot Capture');
@@ -137,7 +145,7 @@ async function captureAllPages() {
     console.log('\n📸 Capturing Public Pages...');
     for (const pageInfo of PAGES.public) {
       try {
-        await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded' });
+        await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
         const success = await captureScreenshot(page, pageInfo.name, pageInfo.description);
         if (success) totalCaptured++;
         else totalFailed++;
@@ -155,7 +163,7 @@ async function captureAllPages() {
       console.log('\n📸 Capturing Dashboard...');
       for (const pageInfo of PAGES.dashboard) {
         try {
-          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded' });
+          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
           const success = await captureScreenshot(page, pageInfo.name, pageInfo.description);
           if (success) totalCaptured++;
           else totalFailed++;
@@ -169,7 +177,7 @@ async function captureAllPages() {
       console.log('\n📸 Capturing Admin Pages...');
       for (const pageInfo of PAGES.admin) {
         try {
-          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded' });
+          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
           const success = await captureScreenshot(page, pageInfo.name, pageInfo.description);
           if (success) totalCaptured++;
           else totalFailed++;
@@ -183,7 +191,7 @@ async function captureAllPages() {
       console.log('\n📸 Capturing GC Pages...');
       for (const pageInfo of PAGES.gc) {
         try {
-          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded' });
+          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
           const success = await captureScreenshot(page, pageInfo.name, pageInfo.description);
           if (success) totalCaptured++;
           else totalFailed++;
@@ -197,7 +205,7 @@ async function captureAllPages() {
       console.log('\n📸 Capturing Broker Pages...');
       for (const pageInfo of PAGES.broker) {
         try {
-          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded' });
+          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
           const success = await captureScreenshot(page, pageInfo.name, pageInfo.description);
           if (success) totalCaptured++;
           else totalFailed++;
@@ -211,7 +219,7 @@ async function captureAllPages() {
       console.log('\n📸 Capturing Subcontractor Pages...');
       for (const pageInfo of PAGES.subcontractor) {
         try {
-          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded' });
+          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
           const success = await captureScreenshot(page, pageInfo.name, pageInfo.description);
           if (success) totalCaptured++;
           else totalFailed++;
@@ -221,8 +229,31 @@ async function captureAllPages() {
         }
       }
     } else {
-      console.log('\n⚠️  Could not login - skipping authenticated pages');
-      console.log('💡 Make sure the backend is running and the credentials are correct');
+      console.log('\n⚠️  Could not login - attempting to capture pages anyway');
+      console.log('💡 Screenshots will show either login redirect or error pages\n');
+      
+      // Try to capture pages anyway to see what happens
+      const allAuthPages = [
+        ...PAGES.dashboard,
+        ...PAGES.admin,
+        ...PAGES.gc,
+        ...PAGES.broker,
+        ...PAGES.subcontractor,
+      ];
+      
+      console.log('📸 Capturing All Pages (may show auth redirects)...');
+      for (const pageInfo of allAuthPages) {
+        try {
+          await page.goto(`${BASE_URL}${pageInfo.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+          await page.waitForTimeout(2000); // Give time for any redirects
+          const success = await captureScreenshot(page, `no-auth-${pageInfo.name}`, `${pageInfo.description} (No Auth)`);
+          if (success) totalCaptured++;
+          else totalFailed++;
+        } catch (error) {
+          console.error(`❌ Failed to navigate to ${pageInfo.url}: ${error.message}`);
+          totalFailed++;
+        }
+      }
     }
 
   } catch (error) {

@@ -40,7 +40,7 @@ export class HoldHarmlessService {
     });
 
     if (!coi) {
-      throw new NotFoundException(\`COI with ID \${coiId} not found\`);
+      throw new NotFoundException(`COI with ID ${coiId} not found`);
     }
 
     // Check if hold harmless already exists
@@ -49,7 +49,7 @@ export class HoldHarmlessService {
     });
 
     if (existing) {
-      console.log(\`Hold harmless already exists for COI \${coiId}, skipping generation\`);
+      console.log(`Hold harmless already exists for COI \${coiId}, skipping generation`);
       return existing;
     }
 
@@ -57,7 +57,7 @@ export class HoldHarmlessService {
     const program = coi.project.programs?.[0]?.program;
     
     if (!program?.requiresHoldHarmless) {
-      console.log(\`Program does not require hold harmless for COI \${coiId}\`);
+      console.log(`Program does not require hold harmless for COI \${coiId}`);
       return null;
     }
 
@@ -134,7 +134,7 @@ export class HoldHarmlessService {
    * Send signature link to subcontractor
    */
   private async sendSignatureLinkToSubcontractor(holdHarmless: any) {
-    const signatureUrl = \`\${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/\${holdHarmless.subSignatureToken}\`;
+    const signatureUrl = `\${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/\${holdHarmless.subSignatureToken}`;
     
     // Update sent timestamp
     await this.prisma.holdHarmless.update({
@@ -145,14 +145,14 @@ export class HoldHarmlessService {
     });
 
     // TODO: Integrate with email service
-    console.log(\`Send signature link to \${holdHarmless.subcontractorEmail}: \${signatureUrl}\`);
+    console.log(`Send signature link to \${holdHarmless.subcontractorEmail}: \${signatureUrl}`);
   }
 
   /**
    * Send signature link to GC
    */
   private async sendSignatureLinkToGC(holdHarmless: any) {
-    const signatureUrl = \`\${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/\${holdHarmless.gcSignatureToken}\`;
+    const signatureUrl = `\${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/\${holdHarmless.gcSignatureToken}`;
     
     // Update sent timestamp
     await this.prisma.holdHarmless.update({
@@ -163,7 +163,7 @@ export class HoldHarmlessService {
     });
 
     // TODO: Integrate with email service
-    console.log(\`Send signature link to \${holdHarmless.gcEmail}: \${signatureUrl}\`);
+    console.log(`Send signature link to \${holdHarmless.gcEmail}: \${signatureUrl}`);
   }
 
   /**
@@ -281,7 +281,7 @@ export class HoldHarmlessService {
     });
 
     // TODO: Integrate with email service
-    console.log(\`Notify all parties about completed hold harmless: \${recipients.join(', ')}\`);
+    console.log(`Notify all parties about completed hold harmless: \${recipients.join(', ')}`);
   }
 
   /**
@@ -351,7 +351,7 @@ export class HoldHarmlessService {
     });
 
     if (!holdHarmless) {
-      throw new NotFoundException(\`Hold harmless agreement for COI \${coiId} not found\`);
+      throw new NotFoundException(`Hold harmless agreement for COI \${coiId} not found`);
     }
 
     return holdHarmless;
@@ -414,7 +414,7 @@ export class HoldHarmlessService {
       await this.sendSignatureLinkToGC(holdHarmless);
     }
 
-    return { message: \`Signature link resent to \${party}\` };
+    return { message: `Signature link resent to \${party}` };
   }
 
   /**
