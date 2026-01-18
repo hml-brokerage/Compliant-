@@ -84,10 +84,20 @@ jobs:
       - name: Start backend server
         run: |
           cd packages/backend
-          pnpm start:prod &
+          # Start server with output to log file for debugging
+          pnpm start:prod > backend.log 2>&1 &
           echo $! > backend.pid
-          # Wait for backend to be ready
-          timeout 60 bash -c 'until curl -f http://localhost:3001/api/health; do sleep 2; done'
+          # Wait for backend to be ready (try liveness endpoint first, then readiness)
+          echo "Waiting for backend to start..."
+          timeout 60 bash -c 'until curl -f http://localhost:3001/api/health/liveness 2>/dev/null; do 
+            echo "Backend not ready yet, waiting..."; 
+            sleep 2; 
+          done' || {
+            echo "Backend failed to start. Logs:"
+            cat backend.log || echo "No logs available"
+            exit 1
+          }
+          echo "Backend started successfully!"
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
           REDIS_URL: redis://localhost:6379
@@ -146,6 +156,15 @@ jobs:
           name: test-screenshots
           path: test-results/
           retention-days: 30
+
+      - name: Upload backend logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-logs
+          path: packages/backend/backend.log
+          retention-days: 30
+          if-no-files-found: warn
 
       - name: E2E test summary
         if: always()
@@ -247,7 +266,7 @@ jobs:
         run: |
           # Start backend
           cd packages/backend
-          pnpm start:prod &
+          pnpm start:prod > backend.log 2>&1 &
           BACKEND_PID=$!
           
           # Start frontend
@@ -255,8 +274,16 @@ jobs:
           pnpm start &
           FRONTEND_PID=$!
           
-          # Wait for services
-          timeout 90 bash -c 'until curl -f http://localhost:3001/api/health && curl -f http://localhost:3000; do sleep 2; done'
+          # Wait for services (using correct API endpoints)
+          echo "Waiting for backend to start..."
+          timeout 90 bash -c 'until curl -f http://localhost:3001/api/health/liveness 2>/dev/null; do sleep 2; done' || {
+            echo "Backend failed to start. Logs:"
+            cat backend.log || echo "No logs available"
+            kill $BACKEND_PID $FRONTEND_PID || true
+            exit 1
+          }
+          echo "Waiting for frontend to start..."
+          timeout 90 bash -c 'until curl -f http://localhost:3000 2>/dev/null; do sleep 2; done'
           
           # Run tests with specific browser and viewport
           cd ../..
