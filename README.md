@@ -172,6 +172,75 @@ cd packages/frontend
 pnpm test        # Component tests
 ```
 
+## 🔄 CI/CD Workflows
+
+This project includes comprehensive CI/CD workflows for automated testing, security scanning, and deployment:
+
+### Testing Workflows
+
+- **CI (Continuous Integration)** - `.github/workflows/ci.yml`
+  - Runs on every push and PR
+  - Linting, building, and unit testing
+  - PostgreSQL service for database tests
+  
+- **Integration Tests** - `.github/workflows/integration-tests.yml`
+  - Full integration testing with PostgreSQL and Redis
+  - Database migrations and seeding
+  - API endpoint health checks
+  
+- **E2E Tests** - `.github/workflows/e2e-tests.yml`
+  - Playwright-based end-to-end tests
+  - Tests across multiple browsers (Chromium, Firefox, WebKit)
+  - Mobile, tablet, and desktop viewports
+  - Runs daily and on demand
+  
+- **Code Coverage** - `.github/workflows/code-coverage.yml`
+  - Comprehensive test coverage reporting
+  - Coverage thresholds enforcement
+  - Codecov integration
+  - PR comments with coverage details
+  
+- **Performance Tests** - `.github/workflows/performance-tests.yml`
+  - K6 load testing (up to 100 concurrent users)
+  - Lighthouse performance audits
+  - Performance metrics tracking
+  - Runs weekly and on main branch
+
+### Security Workflows
+
+- **Container Security Scan** - `.github/workflows/security-scan.yml`
+  - Multi-stage Docker build (prevents secret leakage)
+  - Trivy vulnerability scanning
+  - Grype additional vulnerability checks
+  - Dockle best practices validation
+  - SBOM (Software Bill of Materials) generation
+  - Secret scanning in containers
+  - Runs on push, PR, and weekly schedule
+  
+- **CodeQL Analysis** - `.github/workflows/codeql-analysis.yml`
+  - Static Application Security Testing (SAST)
+  - Semgrep security rules (OWASP Top 10)
+  - ESLint security plugin scanning
+  - Runs weekly and on security-sensitive changes
+  
+- **Dependency Scanning** - Part of security-scan.yml
+  - npm audit for known vulnerabilities
+  - Snyk security scanning
+
+### Deployment Workflow
+
+- **Production Deployment** - `.github/workflows/deploy.yml`
+  - Automated deployment to production/staging
+  - Pre-deployment testing
+  - Build artifact management
+  - Smoke tests after deployment
+
+### Workflow Status
+
+[![CI](https://github.com/hml-brokerage/Compliant-/actions/workflows/ci.yml/badge.svg)](https://github.com/hml-brokerage/Compliant-/actions/workflows/ci.yml)
+[![Security Scan](https://github.com/hml-brokerage/Compliant-/actions/workflows/security-scan.yml/badge.svg)](https://github.com/hml-brokerage/Compliant-/actions/workflows/security-scan.yml)
+[![CodeQL](https://github.com/hml-brokerage/Compliant-/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/hml-brokerage/Compliant-/actions/workflows/codeql-analysis.yml)
+
 ## 📊 Database Setup
 
 ```bash

@@ -1,0 +1,279 @@
+name: Performance Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Run performance tests weekly on Sundays at 3 AM UTC
+    - cron: '0 3 * * 0'
+
+jobs:
+  performance-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: compliant_perf_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install k6 for load testing
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Build packages
+        run: |
+          cd packages/shared && pnpm build
+          cd ../backend && pnpm db:generate && pnpm build
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_perf_test
+
+      - name: Run migrations and seed
+        run: |
+          cd packages/backend
+          pnpm prisma migrate deploy
+          pnpm db:seed || echo "Seed script not available"
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_perf_test
+          NODE_ENV: test
+        continue-on-error: true
+
+      - name: Start backend server
+        run: |
+          cd packages/backend
+          NODE_ENV=production pnpm start:prod &
+          echo $! > backend.pid
+          timeout 60 bash -c 'until curl -f http://localhost:3001/health; do sleep 2; done'
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_perf_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-jwt-secret-key-for-performance-tests-32chars
+          JWT_REFRESH_SECRET: test-jwt-refresh-secret-key-performance-tests
+          ENCRYPTION_KEY: dGVzdC1lbmNyeXB0aW9uLWtleS1mb3ItcGVyZm9ybWFuY2UtdGVzdHMxMg==
+          ENCRYPTION_SALT: 0123456789abcdef0123456789abcdef
+          NODE_ENV: production
+          PORT: 3001
+
+      - name: Create k6 load test script
+        run: |
+          mkdir -p k6-tests
+          cat > k6-tests/load-test.js << 'EOF'
+          import http from 'k6/http';
+          import { check, sleep } from 'k6';
+          import { Rate } from 'k6/metrics';
+          
+          const errorRate = new Rate('errors');
+          const BASE_URL = 'http://localhost:3001';
+          
+          export const options = {
+            stages: [
+              { duration: '30s', target: 10 },   // Ramp-up to 10 users
+              { duration: '1m', target: 50 },    // Ramp-up to 50 users
+              { duration: '2m', target: 50 },    // Stay at 50 users
+              { duration: '30s', target: 100 },  // Spike to 100 users
+              { duration: '1m', target: 100 },   // Stay at 100 users
+              { duration: '30s', target: 0 },    // Ramp-down to 0 users
+            ],
+            thresholds: {
+              'http_req_duration': ['p(95)<500', 'p(99)<1000'], // 95% < 500ms, 99% < 1s
+              'http_req_failed': ['rate<0.05'],                  // Error rate < 5%
+              'errors': ['rate<0.05'],
+            },
+          };
+          
+          export default function () {
+            // Test health endpoint
+            let healthRes = http.get(`${BASE_URL}/health`);
+            let healthCheck = check(healthRes, {
+              'health check status is 200': (r) => r.status === 200,
+              'health check response time < 200ms': (r) => r.timings.duration < 200,
+            });
+            errorRate.add(!healthCheck);
+            
+            sleep(1);
+            
+            // Test API docs endpoint (public)
+            let docsRes = http.get(`${BASE_URL}/api/docs`);
+            let docsCheck = check(docsRes, {
+              'docs endpoint accessible': (r) => r.status === 200 || r.status === 301 || r.status === 302,
+            });
+            errorRate.add(!docsCheck);
+            
+            sleep(1);
+          }
+          
+          export function handleSummary(data) {
+            return {
+              'k6-results.json': JSON.stringify(data),
+              'stdout': textSummary(data, { indent: ' ', enableColors: true }),
+            };
+          }
+          EOF
+
+      - name: Run k6 load test
+        run: |
+          k6 run k6-tests/load-test.js --out json=k6-results.json
+        continue-on-error: true
+
+      - name: Run Lighthouse performance audit
+        run: |
+          npm install -g @lhci/cli
+          
+          # Create Lighthouse CI config
+          cat > lighthouserc.json << 'EOF'
+          {
+            "ci": {
+              "collect": {
+                "url": ["http://localhost:3001/health"],
+                "numberOfRuns": 3
+              },
+              "assert": {
+                "assertions": {
+                  "categories:performance": ["error", {"minScore": 0.6}],
+                  "categories:accessibility": ["warn", {"minScore": 0.8}],
+                  "categories:best-practices": ["warn", {"minScore": 0.8}],
+                  "categories:seo": ["warn", {"minScore": 0.7}]
+                }
+              },
+              "upload": {
+                "target": "temporary-public-storage"
+              }
+            }
+          }
+          EOF
+          
+          lhci autorun || echo "Lighthouse CI completed with warnings"
+        continue-on-error: true
+
+      - name: Analyze performance metrics
+        run: |
+          if [ -f k6-results.json ]; then
+            echo "## ⚡ Performance Test Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### K6 Load Test Summary" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Extract key metrics
+            HTTP_REQ_DURATION_P95=$(jq -r '.metrics.http_req_duration.values."p(95)"' k6-results.json)
+            HTTP_REQ_DURATION_P99=$(jq -r '.metrics.http_req_duration.values."p(99)"' k6-results.json)
+            HTTP_REQ_FAILED_RATE=$(jq -r '.metrics.http_req_failed.values.rate' k6-results.json)
+            ITERATIONS=$(jq -r '.metrics.iterations.values.count' k6-results.json)
+            
+            echo "| Metric | Value | Threshold |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|-----------|" >> $GITHUB_STEP_SUMMARY
+            echo "| 95th Percentile Response Time | ${HTTP_REQ_DURATION_P95}ms | < 500ms |" >> $GITHUB_STEP_SUMMARY
+            echo "| 99th Percentile Response Time | ${HTTP_REQ_DURATION_P99}ms | < 1000ms |" >> $GITHUB_STEP_SUMMARY
+            echo "| Error Rate | $(echo "$HTTP_REQ_FAILED_RATE * 100" | bc)% | < 5% |" >> $GITHUB_STEP_SUMMARY
+            echo "| Total Iterations | $ITERATIONS | - |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Check thresholds
+            if (( $(echo "$HTTP_REQ_DURATION_P95 > 500" | bc -l) )); then
+              echo "⚠️ **Warning**: 95th percentile response time exceeds 500ms" >> $GITHUB_STEP_SUMMARY
+            fi
+            
+            if (( $(echo "$HTTP_REQ_FAILED_RATE > 0.05" | bc -l) )); then
+              echo "❌ **Error**: Error rate exceeds 5%" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
+      - name: Stop backend server
+        if: always()
+        run: |
+          if [ -f packages/backend/backend.pid ]; then
+            kill $(cat packages/backend/backend.pid) || true
+          fi
+
+      - name: Upload performance results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-test-results
+          path: |
+            k6-results.json
+            k6-tests/
+            .lighthouseci/
+          retention-days: 90
+
+      - name: Comment PR with performance results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            if (!fs.existsSync('k6-results.json')) {
+              console.log('No k6 results found');
+              return;
+            }
+            
+            const results = JSON.parse(fs.readFileSync('k6-results.json'));
+            const metrics = results.metrics;
+            
+            const p95 = metrics.http_req_duration.values['p(95)'].toFixed(2);
+            const p99 = metrics.http_req_duration.values['p(99)'].toFixed(2);
+            const errorRate = (metrics.http_req_failed.values.rate * 100).toFixed(2);
+            const iterations = metrics.iterations.values.count;
+            
+            let comment = '## ⚡ Performance Test Results\n\n';
+            comment += '### Load Test Summary\n\n';
+            comment += '| Metric | Value | Threshold | Status |\n';
+            comment += '|--------|-------|-----------|--------|\n';
+            comment += `| 95th Percentile | ${p95}ms | < 500ms | ${p95 < 500 ? '✅' : '⚠️'} |\n`;
+            comment += `| 99th Percentile | ${p99}ms | < 1000ms | ${p99 < 1000 ? '✅' : '⚠️'} |\n`;
+            comment += `| Error Rate | ${errorRate}% | < 5% | ${errorRate < 5 ? '✅' : '❌'} |\n`;
+            comment += `| Total Requests | ${iterations} | - | ℹ️ |\n\n`;
+            
+            comment += '📊 Full performance reports available in workflow artifacts.';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+        continue-on-error: true

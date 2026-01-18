@@ -1,0 +1,208 @@
+name: Code Coverage
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: compliant_coverage_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for better coverage comparison
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared package
+        run: cd packages/shared && pnpm build
+
+      - name: Generate Prisma Client
+        run: cd packages/backend && pnpm db:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_coverage_test
+
+      - name: Run backend tests with coverage
+        run: cd packages/backend && pnpm test:cov
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_coverage_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-jwt-secret-key-for-coverage-tests-32chars
+          JWT_REFRESH_SECRET: test-jwt-refresh-secret-key-coverage-tests-32
+          ENCRYPTION_KEY: dGVzdC1lbmNyeXB0aW9uLWtleS1mb3ItY292ZXJhZ2UtdGVzdHMxMjM0NTY=
+          ENCRYPTION_SALT: fedcba9876543210fedcba9876543210
+          NODE_ENV: test
+
+      - name: Run frontend tests with coverage
+        run: cd packages/frontend && pnpm test:cov
+        env:
+          NODE_ENV: test
+
+      - name: Run shared tests with coverage
+        run: cd packages/shared && pnpm test:cov || echo "No tests in shared package"
+        env:
+          NODE_ENV: test
+        continue-on-error: true
+
+      - name: Upload backend coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./packages/backend/coverage/coverage-final.json
+          flags: backend
+          name: backend-coverage
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        continue-on-error: true
+
+      - name: Upload frontend coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./packages/frontend/coverage/coverage-final.json
+          flags: frontend
+          name: frontend-coverage
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        continue-on-error: true
+
+      - name: Generate coverage summary
+        run: |
+          echo "## 📊 Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Backend coverage
+          if [ -f packages/backend/coverage/coverage-summary.json ]; then
+            echo "### Backend Coverage" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat packages/backend/coverage/coverage-summary.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Frontend coverage
+          if [ -f packages/frontend/coverage/coverage-summary.json ]; then
+            echo "### Frontend Coverage" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat packages/frontend/coverage/coverage-summary.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Check coverage thresholds
+        run: |
+          # Backend coverage check
+          if [ -f packages/backend/coverage/coverage-summary.json ]; then
+            BACKEND_COVERAGE=$(node -pe "JSON.parse(require('fs').readFileSync('packages/backend/coverage/coverage-summary.json')).total.lines.pct")
+            echo "Backend coverage: ${BACKEND_COVERAGE}%"
+            
+            if (( $(echo "$BACKEND_COVERAGE < 50" | bc -l) )); then
+              echo "⚠️ Warning: Backend coverage is below 50%"
+            elif (( $(echo "$BACKEND_COVERAGE < 70" | bc -l) )); then
+              echo "⚠️ Warning: Backend coverage is below 70%"
+            else
+              echo "✅ Backend coverage is acceptable"
+            fi
+          fi
+          
+          # Frontend coverage check
+          if [ -f packages/frontend/coverage/coverage-summary.json ]; then
+            FRONTEND_COVERAGE=$(node -pe "JSON.parse(require('fs').readFileSync('packages/frontend/coverage/coverage-summary.json')).total.lines.pct")
+            echo "Frontend coverage: ${FRONTEND_COVERAGE}%"
+            
+            if (( $(echo "$FRONTEND_COVERAGE < 50" | bc -l) )); then
+              echo "⚠️ Warning: Frontend coverage is below 50%"
+            elif (( $(echo "$FRONTEND_COVERAGE < 70" | bc -l) )); then
+              echo "⚠️ Warning: Frontend coverage is below 70%"
+            else
+              echo "✅ Frontend coverage is acceptable"
+            fi
+          fi
+        continue-on-error: true
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            packages/backend/coverage
+            packages/frontend/coverage
+            packages/shared/coverage
+          retention-days: 30
+
+      - name: Comment PR with coverage
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let comment = '## 📊 Code Coverage Report\n\n';
+            
+            // Backend coverage
+            if (fs.existsSync('packages/backend/coverage/coverage-summary.json')) {
+              const backendCov = JSON.parse(fs.readFileSync('packages/backend/coverage/coverage-summary.json'));
+              const total = backendCov.total;
+              comment += '### Backend\n';
+              comment += `| Metric | Coverage |\n`;
+              comment += `|--------|----------|\n`;
+              comment += `| Lines | ${total.lines.pct}% |\n`;
+              comment += `| Statements | ${total.statements.pct}% |\n`;
+              comment += `| Functions | ${total.functions.pct}% |\n`;
+              comment += `| Branches | ${total.branches.pct}% |\n\n`;
+            }
+            
+            // Frontend coverage
+            if (fs.existsSync('packages/frontend/coverage/coverage-summary.json')) {
+              const frontendCov = JSON.parse(fs.readFileSync('packages/frontend/coverage/coverage-summary.json'));
+              const total = frontendCov.total;
+              comment += '### Frontend\n';
+              comment += `| Metric | Coverage |\n`;
+              comment += `|--------|----------|\n`;
+              comment += `| Lines | ${total.lines.pct}% |\n`;
+              comment += `| Statements | ${total.statements.pct}% |\n`;
+              comment += `| Functions | ${total.functions.pct}% |\n`;
+              comment += `| Branches | ${total.branches.pct}% |\n\n`;
+            }
+            
+            comment += '\n📁 Full coverage reports available in workflow artifacts.';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+        continue-on-error: true

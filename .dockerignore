@@ -1,0 +1,88 @@
+# Security: Prevent sensitive files from being copied into Docker images
+
+# Environment files (may contain secrets)
+.env
+.env.*
+*.env
+.env.local
+.env.production
+.env.development
+.env.test
+
+# Git directory
+.git
+.github
+
+# Node modules (will be installed separately)
+node_modules
+**/node_modules
+
+# Build outputs (will be rebuilt)
+dist
+dist-ssr
+.next
+.turbo
+*.tsbuildinfo
+build
+out
+
+# Test files and coverage
+coverage
+test-results
+screenshots*
+playwright-report
+*.spec.ts
+*.spec.tsx
+*.test.ts
+*.test.tsx
+*.spec.js
+*.test.js
+__tests__
+**/__tests__
+**/*.snap
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Prisma database files
+prisma/*.db
+prisma/*.db-journal
+
+# Uploads and temporary files
+uploads/
+*.upload
+tmp/
+temp/
+
+# Documentation
+*.md
+docs/
+!README.md
+
+# Editor directories
+.vscode
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# CI/CD files
+.gitignore
+.eslintrc*
+.prettierrc*
+.editorconfig
+tsconfig*.json
+jest.config.*
+playwright.config.*
+
+# Scripts that aren't needed in production
+scripts/

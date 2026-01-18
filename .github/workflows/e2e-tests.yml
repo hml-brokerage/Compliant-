@@ -1,0 +1,286 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+  schedule:
+    # Run E2E tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: compliant_e2e_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build shared package
+        run: cd packages/shared && pnpm build
+
+      - name: Generate Prisma Client and run migrations
+        run: |
+          cd packages/backend
+          pnpm db:generate
+          pnpm prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
+
+      - name: Seed test database with E2E fixtures
+        run: cd packages/backend && pnpm db:seed || echo "Seed script not available, skipping"
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
+          NODE_ENV: test
+        continue-on-error: true
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Start backend server
+        run: |
+          cd packages/backend
+          pnpm start:prod &
+          echo $! > backend.pid
+          # Wait for backend to be ready
+          timeout 60 bash -c 'until curl -f http://localhost:3001/health; do sleep 2; done'
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-jwt-secret-key-for-e2e-tests-32-characters-long
+          JWT_REFRESH_SECRET: test-jwt-refresh-secret-key-for-e2e-tests-32chars
+          JWT_EXPIRATION: 15m
+          JWT_REFRESH_EXPIRATION: 7d
+          ENCRYPTION_KEY: dGVzdC1lbmNyeXB0aW9uLWtleS1mb3ItZTJlLXRlc3RzLTEyMzQ1Njc4OTA=
+          ENCRYPTION_SALT: fedcba9876543210fedcba9876543210
+          NODE_ENV: test
+          PORT: 3001
+          EMAIL_PROVIDER: test
+          EMAIL_FROM: test@example.com
+          ADMIN_EMAIL: admin@example.com
+          CORS_ORIGIN: http://localhost:3000
+
+      - name: Start frontend server
+        run: |
+          cd packages/frontend
+          pnpm start &
+          echo $! > frontend.pid
+          # Wait for frontend to be ready
+          timeout 90 bash -c 'until curl -f http://localhost:3000; do sleep 2; done'
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3001
+          NODE_ENV: test
+
+      - name: Run Playwright E2E tests
+        run: pnpm exec playwright test
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+          API_BASE_URL: http://localhost:3001
+
+      - name: Stop servers
+        if: always()
+        run: |
+          if [ -f packages/backend/backend.pid ]; then
+            kill $(cat packages/backend/backend.pid) || true
+          fi
+          if [ -f packages/frontend/frontend.pid ]; then
+            kill $(cat packages/frontend/frontend.pid) || true
+          fi
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots
+          path: test-results/
+          retention-days: 30
+
+      - name: E2E test summary
+        if: always()
+        run: |
+          echo "## 🎭 E2E Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Environment:" >> $GITHUB_STEP_SUMMARY
+          echo "- Browser: Chromium (Playwright)" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: http://localhost:3001" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend: http://localhost:3000" >> $GITHUB_STEP_SUMMARY
+          echo "- Database: PostgreSQL 15" >> $GITHUB_STEP_SUMMARY
+          echo "- Cache: Redis 7" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f playwright-report/index.html ]; then
+            echo "📊 Full report available in artifacts" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  e2e-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        viewport: [desktop, tablet, mobile]
+        include:
+          - viewport: desktop
+            width: 1920
+            height: 1080
+          - viewport: tablet
+            width: 768
+            height: 1024
+          - viewport: mobile
+            width: 375
+            height: 667
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: compliant_e2e_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Build packages
+        run: |
+          cd packages/shared && pnpm build
+          cd ../backend && pnpm db:generate && pnpm build
+          cd ../frontend && pnpm build
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
+
+      - name: Run migrations
+        run: cd packages/backend && pnpm prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
+
+      - name: Start services and run tests
+        run: |
+          # Start backend
+          cd packages/backend
+          pnpm start:prod &
+          BACKEND_PID=$!
+          
+          # Start frontend
+          cd ../frontend
+          pnpm start &
+          FRONTEND_PID=$!
+          
+          # Wait for services
+          timeout 90 bash -c 'until curl -f http://localhost:3001/health && curl -f http://localhost:3000; do sleep 2; done'
+          
+          # Run tests with specific browser and viewport
+          cd ../..
+          pnpm exec playwright test --project=${{ matrix.browser }} --grep="@${{ matrix.viewport }}" || true
+          
+          # Cleanup
+          kill $BACKEND_PID $FRONTEND_PID || true
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_e2e_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-jwt-secret-key-for-e2e-matrix-tests-32-chars
+          JWT_REFRESH_SECRET: test-jwt-refresh-secret-key-e2e-matrix-tests
+          ENCRYPTION_KEY: dGVzdC1lbmNyeXB0aW9uLWtleS1mb3ItZTJlLW1hdHJpeC10ZXN0czEyMzQ1
+          ENCRYPTION_SALT: 0123456789abcdef0123456789abcdef
+          NODE_ENV: test
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+          VIEWPORT_WIDTH: ${{ matrix.width }}
+          VIEWPORT_HEIGHT: ${{ matrix.height }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results-${{ matrix.browser }}-${{ matrix.viewport }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

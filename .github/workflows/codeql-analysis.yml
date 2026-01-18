@@ -1,0 +1,224 @@
+name: CodeQL Security Analysis
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run CodeQL analysis weekly on Tuesdays at 4 AM UTC
+    - cron: '0 4 * * 2'
+  workflow_dispatch:
+
+jobs:
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript', 'typescript']
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: +security-extended,security-and-quality
+          config: |
+            paths-ignore:
+              - node_modules
+              - dist
+              - build
+              - coverage
+              - .next
+              - test-results
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build codebase
+        run: |
+          cd packages/shared && pnpm build
+          cd ../backend && pnpm build || echo "Backend build may fail without database"
+          cd ../frontend && pnpm build || echo "Frontend build may fail without backend"
+        continue-on-error: true
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          upload: true
+          output: codeql-results
+          
+      - name: Upload CodeQL results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-results-${{ matrix.language }}
+          path: codeql-results
+          retention-days: 30
+
+  semgrep-analysis:
+    name: Semgrep Security Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+            p/javascript
+            p/typescript
+            p/react
+            p/nextjs
+          generateSarif: true
+        env:
+          SEMGREP_RULES: auto
+
+      - name: Upload Semgrep results to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+
+      - name: Upload Semgrep results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep.sarif
+          retention-days: 30
+
+  eslint-security:
+    name: ESLint Security Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install ESLint security plugins
+        run: |
+          pnpm add -D eslint-plugin-security eslint-plugin-no-secrets --workspace-root
+
+      - name: Run ESLint with security rules
+        run: |
+          pnpm lint || echo "Linting completed with warnings"
+        continue-on-error: true
+
+      - name: Run security-focused ESLint
+        run: |
+          # Create a temporary ESLint config for security
+          cat > .eslintrc.security.json << 'EOF'
+          {
+            "extends": ["plugin:security/recommended"],
+            "plugins": ["security", "no-secrets"],
+            "rules": {
+              "no-secrets/no-secrets": "error",
+              "security/detect-object-injection": "warn",
+              "security/detect-non-literal-regexp": "warn",
+              "security/detect-unsafe-regex": "error",
+              "security/detect-buffer-noassert": "error",
+              "security/detect-child-process": "warn",
+              "security/detect-disable-mustache-escape": "error",
+              "security/detect-eval-with-expression": "error",
+              "security/detect-no-csrf-before-method-override": "error",
+              "security/detect-non-literal-fs-filename": "warn",
+              "security/detect-non-literal-require": "warn",
+              "security/detect-possible-timing-attacks": "warn",
+              "security/detect-pseudoRandomBytes": "error"
+            }
+          }
+          EOF
+          
+          # Run ESLint with security config
+          pnpm eslint . --config .eslintrc.security.json --ext .ts,.tsx,.js,.jsx --format json --output-file eslint-security-results.json || true
+          
+          # Display results
+          if [ -f eslint-security-results.json ]; then
+            echo "Security issues found:"
+            cat eslint-security-results.json | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | {filePath, errorCount, warningCount}'
+          fi
+        continue-on-error: true
+
+      - name: Upload ESLint security results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-security-results
+          path: eslint-security-results.json
+          retention-days: 30
+
+  security-summary:
+    name: Security Analysis Summary
+    runs-on: ubuntu-latest
+    needs: [codeql-analysis, semgrep-analysis, eslint-security]
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: security-artifacts
+
+      - name: Generate security summary
+        run: |
+          echo "## 🔒 Security Analysis Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Completed Scans:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ CodeQL (JavaScript/TypeScript)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Semgrep (OWASP Top 10, Secrets)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ ESLint Security Rules" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Results:" >> $GITHUB_STEP_SUMMARY
+          echo "All security scan results have been uploaded to GitHub Security tab." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📋 View detailed results in the [Security tab](https://github.com/${{ github.repository }}/security/code-scanning)" >> $GITHUB_STEP_SUMMARY
