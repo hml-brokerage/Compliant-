@@ -26,13 +26,12 @@ test.describe('Health Checks', () => {
     await page.waitForLoadState('networkidle');
     
     // Verify the page loaded without critical errors
-    // Use baseURL from config to avoid hardcoding
+    // Check that we're on the expected base URL
     if (baseURL) {
-      expect(page.url()).toContain(new URL(baseURL).hostname);
+      const currentUrl = new URL(page.url());
+      const expectedUrl = new URL(baseURL);
+      expect(currentUrl.origin).toBe(expectedUrl.origin);
     }
-    
-    // Take a screenshot for verification
-    await page.screenshot({ path: 'test-results/homepage.png' });
   });
 
   test('frontend should have proper title or content', async ({ page }) => {
