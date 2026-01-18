@@ -410,8 +410,8 @@ test.describe('Complete COI Workflow Tests', () => {
       );
 
       // Upload policies with issues - near expiration and insufficient coverage
-      const nearExpirationDate = new Date();
-      nearExpirationDate.setDate(nearExpirationDate.getDate() + 15); // Only 15 days!
+      const DAYS_UNTIL_EXPIRATION = 15; // Only 15 days - insufficient!
+      const nearExpirationDate = new Date(Date.now() + DAYS_UNTIL_EXPIRATION * 24 * 60 * 60 * 1000);
 
       await apiCall(
         `/generated-coi/${coiId}/upload`,
@@ -432,7 +432,10 @@ test.describe('Complete COI Workflow Tests', () => {
           // WC policy has already expired
           wcPolicyUrl: 'https://storage.example.com/policies/speedy-plumbing-wc-expired.pdf',
           wcPolicyNumber: 'WC-EXP-00789',
-          wcExpirationDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days ago!
+          wcExpirationDate: (() => {
+            const EXPIRED_DAYS_AGO = 10;
+            return new Date(Date.now() - EXPIRED_DAYS_AGO * 24 * 60 * 60 * 1000).toISOString();
+          })(),
         }
       );
 
