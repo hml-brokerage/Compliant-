@@ -160,7 +160,7 @@ export class HoldHarmlessService {
    */
   private async sendSignatureLinkToSubcontractor(holdHarmless: HoldHarmless) {
     if (!holdHarmless.subcontractorEmail) {
-      throw new Error('Subcontractor email is required');
+      throw new BadRequestException('Subcontractor email is required');
     }
 
     const signatureUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/subcontractor/hold-harmless/${holdHarmless.id}`;
@@ -273,7 +273,7 @@ export class HoldHarmlessService {
    */
   private async notifyGCToSign(holdHarmless: HoldHarmless) {
     if (!holdHarmless.gcEmail) {
-      throw new Error('GC email is required');
+      throw new BadRequestException('GC email is required');
     }
 
     const signatureUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/gc/hold-harmless/${holdHarmless.id}`;

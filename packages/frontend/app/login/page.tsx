@@ -102,15 +102,16 @@ export default function LoginPage() {
                 </button>
               </div>
               <div className="mt-1 text-right">
-                <button 
-                  type="button"
-                  onClick={() => {
-                    alert('Forgot password feature coming soon! Please contact your administrator for password reset.');
+                <a
+                  href="#forgot-password"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setError('Forgot password feature coming soon! Please contact your administrator for password reset.');
                   }}
                   className="text-sm text-blue-600 hover:text-blue-500"
                 >
                   Forgot password?
-                </button>
+                </a>
               </div>
             </div>
           </div>
