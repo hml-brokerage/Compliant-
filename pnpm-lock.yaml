@@ -222,6 +222,9 @@ importers:
 
   packages/frontend:
     dependencies:
+      '@compliant/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tanstack/react-query':
         specifier: ^5.17.9
         version: 5.90.19(react@18.3.1)
@@ -259,9 +262,6 @@ importers:
         specifier: ^4.4.7
         version: 4.5.7(@types/react@18.3.27)(react@18.3.1)
     devDependencies:
-      '@compliant/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
