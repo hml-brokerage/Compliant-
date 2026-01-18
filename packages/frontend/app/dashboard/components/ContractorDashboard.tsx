@@ -1,6 +1,7 @@
 'use client';
 
 import { User } from '@compliant/shared';
+import Link from 'next/link';
 
 interface ContractorDashboardProps {
   user: User;
@@ -101,9 +102,9 @@ export default function ContractorDashboard({ user, onLogout }: ContractorDashbo
                   </div>
                 </div>
                 <div className="mt-4 flex gap-3">
-                  <a href="/gc/compliance?filter=issues" className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold">
+                  <Link href="/gc/compliance?filter=issues" className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold">
                     View All Issues →
-                  </a>
+                  </Link>
                   <button className="px-6 py-3 bg-white text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 transition font-semibold">
                     Send Reminders
                   </button>
@@ -156,9 +157,9 @@ export default function ContractorDashboard({ user, onLogout }: ContractorDashbo
                   </div>
                 </div>
                 <div className="mt-4">
-                  <a href="/gc/compliance?filter=compliant" className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold inline-block">
+                  <Link href="/gc/compliance?filter=compliant" className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold inline-block">
                     View All Compliant Subs →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
