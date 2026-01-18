@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '../../config/prisma.service';
 import { HoldHarmlessStatus } from '@prisma/client';
 import { randomBytes } from 'crypto';
+import { EmailService } from '../email/email.service';
 
 /**
  * Service for managing hold harmless agreements with signature workflow
@@ -15,7 +16,10 @@ import { randomBytes } from 'crypto';
  */
 @Injectable()
 export class HoldHarmlessService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private emailService: EmailService,
+  ) {}
 
   /**
    * Auto-generate hold harmless when COI is fully approved
@@ -49,7 +53,7 @@ export class HoldHarmlessService {
     });
 
     if (existing) {
-      console.log(`Hold harmless already exists for COI \${coiId}, skipping generation`);
+      console.log(`Hold harmless already exists for COI ${coiId}, skipping generation`);
       return existing;
     }
 
@@ -57,7 +61,7 @@ export class HoldHarmlessService {
     const program = coi.project.programs?.[0]?.program;
     
     if (!program?.requiresHoldHarmless) {
-      console.log(`Program does not require hold harmless for COI \${coiId}`);
+      console.log(`Program does not require hold harmless for COI ${coiId}`);
       return null;
     }
 
@@ -116,7 +120,9 @@ export class HoldHarmlessService {
       // Parse if it's a string, otherwise assume it's already an array
       const parsed = typeof project.additionalInsureds === 'string' 
         ? project.additionalInsureds.split(',').map((s: string) => s.trim())
-        : project.additionalInsureds;
+        : Array.isArray(project.additionalInsureds)
+        ? project.additionalInsureds
+        : [];
       insureds.push(...parsed);
     }
     
@@ -134,36 +140,82 @@ export class HoldHarmlessService {
    * Send signature link to subcontractor
    */
   private async sendSignatureLinkToSubcontractor(holdHarmless: any) {
-    const signatureUrl = `\${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/\${holdHarmless.subSignatureToken}`;
+    const signatureUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/${holdHarmless.subSignatureToken}`;
     
-    // Update sent timestamp
+    // Send email with signature link
+    const html = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #7c3aed;">Hold Harmless Agreement - Signature Required</h2>
+      <p>Hello,</p>
+      <p>A hold harmless agreement is ready for your signature.</p>
+      <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <p>Please click the button below to review and sign the hold harmless agreement:</p>
+        <p style="margin: 20px 0;">
+          <a href="${signatureUrl}" style="display: inline-block; padding: 12px 24px; background-color: #7c3aed; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Review and Sign Agreement</a>
+        </p>
+        <p style="color: #6b7280; font-size: 12px;">If the button doesn't work, copy and paste this link into your browser:<br>${signatureUrl}</p>
+      </div>
+      <p>If you have any questions, please contact your general contractor.</p>
+      <p>Best regards,<br>Compliant Platform Team</p>
+    </div>`;
+
+    const emailSent = await this.emailService.sendEmail({
+      to: holdHarmless.subcontractorEmail,
+      subject: 'Hold Harmless Agreement - Signature Required',
+      html,
+    });
+
+    if (!emailSent) {
+      throw new Error(`Failed to send signature link email to subcontractor: ${holdHarmless.subcontractorEmail}`);
+    }
+
+    // Only update sent timestamp if email was successfully sent
     await this.prisma.holdHarmless.update({
       where: { id: holdHarmless.id },
       data: {
         subSignatureLinkSentAt: new Date(),
       },
     });
-
-    // TODO: Integrate with email service
-    console.log(`Send signature link to \${holdHarmless.subcontractorEmail}: \${signatureUrl}`);
   }
 
   /**
    * Send signature link to GC
    */
   private async sendSignatureLinkToGC(holdHarmless: any) {
-    const signatureUrl = `\${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/\${holdHarmless.gcSignatureToken}`;
+    const signatureUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/sign-hold-harmless/${holdHarmless.gcSignatureToken}`;
     
-    // Update sent timestamp
+    // Send email with signature link
+    const html = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #10b981;">Hold Harmless Agreement - GC Signature Required</h2>
+      <p>Hello,</p>
+      <p>The subcontractor has signed the hold harmless agreement. Your signature is now required to complete the process.</p>
+      <div style="background-color: #f3f4f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <p>Please click the button below to review and sign the hold harmless agreement:</p>
+        <p style="margin: 20px 0;">
+          <a href="${signatureUrl}" style="display: inline-block; padding: 12px 24px; background-color: #10b981; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Review and Sign Agreement</a>
+        </p>
+        <p style="color: #6b7280; font-size: 12px;">If the button doesn't work, copy and paste this link into your browser:<br>${signatureUrl}</p>
+      </div>
+      <p>If you have any questions, please contact support.</p>
+      <p>Best regards,<br>Compliant Platform Team</p>
+    </div>`;
+
+    const emailSent = await this.emailService.sendEmail({
+      to: holdHarmless.gcEmail,
+      subject: 'Hold Harmless Agreement - GC Signature Required',
+      html,
+    });
+
+    if (!emailSent) {
+      throw new Error(`Failed to send signature link email to GC: ${holdHarmless.gcEmail}`);
+    }
+
+    // Only update sent timestamp if email was successfully sent
     await this.prisma.holdHarmless.update({
       where: { id: holdHarmless.id },
       data: {
         gcSignatureLinkSentAt: new Date(),
       },
     });
-
-    // TODO: Integrate with email service
-    console.log(`Send signature link to \${holdHarmless.gcEmail}: \${signatureUrl}`);
   }
 
   /**
@@ -272,6 +324,34 @@ export class HoldHarmlessService {
       holdHarmless.gcEmail,
     ].filter(Boolean);
 
+    // Send completion notification email to all parties
+    const subSignedDate = holdHarmless.subSignedAt ? new Date(holdHarmless.subSignedAt).toLocaleString() : 'N/A';
+    const gcSignedDate = holdHarmless.gcSignedAt ? new Date(holdHarmless.gcSignedAt).toLocaleString() : 'N/A';
+    
+    const html = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #10b981;">✓ Hold Harmless Agreement Completed</h2>
+      <p>Good news! The hold harmless agreement has been fully executed with signatures from all parties.</p>
+      <div style="background-color: #ecfdf5; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #10b981;">
+        <h3 style="margin-top: 0;">Agreement Status:</h3>
+        <p><strong>Status:</strong> <span style="color: #10b981; font-weight: bold;">COMPLETED</span></p>
+        <p><strong>Subcontractor Signed:</strong> ${subSignedDate}</p>
+        <p><strong>GC Signed:</strong> ${gcSignedDate}</p>
+      </div>
+      <p>The final signed document is available in the Compliant Platform.</p>
+      <p>Best regards,<br>Compliant Platform Team</p>
+    </div>`;
+
+    const emailSent = await this.emailService.sendEmail({
+      to: recipients,
+      subject: '✓ Hold Harmless Agreement Completed',
+      html,
+    });
+
+    if (!emailSent) {
+      throw new Error(`Failed to send completion notification email to recipients: ${recipients.join(', ')}`);
+    }
+
+    // Only update notification records if email was successfully sent
     await this.prisma.holdHarmless.update({
       where: { id: holdHarmless.id },
       data: {
@@ -279,9 +359,6 @@ export class HoldHarmlessService {
         notifiedAt: new Date(),
       },
     });
-
-    // TODO: Integrate with email service
-    console.log(`Notify all parties about completed hold harmless: \${recipients.join(', ')}`);
   }
 
   /**
@@ -351,7 +428,7 @@ export class HoldHarmlessService {
     });
 
     if (!holdHarmless) {
-      throw new NotFoundException(`Hold harmless agreement for COI \${coiId} not found`);
+      throw new NotFoundException(`Hold harmless agreement for COI ${coiId} not found`);
     }
 
     return holdHarmless;
@@ -414,7 +491,7 @@ export class HoldHarmlessService {
       await this.sendSignatureLinkToGC(holdHarmless);
     }
 
-    return { message: `Signature link resent to \${party}` };
+    return { message: `Signature link resent to ${party}` };
   }
 
   /**
