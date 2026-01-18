@@ -19,7 +19,7 @@ Please **do not** create a public GitHub issue for security vulnerabilities. Thi
 
 ### 2. Report Privately
 
-Send a detailed report to: **security@compliant.team** (or your organization's security contact email)
+Send a detailed report to: **security@yourdomain.com** (update with your organization's security contact email)
 
 Include in your report:
 - **Description** of the vulnerability
@@ -132,8 +132,8 @@ Our CI/CD pipeline automatically runs:
 
 ## Security Contacts
 
-- **Security Team**: security@compliant.team
-- **General Support**: support@compliant.team
+- **Security Team**: security@yourdomain.com (update with your organization's security email)
+- **General Support**: support@yourdomain.com (update with your organization's support email)
 - **Documentation**: See [PRODUCTION_READINESS_GUIDE.md](./PRODUCTION_READINESS_GUIDE.md)
 
 ## Security Acknowledgments
