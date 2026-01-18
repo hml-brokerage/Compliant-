@@ -268,7 +268,7 @@ model GeneratedCOI {
   // Hold Harmless Agreement
   holdHarmlessDocumentUrl String?
   holdHarmlessUploadedAt  DateTime?
-  holdHarmlessStatus      HoldHarmlessStatus @default(NOT_UPLOADED)
+  holdHarmlessStatus      HoldHarmlessStatus @default(PENDING_GENERATION)
 
   // Admin review
   assignedAdminEmail String?
@@ -402,45 +402,69 @@ enum ReminderType {
 }
 
 enum HoldHarmlessStatus {
-  NOT_UPLOADED
-  UPLOADED
-  APPROVED
+  PENDING_GENERATION // Waiting for COI approval to trigger generation
+  PENDING_SUB_SIGNATURE // Sent to subcontractor, awaiting signature
+  PENDING_GC_SIGNATURE // Sub signed, sent to GC, awaiting signature
+  COMPLETED // Both parties signed
   REJECTED
   EXPIRED
 }
 
-// Hold Harmless Agreement Tracking
+// Hold Harmless Agreement Tracking with Signature Workflow
 model HoldHarmless {
-  id          String             @id @default(uuid())
-  coiId       String             @unique
-  coi         GeneratedCOI       @relation(fields: [coiId], references: [id], onDelete: Cascade)
-  documentUrl String
-  uploadedAt  DateTime           @default(now())
-  uploadedBy  String? // Email of uploader (broker/admin)
-  status      HoldHarmlessStatus @default(UPLOADED)
+  id        String       @id @default(uuid())
+  coiId     String       @unique
+  coi       GeneratedCOI @relation(fields: [coiId], references: [id], onDelete: Cascade)
+  programId String? // Reference to program template
+
+  // Document URLs
+  templateUrl     String? // Original template from program
+  generatedDocUrl String? // Auto-generated document with filled data
+  finalDocUrl     String? // Final signed document
+
+  status HoldHarmlessStatus @default(PENDING_GENERATION)
+
+  // Auto-filled data from system
+  projectAddress     String?
+  gcName             String?
+  gcEmail            String?
+  ownersEntity       String?
+  additionalInsureds String[] // List of additional insureds
+  subcontractorName  String?
+  subcontractorEmail String?
 
   // Agreement details
   agreementType  String? // "Indemnification", "Waiver", "Combined"
-  parties        String[] // List of parties involved
   effectiveDate  DateTime?
   expirationDate DateTime?
 
-  // Review tracking
-  reviewedBy      String?
-  reviewedAt      DateTime?
-  reviewNotes     String?   @db.Text
-  rejectionReason String?   @db.Text
+  // Signature tracking - Subcontractor
+  subSignatureUrl        String? // URL to signature image/data
+  subSignedAt            DateTime?
+  subSignedBy            String? // Email of person who signed
+  subSignatureToken      String? // Unique token for signature link
+  subSignatureLinkSentAt DateTime?
 
-  // Compliance tracking
-  meetsRequirements Boolean  @default(false)
-  deficiencies      String[] // List of deficiencies if any
+  // Signature tracking - GC
+  gcSignatureUrl        String? // URL to signature image/data
+  gcSignedAt            DateTime?
+  gcSignedBy            String? // Email of person who signed
+  gcSignatureToken      String? // Unique token for signature link
+  gcSignatureLinkSentAt DateTime?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // Notifications
+  notificationsSent String[] // Emails of parties notified
+  notifiedAt        DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  generatedAt DateTime? // When auto-generated after COI approval
+  completedAt DateTime? // When both signatures collected
 
   @@index([coiId])
   @@index([status])
-  @@index([expirationDate])
+  @@index([subSignatureToken])
+  @@index([gcSignatureToken])
   @@map("hold_harmless")
 }
 
@@ -459,6 +483,7 @@ model InsuranceProgram {
 
   // Additional requirements
   requiresHoldHarmless      Boolean @default(false)
+  holdHarmlessTemplateUrl   String? // URL to hold harmless template document
   requiresAdditionalInsured Boolean @default(true)
   requiresWaiverSubrogation Boolean @default(true)
 

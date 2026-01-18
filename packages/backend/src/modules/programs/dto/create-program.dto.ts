@@ -41,6 +41,11 @@ export class CreateProgramDto {
   @IsOptional()
   requiresHoldHarmless?: boolean;
 
+  @ApiPropertyOptional({ description: 'URL to hold harmless template document' })
+  @IsString()
+  @IsOptional()
+  holdHarmlessTemplateUrl?: string;
+
   @ApiPropertyOptional({ description: 'Requires Additional Insured', default: true })
   @IsBoolean()
   @IsOptional()

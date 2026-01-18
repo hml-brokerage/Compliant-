@@ -19,6 +19,7 @@ export class ProgramsService {
       autoMinimum: createProgramDto.autoMinimum,
       umbrellaMinimum: createProgramDto.umbrellaMinimum,
       requiresHoldHarmless: createProgramDto.requiresHoldHarmless ?? false,
+      holdHarmlessTemplateUrl: createProgramDto.holdHarmlessTemplateUrl,
       requiresAdditionalInsured: createProgramDto.requiresAdditionalInsured ?? true,
       requiresWaiverSubrogation: createProgramDto.requiresWaiverSubrogation ?? true,
       tierRequirements: createProgramDto.tierRequirements ?? Prisma.JsonNull,

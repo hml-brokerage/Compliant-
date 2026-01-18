@@ -2,8 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
-  Delete,
   Param,
   Body,
   Query,
@@ -15,39 +13,53 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole, HoldHarmlessStatus } from '@prisma/client';
-import { UploadHoldHarmlessDto } from './dto/upload-hold-harmless.dto';
-import { ReviewHoldHarmlessDto } from './dto/review-hold-harmless.dto';
 
 @ApiTags('hold-harmless')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('hold-harmless')
 export class HoldHarmlessController {
   constructor(private readonly holdHarmlessService: HoldHarmlessService) {}
 
-  @Post('coi/:coiId')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.BROKER)
-  @ApiOperation({ summary: 'Upload hold harmless document for a COI' })
-  @ApiResponse({ status: 201, description: 'Hold harmless uploaded successfully' })
-  async uploadHoldHarmless(
-    @Param('coiId') coiId: string,
-    @Body() uploadDto: UploadHoldHarmlessDto,
+  @Post('auto-generate/:coiId')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Auto-generate hold harmless when COI is approved (internal use)' })
+  @ApiResponse({ status: 201, description: 'Hold harmless generated and sent to subcontractor' })
+  async autoGenerate(@Param('coiId') coiId: string) {
+    return this.holdHarmlessService.autoGenerateOnCOIApproval(coiId);
+  }
+
+  @Get('by-token/:token')
+  @ApiOperation({ summary: 'Get hold harmless by signature token (public endpoint for signature page)' })
+  @ApiResponse({ status: 200, description: 'Returns hold harmless details for signing' })
+  async getByToken(@Param('token') token: string) {
+    return this.holdHarmlessService.getByToken(token);
+  }
+
+  @Post('sign/subcontractor/:token')
+  @ApiOperation({ summary: 'Process subcontractor signature (public endpoint)' })
+  @ApiResponse({ status: 200, description: 'Subcontractor signature recorded, GC link sent' })
+  async signSubcontractor(
+    @Param('token') token: string,
+    @Body() signatureData: { signatureUrl: string; signedBy: string }
   ) {
-    return this.holdHarmlessService.uploadHoldHarmless(
-      coiId,
-      uploadDto.documentUrl,
-      uploadDto.uploadedBy,
-      {
-        agreementType: uploadDto.agreementType,
-        parties: uploadDto.parties,
-        effectiveDate: uploadDto.effectiveDate ? new Date(uploadDto.effectiveDate) : undefined,
-        expirationDate: uploadDto.expirationDate ? new Date(uploadDto.expirationDate) : undefined,
-      },
-    );
+    return this.holdHarmlessService.processSubcontractorSignature(token, signatureData);
+  }
+
+  @Post('sign/gc/:token')
+  @ApiOperation({ summary: 'Process GC signature (public endpoint)' })
+  @ApiResponse({ status: 200, description: 'GC signature recorded, hold harmless completed' })
+  async signGC(
+    @Param('token') token: string,
+    @Body() signatureData: { signatureUrl: string; signedBy: string; finalDocUrl: string }
+  ) {
+    return this.holdHarmlessService.processGCSignature(token, signatureData);
   }
 
   @Get('coi/:coiId')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER, UserRole.BROKER)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get hold harmless agreement for a COI' })
   @ApiResponse({ status: 200, description: 'Returns hold harmless agreement' })
   async getHoldHarmless(@Param('coiId') coiId: string) {
@@ -55,64 +67,43 @@ export class HoldHarmlessController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all hold harmless agreements' })
   @ApiQuery({ name: 'status', enum: HoldHarmlessStatus, required: false })
-  @ApiQuery({ name: 'expired', type: Boolean, required: false })
-  @ApiQuery({ name: 'needsReview', type: Boolean, required: false })
+  @ApiQuery({ name: 'pendingSignature', type: Boolean, required: false })
   @ApiResponse({ status: 200, description: 'Returns list of hold harmless agreements' })
   async getAllHoldHarmless(
     @Query('status') status?: HoldHarmlessStatus,
-    @Query('expired') expired?: boolean,
-    @Query('needsReview') needsReview?: boolean,
+    @Query('pendingSignature') pendingSignature?: boolean,
   ) {
     return this.holdHarmlessService.getAllHoldHarmless({
       status,
-      expired: expired === true,
-      needsReview: needsReview === true,
+      pendingSignature: pendingSignature === true,
     });
   }
 
-  @Patch(':id/review')
+  @Post(':id/resend/:party')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
-  @ApiOperation({ summary: 'Review and approve/reject hold harmless agreement' })
-  @ApiResponse({ status: 200, description: 'Hold harmless reviewed successfully' })
-  async reviewHoldHarmless(
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Resend signature link to SUB or GC' })
+  @ApiResponse({ status: 200, description: 'Signature link resent' })
+  async resendSignatureLink(
     @Param('id') id: string,
-    @Body() reviewDto: ReviewHoldHarmlessDto,
+    @Param('party') party: 'SUB' | 'GC',
   ) {
-    return this.holdHarmlessService.reviewHoldHarmless(
-      id,
-      reviewDto.reviewedBy,
-      reviewDto.status,
-      reviewDto.reviewNotes,
-      reviewDto.meetsRequirements,
-      reviewDto.deficiencies,
-    );
-  }
-
-  @Get('expiring')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
-  @ApiOperation({ summary: 'Get hold harmless agreements expiring soon' })
-  @ApiQuery({ name: 'days', type: Number, required: false, description: 'Days threshold (default: 30)' })
-  @ApiResponse({ status: 200, description: 'Returns list of expiring hold harmless agreements' })
-  async getExpiringHoldHarmless(@Query('days') days?: number) {
-    return this.holdHarmlessService.checkExpiringHoldHarmless(days ? Number(days) : 30);
+    return this.holdHarmlessService.resendSignatureLink(id, party);
   }
 
   @Get('stats')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get hold harmless statistics' })
   @ApiResponse({ status: 200, description: 'Returns statistics' })
   async getStatistics() {
     return this.holdHarmlessService.getStatistics();
-  }
-
-  @Delete(':id')
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
-  @ApiOperation({ summary: 'Delete hold harmless agreement' })
-  @ApiResponse({ status: 200, description: 'Hold harmless deleted successfully' })
-  async deleteHoldHarmless(@Param('id') id: string) {
-    return this.holdHarmlessService.deleteHoldHarmless(id);
   }
 }
