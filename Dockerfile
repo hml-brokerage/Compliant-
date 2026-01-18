@@ -6,7 +6,12 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Install system dependencies
-RUN apk add --no-cache postgresql-client python3 make g++
+# Retry logic for apk in case of transient network issues
+# Try postgresql16-client first, fall back to postgresql-client if not available
+RUN for i in 1 2 3; do apk update && break || sleep 5; done && \
+    (apk add --no-cache postgresql16-client python3 make g++ || \
+     apk add --no-cache postgresql15-client python3 make g++ || \
+     apk add --no-cache postgresql-client python3 make g++)
 
 # Install pnpm
 RUN npm install -g pnpm@8.15.0
@@ -49,7 +54,11 @@ FROM node:20-alpine AS production
 WORKDIR /app
 
 # Install runtime dependencies only
-RUN apk add --no-cache postgresql-client
+# Try different PostgreSQL client versions for compatibility
+RUN for i in 1 2 3; do apk update && break || sleep 5; done && \
+    (apk add --no-cache postgresql16-client || \
+     apk add --no-cache postgresql15-client || \
+     apk add --no-cache postgresql-client)
 
 # Install pnpm
 RUN npm install -g pnpm@8.15.0
