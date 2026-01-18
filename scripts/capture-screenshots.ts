@@ -39,12 +39,22 @@ async function login(page: Page, email: string, password: string) {
   await page.fill('input[type="email"]', email);
   await page.fill('input[type="password"]', password);
   
-  // Submit form
-  await page.click('button[type="submit"]');
+  // Submit form and wait for navigation
+  await Promise.all([
+    page.waitForURL('**/dashboard', { timeout: 15000 }),
+    page.click('button[type="submit"]'),
+  ]);
   
-  // Wait for navigation to dashboard
-  await page.waitForURL('**/dashboard', { timeout: 10000 });
   await page.waitForLoadState('networkidle');
+  
+  // Wait longer to ensure tokens/cookies are properly set
+  await page.waitForTimeout(2000);
+  
+  // Verify we're actually logged in by checking the URL
+  const currentUrl = page.url();
+  if (!currentUrl.includes('/dashboard')) {
+    throw new Error(`Login failed for ${email} - still on ${currentUrl}`);
+  }
   
   console.log(`✓ Logged in as ${email}`);
 }
@@ -53,6 +63,7 @@ async function captureScreenshot(page: Page, name: string, fullPage: boolean = f
   const filename = join(SCREENSHOTS_DIR, `${name}.png`);
   
   await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(2000); // Wait for any client-side rendering
   await page.screenshot({ path: filename, fullPage });
   
   console.log(`  ✓ Captured: ${name}.png`);
@@ -98,8 +109,14 @@ async function captureAPIDocumentation(page: Page) {
   }
 }
 
-async function captureAdminPages(page: Page) {
+async function captureAdminPages(browser: Browser) {
   console.log('\n📸 Capturing Admin Pages...');
+  
+  // Create a new context for admin user
+  const context = await browser.newContext({
+    viewport: { width: 1920, height: 1080 },
+  });
+  const page = await context.newPage();
   
   await login(page, 'admin@compliant.com', 'Admin123!@#');
   
@@ -123,26 +140,40 @@ async function captureAdminPages(page: Page) {
   for (const adminPage of adminPages) {
     try {
       await page.goto(`${BASE_URL}${adminPage.url}`, { waitUntil: 'networkidle' });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000); // Wait for React hydration/rendering
       await captureScreenshot(page, adminPage.name, true);
     } catch (error) {
       console.log(`  ⚠ Could not capture ${adminPage.name} (page may not be implemented)`);
     }
   }
+  
+  await context.close();
 }
 
-async function captureManagerPages(page: Page) {
+async function captureManagerPages(browser: Browser) {
   console.log('\n📸 Capturing Manager Pages...');
+  
+  const context = await browser.newContext({
+    viewport: { width: 1920, height: 1080 },
+  });
+  const page = await context.newPage();
   
   await login(page, 'manager@compliant.com', 'Manager123!@#');
   
   // Manager Dashboard
   await page.goto(`${BASE_URL}/dashboard`);
   await captureScreenshot(page, '18-manager-dashboard', true);
+  
+  await context.close();
 }
 
-async function captureContractorPages(page: Page) {
+async function captureContractorPages(browser: Browser) {
   console.log('\n📸 Capturing Contractor/GC Pages...');
+  
+  const context = await browser.newContext({
+    viewport: { width: 1920, height: 1080 },
+  });
+  const page = await context.newPage();
   
   await login(page, 'contractor@compliant.com', 'Contractor123!@#');
   
@@ -158,16 +189,23 @@ async function captureContractorPages(page: Page) {
   for (const contractorPage of contractorPages) {
     try {
       await page.goto(`${BASE_URL}${contractorPage.url}`, { waitUntil: 'networkidle' });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
       await captureScreenshot(page, contractorPage.name, true);
     } catch (error) {
       console.log(`  ⚠ Could not capture ${contractorPage.name}`);
     }
   }
+  
+  await context.close();
 }
 
-async function captureSubcontractorPages(page: Page) {
+async function captureSubcontractorPages(browser: Browser) {
   console.log('\n📸 Capturing Subcontractor Pages...');
+  
+  const context = await browser.newContext({
+    viewport: { width: 1920, height: 1080 },
+  });
+  const page = await context.newPage();
   
   await login(page, 'subcontractor@compliant.com', 'Subcontractor123!@#');
   
@@ -186,16 +224,23 @@ async function captureSubcontractorPages(page: Page) {
   for (const subPage of subPages) {
     try {
       await page.goto(`${BASE_URL}${subPage.url}`, { waitUntil: 'networkidle' });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
       await captureScreenshot(page, subPage.name, true);
     } catch (error) {
       console.log(`  ⚠ Could not capture ${subPage.name}`);
     }
   }
+  
+  await context.close();
 }
 
-async function captureBrokerPages(page: Page) {
+async function captureBrokerPages(browser: Browser) {
   console.log('\n📸 Capturing Broker Pages...');
+  
+  const context = await browser.newContext({
+    viewport: { width: 1920, height: 1080 },
+  });
+  const page = await context.newPage();
   
   await login(page, 'broker@compliant.com', 'Broker123!@#');
   
@@ -218,6 +263,8 @@ async function captureBrokerPages(page: Page) {
       console.log(`  ⚠ Could not capture ${brokerPage.name}`);
     }
   }
+  
+  await context.close();
 }
 
 async function main() {
@@ -229,20 +276,23 @@ async function main() {
   await setupScreenshotsDirectory();
   
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    viewport: { width: 1920, height: 1080 },
-  });
-  const page = await context.newPage();
   
   try {
-    // Capture all pages
-    await capturePublicPages(page);
-    await captureAPIDocumentation(page);
-    await captureAdminPages(page);
-    await captureManagerPages(page);
-    await captureContractorPages(page);
-    await captureSubcontractorPages(page);
-    await captureBrokerPages(page);
+    // Capture public pages (no auth needed)
+    const publicContext = await browser.newContext({
+      viewport: { width: 1920, height: 1080 },
+    });
+    const publicPage = await publicContext.newPage();
+    await capturePublicPages(publicPage);
+    await captureAPIDocumentation(publicPage);
+    await publicContext.close();
+    
+    // Capture authenticated pages with separate contexts for each role
+    await captureAdminPages(browser);
+    await captureManagerPages(browser);
+    await captureContractorPages(browser);
+    await captureSubcontractorPages(browser);
+    await captureBrokerPages(browser);
     
     console.log('\n✅ Screenshot capture complete!');
     console.log(`📁 Screenshots saved to: ${SCREENSHOTS_DIR}`);
@@ -254,7 +304,6 @@ async function main() {
   }
 }
 
-// Run the script
 main().catch((error) => {
   console.error('Fatal error:', error);
   process.exit(1);
