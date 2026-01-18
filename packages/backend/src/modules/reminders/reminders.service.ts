@@ -433,7 +433,8 @@ export class RemindersService {
     }
 
     const policyExpirationDate = (() => {
-      const fieldName = `${policyType.toLowerCase()}ExpirationDate` as keyof COIWithRelations;
+      const fieldName =
+        `${policyType.toLowerCase()}ExpirationDate` as keyof COIWithRelations;
       const value = coiData[fieldName];
       return value instanceof Date ? value : new Date();
     })();

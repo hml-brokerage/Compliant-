@@ -272,7 +272,8 @@ export class ContractorsService {
 
     // Add insurance status filter
     if (insuranceStatus) {
-      where.insuranceStatus = insuranceStatus as Prisma.EnumInsuranceStatusFilter;
+      where.insuranceStatus =
+        insuranceStatus as Prisma.EnumInsuranceStatusFilter;
     }
 
     // Cache key includes all filter parameters

@@ -28,9 +28,15 @@ export class ProgramsService {
         createProgramDto.requiresAdditionalInsured ?? true,
       requiresWaiverSubrogation:
         createProgramDto.requiresWaiverSubrogation ?? true,
-      tierRequirements: (createProgramDto.tierRequirements as Prisma.InputJsonValue) ?? Prisma.JsonNull,
-      tradeRequirements: (createProgramDto.tradeRequirements as Prisma.InputJsonValue) ?? Prisma.JsonNull,
-      autoApprovalRules: (createProgramDto.autoApprovalRules as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+      tierRequirements:
+        (createProgramDto.tierRequirements as Prisma.InputJsonValue) ??
+        Prisma.JsonNull,
+      tradeRequirements:
+        (createProgramDto.tradeRequirements as Prisma.InputJsonValue) ??
+        Prisma.JsonNull,
+      autoApprovalRules:
+        (createProgramDto.autoApprovalRules as Prisma.InputJsonValue) ??
+        Prisma.JsonNull,
       createdBy: userId,
     };
 
@@ -118,15 +124,19 @@ export class ProgramsService {
         requiresWaiverSubrogation: updateProgramDto.requiresWaiverSubrogation,
       }),
       ...(updateProgramDto.tierRequirements !== undefined && {
-        tierRequirements: (updateProgramDto.tierRequirements as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+        tierRequirements:
+          (updateProgramDto.tierRequirements as Prisma.InputJsonValue) ??
+          Prisma.JsonNull,
       }),
       ...(updateProgramDto.tradeRequirements !== undefined && {
         tradeRequirements:
-          (updateProgramDto.tradeRequirements as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+          (updateProgramDto.tradeRequirements as Prisma.InputJsonValue) ??
+          Prisma.JsonNull,
       }),
       ...(updateProgramDto.autoApprovalRules !== undefined && {
         autoApprovalRules:
-          (updateProgramDto.autoApprovalRules as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+          (updateProgramDto.autoApprovalRules as Prisma.InputJsonValue) ??
+          Prisma.JsonNull,
       }),
     };
 
@@ -205,7 +215,8 @@ export class ProgramsService {
         programId: programId,
         assignedBy: userId,
         customRequirements:
-          (assignProgramDto.customRequirements as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+          (assignProgramDto.customRequirements as Prisma.InputJsonValue) ??
+          Prisma.JsonNull,
       },
       include: {
         project: {

@@ -5,12 +5,7 @@ import {
   Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../../config/prisma.service";
-import {
-  HoldHarmlessStatus,
-  HoldHarmless,
-  Project,
-  Prisma,
-} from "@prisma/client";
+import { HoldHarmlessStatus, HoldHarmless, Prisma } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { EmailService } from "../email/email.service";
 
@@ -127,9 +122,11 @@ export class HoldHarmlessService {
   /**
    * Extract additional insureds from project data
    */
-  private extractAdditionalInsureds(
-    project: { gcName?: string | null; entity?: string | null; additionalInsureds?: string | null },
-  ): string[] {
+  private extractAdditionalInsureds(project: {
+    gcName?: string | null;
+    entity?: string | null;
+    additionalInsureds?: string | null;
+  }): string[] {
     const insureds: string[] = [];
 
     if (project.gcName) insureds.push(project.gcName);
@@ -160,7 +157,7 @@ export class HoldHarmlessService {
    */
   private async sendSignatureLinkToSubcontractor(holdHarmless: HoldHarmless) {
     if (!holdHarmless.subcontractorEmail) {
-      throw new BadRequestException('Subcontractor email is required');
+      throw new BadRequestException("Subcontractor email is required");
     }
 
     const signatureUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/subcontractor/hold-harmless/${holdHarmless.id}`;
@@ -273,7 +270,7 @@ export class HoldHarmlessService {
    */
   private async notifyGCToSign(holdHarmless: HoldHarmless) {
     if (!holdHarmless.gcEmail) {
-      throw new BadRequestException('GC email is required');
+      throw new BadRequestException("GC email is required");
     }
 
     const signatureUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/gc/hold-harmless/${holdHarmless.id}`;
@@ -383,7 +380,9 @@ export class HoldHarmlessService {
     ].filter((email): email is string => email !== null && email !== undefined);
 
     if (recipients.length === 0) {
-      this.logger.warn('No valid recipient emails for hold harmless notification');
+      this.logger.warn(
+        "No valid recipient emails for hold harmless notification",
+      );
       return;
     }
 
