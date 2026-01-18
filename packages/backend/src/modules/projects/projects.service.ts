@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../config/prisma.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
-import { Prisma, ContractorType } from "@prisma/client";
+import { Prisma, ContractorType, User } from "@prisma/client";
 
 @Injectable()
 export class ProjectsService {
@@ -65,9 +65,9 @@ export class ProjectsService {
    * - search: search by project name, address, GC name
    * - status: filter by project status
    */
-  async findAll(user?: any, search?: string, status?: string) {
+  async findAll(user?: User, search?: string, status?: string) {
     // Build where clause based on user role
-    const where: any = {};
+    const where: Prisma.ProjectWhereInput = {};
 
     if (user) {
       switch (user.role) {
@@ -154,10 +154,15 @@ export class ProjectsService {
     if (search) {
       const searchCondition = {
         OR: [
-          { name: { contains: search, mode: "insensitive" as any } },
-          { address: { contains: search, mode: "insensitive" as any } },
-          { gcName: { contains: search, mode: "insensitive" as any } },
-          { description: { contains: search, mode: "insensitive" as any } },
+          { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
+          { address: { contains: search, mode: Prisma.QueryMode.insensitive } },
+          { gcName: { contains: search, mode: Prisma.QueryMode.insensitive } },
+          {
+            description: {
+              contains: search,
+              mode: Prisma.QueryMode.insensitive,
+            },
+          },
         ],
       };
 

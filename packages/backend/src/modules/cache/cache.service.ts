@@ -10,7 +10,8 @@ import Redis from "ioredis";
 export class CacheService implements OnModuleInit {
   private readonly logger = new Logger(CacheService.name);
   private redis: Redis | null = null;
-  private memoryCache: Map<string, { value: any; expiry: number }> = new Map();
+  private memoryCache: Map<string, { value: unknown; expiry: number }> =
+    new Map();
   private readonly DEFAULT_TTL = 3600; // 1 hour in seconds
 
   constructor(private configService: ConfigService) {}
@@ -73,7 +74,7 @@ export class CacheService implements OnModuleInit {
   /**
    * Set a value in cache with optional TTL
    */
-  async set(key: string, value: any, ttl?: number): Promise<void> {
+  async set(key: string, value: unknown, ttl?: number): Promise<void> {
     try {
       const ttlSeconds = ttl || this.DEFAULT_TTL;
 
@@ -212,10 +213,10 @@ export class CacheService implements OnModuleInit {
       return null;
     }
 
-    return cached.value;
+    return cached.value as T;
   }
 
-  private setInMemory(key: string, value: any, ttlSeconds: number): void {
+  private setInMemory(key: string, value: unknown, ttlSeconds: number): void {
     this.memoryCache.set(key, {
       value,
       expiry: Date.now() + ttlSeconds * 1000,

@@ -82,7 +82,7 @@ export class CreateProgramDto {
   })
   @IsObject()
   @IsOptional()
-  tierRequirements?: Record<string, any>;
+  tierRequirements?: Record<string, unknown>;
 
   @ApiPropertyOptional({
     description: "Trade-specific requirements",
@@ -90,10 +90,10 @@ export class CreateProgramDto {
   })
   @IsObject()
   @IsOptional()
-  tradeRequirements?: Record<string, any>;
+  tradeRequirements?: Record<string, unknown>;
 
   @ApiPropertyOptional({ description: "Auto-approval rules", type: "object" })
   @IsObject()
   @IsOptional()
-  autoApprovalRules?: Record<string, any>;
+  autoApprovalRules?: Record<string, unknown>;
 }

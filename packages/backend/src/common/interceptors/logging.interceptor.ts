@@ -17,7 +17,7 @@ export class LoggingInterceptor implements NestInterceptor {
     private readonly logger: LoggerService,
   ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest();
     const { method, url, ip, headers } = request;
     // Sanitize user agent to prevent log injection

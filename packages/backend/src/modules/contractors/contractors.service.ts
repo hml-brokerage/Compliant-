@@ -4,7 +4,7 @@ import { CacheService } from "../cache/cache.service";
 import { CreateContractorDto } from "./dto/create-contractor.dto";
 import { UpdateContractorDto } from "./dto/update-contractor.dto";
 import { InsuranceStatus } from "@compliant/shared";
-import { Prisma, UserRole } from "@prisma/client";
+import { Prisma, UserRole, User } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { randomBytes } from "crypto";
 
@@ -187,13 +187,15 @@ export class ContractorsService {
     page = 1,
     limit = 10,
     status?: string,
-    user?: any,
+    user?: User,
     search?: string,
     trade?: string,
     insuranceStatus?: string,
   ) {
     // Build where clause based on user role
-    const where: any = status ? { status: status as any } : {};
+    const where: Prisma.ContractorWhereInput = status
+      ? { status: status as Prisma.EnumContractorStatusFilter }
+      : {};
 
     if (user) {
       switch (user.role) {
@@ -246,9 +248,9 @@ export class ContractorsService {
     if (search) {
       const searchCondition = {
         OR: [
-          { name: { contains: search, mode: "insensitive" as any } },
-          { email: { contains: search, mode: "insensitive" as any } },
-          { company: { contains: search, mode: "insensitive" as any } },
+          { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
+          { email: { contains: search, mode: Prisma.QueryMode.insensitive } },
+          { company: { contains: search, mode: Prisma.QueryMode.insensitive } },
         ],
       };
 
@@ -270,7 +272,7 @@ export class ContractorsService {
 
     // Add insurance status filter
     if (insuranceStatus) {
-      where.insuranceStatus = insuranceStatus;
+      where.insuranceStatus = insuranceStatus as Prisma.EnumInsuranceStatusFilter;
     }
 
     // Cache key includes all filter parameters

@@ -12,6 +12,7 @@ import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
 import { UsersService } from "../users/users.service";
 import { LoginDto } from "./dto/login.dto";
 import { PrismaService } from "../../config/prisma.service";
+import { User } from "@prisma/client";
 
 // Refresh token expiration in days
 const REFRESH_TOKEN_EXPIRATION_DAYS = 7;
@@ -30,7 +31,10 @@ export class AuthService {
     private readonly logger: LoggerService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<Omit<User, "password"> | null> {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
       return null;

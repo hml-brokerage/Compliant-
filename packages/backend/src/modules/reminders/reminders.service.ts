@@ -2,8 +2,19 @@ import { Injectable, Inject, LoggerService } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
 import { PrismaService } from "../../config/prisma.service";
-import { ReminderType } from "@prisma/client";
+import {
+  ReminderType,
+  GeneratedCOI,
+  Project,
+  Contractor,
+} from "@prisma/client";
 import { EmailService } from "../email/email.service";
+
+// Type for COI data with relations
+type COIWithRelations = GeneratedCOI & {
+  project?: Project | null;
+  subcontractor?: Contractor | null;
+};
 
 /**
  * Service for automated policy expiration reminders
@@ -176,7 +187,7 @@ export class RemindersService {
     policyType: string,
     expirationDate: Date,
     recipients: string[],
-    coiData: any,
+    coiData: COIWithRelations,
   ): Promise<boolean> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -304,7 +315,7 @@ export class RemindersService {
     daysUntilExpiry: number,
     reminderType: ReminderType,
     recipients: string[],
-    coiData: any,
+    coiData: COIWithRelations,
   ): Promise<void> {
     const subject = this.buildEmailSubject(
       reminderType,
@@ -378,7 +389,7 @@ export class RemindersService {
     reminderType: ReminderType,
     policyType: string,
     daysUntilExpiry: number,
-    coiData: any,
+    coiData: COIWithRelations,
   ): string {
     const policyName = this.getPolicyName(policyType);
     const projectName = coiData.project?.name || "Unknown Project";

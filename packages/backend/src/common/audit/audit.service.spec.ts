@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AuditService, AuditAction, AuditResourceType } from "./audit.service";
 import { PrismaService } from "../../config/prisma.service";
+import { AuditLog } from "@prisma/client";
 
 describe("AuditService", () => {
   let service: AuditService;
@@ -35,7 +36,7 @@ describe("AuditService", () => {
       const consoleSpy = jest.spyOn(console, "log").mockImplementation();
       const createSpy = jest
         .spyOn(prismaService.auditLog, "create")
-        .mockResolvedValue({} as any);
+        .mockResolvedValue({} as AuditLog);
 
       await service.log({
         userId: "user-123",
@@ -61,7 +62,7 @@ describe("AuditService", () => {
       const consoleSpy = jest.spyOn(console, "log").mockImplementation();
       const createSpy = jest
         .spyOn(prismaService.auditLog, "create")
-        .mockResolvedValue({} as any);
+        .mockResolvedValue({} as AuditLog);
 
       await service.log({
         action: AuditAction.LOGIN,
@@ -249,7 +250,7 @@ describe("AuditService", () => {
 
       const findManySpy = jest
         .spyOn(prismaService.auditLog, "findMany")
-        .mockResolvedValue(mockLogs as any);
+        .mockResolvedValue(mockLogs as AuditLog[]);
 
       const result = await service.queryLogs({
         userId: "user-123",

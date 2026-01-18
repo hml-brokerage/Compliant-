@@ -12,5 +12,5 @@ export class AssignProgramDto {
   })
   @IsObject()
   @IsOptional()
-  customRequirements?: Record<string, any>;
+  customRequirements?: Record<string, unknown>;
 }
