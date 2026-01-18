@@ -201,24 +201,29 @@ describe("AuditService", () => {
       logSpy.mockRestore();
     });
 
-    it('should log anonymous security events (failed login attempts)', async () => {
-      const logSpy = jest.spyOn(service, 'log').mockResolvedValue();
+    it("should log anonymous security events (failed login attempts)", async () => {
+      const logSpy = jest.spyOn(service, "log").mockResolvedValue();
 
       await service.logSecurityEvent(
         undefined,
         AuditAction.LOGIN,
-        { attemptCount: 5, success: false, reason: 'Invalid credentials' },
-        '192.168.1.100',
-        'Mozilla/5.0',
+        { attemptCount: 5, success: false, reason: "Invalid credentials" },
+        "192.168.1.100",
+        "Mozilla/5.0",
       );
 
       expect(logSpy).toHaveBeenCalledWith({
         userId: undefined,
         action: AuditAction.LOGIN,
         resourceType: AuditResourceType.USER,
-        details: { attemptCount: 5, success: false, reason: 'Invalid credentials', securityEvent: true },
-        ipAddress: '192.168.1.100',
-        userAgent: 'Mozilla/5.0',
+        details: {
+          attemptCount: 5,
+          success: false,
+          reason: "Invalid credentials",
+          securityEvent: true,
+        },
+        ipAddress: "192.168.1.100",
+        userAgent: "Mozilla/5.0",
       });
 
       logSpy.mockRestore();

@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../config/prisma.service";
+import { AuditLog } from "@prisma/client";
 
 export enum AuditAction {
   CREATE = "CREATE",
@@ -206,7 +207,7 @@ export class AuditService {
     });
 
     // Map database records to AuditLogEntry format
-    return logs.map((log: any) => ({
+    return logs.map((log: AuditLog) => ({
       userId: log.userId || undefined,
       action: log.action as AuditAction,
       resourceType: log.resource as AuditResourceType,
