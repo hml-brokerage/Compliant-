@@ -195,16 +195,17 @@ jobs:
             echo "|--------|-------|-----------|" >> $GITHUB_STEP_SUMMARY
             echo "| 95th Percentile Response Time | ${HTTP_REQ_DURATION_P95}ms | < 500ms |" >> $GITHUB_STEP_SUMMARY
             echo "| 99th Percentile Response Time | ${HTTP_REQ_DURATION_P99}ms | < 1000ms |" >> $GITHUB_STEP_SUMMARY
-            echo "| Error Rate | ${HTTP_REQ_FAILED_RATE} | < 0.05 |" >> $GITHUB_STEP_SUMMARY
+            ERROR_RATE_PCT=$(awk -v rate="$HTTP_REQ_FAILED_RATE" 'BEGIN {printf "%.1f%%", rate * 100}')
+            echo "| Error Rate | ${ERROR_RATE_PCT} | < 5% |" >> $GITHUB_STEP_SUMMARY
             echo "| Total Iterations | $ITERATIONS | - |" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             
-            # Check thresholds using awk instead of bc
-            if awk -v p95="$HTTP_REQ_DURATION_P95" 'BEGIN {exit !(p95 > 500)}'; then
+            # Check thresholds using awk
+            if awk -v p95="$HTTP_REQ_DURATION_P95" 'BEGIN {exit (p95 > 500)}'; then
               echo "⚠️ **Warning**: 95th percentile response time exceeds 500ms" >> $GITHUB_STEP_SUMMARY
             fi
             
-            if awk -v rate="$HTTP_REQ_FAILED_RATE" 'BEGIN {exit !(rate > 0.05)}'; then
+            if awk -v rate="$HTTP_REQ_FAILED_RATE" 'BEGIN {exit (rate > 0.05)}'; then
               echo "❌ **Error**: Error rate exceeds 5%" >> $GITHUB_STEP_SUMMARY
             fi
           else
@@ -223,11 +224,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: performance-test-results
+          if-no-files-found: warn
+          retention-days: 90
           path: |
             k6-results.json
             k6-tests/
-          retention-days: 90
-          if-no-files-found: warn
 
       - name: Comment PR with performance results
         if: github.event_name == 'pull_request' && always()

@@ -5,13 +5,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install system dependencies
-# Retry logic for apk in case of transient network issues
-# Try postgresql16-client first, fall back to postgresql-client if not available
+# Install system dependencies for building native modules
+# postgresql-client is NOT needed for build, only for runtime
 RUN for i in 1 2 3; do apk update && break || sleep 5; done && \
-    (apk add --no-cache postgresql16-client python3 make g++ || \
-     apk add --no-cache postgresql15-client python3 make g++ || \
-     apk add --no-cache postgresql-client python3 make g++)
+    apk add --no-cache python3 make g++
 
 # Install pnpm
 RUN npm install -g pnpm@8.15.0
@@ -53,12 +50,19 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Install runtime dependencies only
-# Try different PostgreSQL client versions for compatibility
-RUN for i in 1 2 3; do apk update && break || sleep 5; done && \
-    (apk add --no-cache postgresql16-client || \
-     apk add --no-cache postgresql15-client || \
-     apk add --no-cache postgresql-client)
+# Install runtime dependencies (optional postgresql-client for debugging)
+# Note: Prisma Client doesn't require postgresql-client binaries
+# They're only useful for manual database operations/debugging
+RUN set -e; \
+    echo "Updating package repository..." && \
+    for i in 1 2 3 4 5; do \
+      apk update && break || { echo "Retry $i/5: apk update failed, waiting..."; sleep 10; }; \
+    done && \
+    echo "Installing optional postgresql-client (not critical)..." && \
+    (apk add --no-cache postgresql16-client 2>/dev/null || \
+     apk add --no-cache postgresql15-client 2>/dev/null || \
+     apk add --no-cache postgresql14-client 2>/dev/null || \
+     { echo "Note: postgresql-client not installed (optional dependency)"; true; })
 
 # Install pnpm
 RUN npm install -g pnpm@8.15.0
