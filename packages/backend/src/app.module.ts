@@ -14,6 +14,10 @@ import { AuditModule } from './modules/audit/audit.module';
 import { CacheModule } from './modules/cache/cache.module';
 import { EmailModule } from './modules/email/email.module';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { ProgramsModule } from './modules/programs/programs.module';
+import { RemindersModule } from './modules/reminders/reminders.module';
+import { HoldHarmlessModule } from './modules/hold-harmless/hold-harmless.module';
+import { TradesModule } from './modules/trades/trades.module';
 import { EncryptionModule } from './common/encryption/encryption.module';
 import { PrismaModule } from './config/prisma.module';
 import { winstonConfig } from './config/logger.config';
@@ -43,6 +47,10 @@ import { AllExceptionsFilter } from './common/filters/http-exception.filter';
     GeneratedCOIModule,
     ProjectsModule,
     TasksModule,
+    ProgramsModule,
+    RemindersModule,
+    HoldHarmlessModule,
+    TradesModule,
   ],
   providers: [
     {
