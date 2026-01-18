@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../config/prisma.service";
-import { AuditLog } from "@prisma/client";
 
 export enum AuditAction {
   CREATE = "CREATE",
