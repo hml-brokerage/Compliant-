@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/auth/AuthContext';
+import BrokerAutocomplete from '../../components/BrokerAutocomplete';
 
 type BrokerType = 'GLOBAL' | 'PER_POLICY';
 
@@ -290,18 +291,25 @@ export default function SubcontractorBrokerPage() {
               {brokerType === 'GLOBAL' && (
                 <div className="border-t pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Broker Details</h3>
+                  <div className="mb-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p className="text-sm text-blue-800">
+                      💡 <strong>Tip:</strong> Start typing the broker name to search if they're already in the system. You can modify the details after selection.
+                    </p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Broker Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
+                    <div className="md:col-span-2">
+                      <BrokerAutocomplete
                         value={brokerInfo.brokerName || ''}
-                        onChange={(e) => updateBrokerInfo('brokerName', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        placeholder="John Doe"
+                        onChange={(value) => updateBrokerInfo('brokerName', value)}
+                        onSelect={(broker) => {
+                          updateBrokerInfo('brokerName', broker.name);
+                          updateBrokerInfo('brokerEmail', broker.email);
+                          updateBrokerInfo('brokerPhone', broker.phone || '');
+                          updateBrokerInfo('brokerCompany', broker.company || '');
+                        }}
+                        label="Broker Name *"
+                        placeholder="Start typing broker name..."
+                        policyType="GLOBAL"
                       />
                     </div>
                     <div>
@@ -348,42 +356,50 @@ export default function SubcontractorBrokerPage() {
               {/* Per-Policy Broker Form */}
               {brokerType === 'PER_POLICY' && (
                 <div className="border-t pt-6 space-y-6">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                    <p className="text-sm text-blue-800">
+                      💡 <strong>Tip:</strong> Start typing each broker's name to search if they're already in the system. You can modify the details after selection.
+                    </p>
+                  </div>
+
                   {/* General Liability Broker */}
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">General Liability (GL) Broker</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={brokerInfo.brokerGlName || ''}
-                          onChange={(e) => updateBrokerInfo('brokerGlName', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={brokerInfo.brokerGlEmail || ''}
-                          onChange={(e) => updateBrokerInfo('brokerGlEmail', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                        <input
-                          type="tel"
-                          value={brokerInfo.brokerGlPhone || ''}
-                          onChange={(e) => updateBrokerInfo('brokerGlPhone', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
+                    <div className="grid grid-cols-1 gap-4">
+                      <BrokerAutocomplete
+                        value={brokerInfo.brokerGlName || ''}
+                        onChange={(value) => updateBrokerInfo('brokerGlName', value)}
+                        onSelect={(broker) => {
+                          updateBrokerInfo('brokerGlName', broker.name);
+                          updateBrokerInfo('brokerGlEmail', broker.email);
+                          updateBrokerInfo('brokerGlPhone', broker.phone || '');
+                        }}
+                        label="Broker Name *"
+                        placeholder="Start typing GL broker name..."
+                        policyType="GL"
+                      />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Email <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={brokerInfo.brokerGlEmail || ''}
+                            onChange={(e) => updateBrokerInfo('brokerGlEmail', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                          <input
+                            type="tel"
+                            value={brokerInfo.brokerGlPhone || ''}
+                            onChange={(e) => updateBrokerInfo('brokerGlPhone', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -391,39 +407,41 @@ export default function SubcontractorBrokerPage() {
                   {/* Auto Liability Broker */}
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Auto Liability Broker</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={brokerInfo.brokerAutoName || ''}
-                          onChange={(e) => updateBrokerInfo('brokerAutoName', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={brokerInfo.brokerAutoEmail || ''}
-                          onChange={(e) => updateBrokerInfo('brokerAutoEmail', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                        <input
-                          type="tel"
-                          value={brokerInfo.brokerAutoPhone || ''}
-                          onChange={(e) => updateBrokerInfo('brokerAutoPhone', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
+                    <div className="grid grid-cols-1 gap-4">
+                      <BrokerAutocomplete
+                        value={brokerInfo.brokerAutoName || ''}
+                        onChange={(value) => updateBrokerInfo('brokerAutoName', value)}
+                        onSelect={(broker) => {
+                          updateBrokerInfo('brokerAutoName', broker.name);
+                          updateBrokerInfo('brokerAutoEmail', broker.email);
+                          updateBrokerInfo('brokerAutoPhone', broker.phone || '');
+                        }}
+                        label="Broker Name *"
+                        placeholder="Start typing Auto broker name..."
+                        policyType="AUTO"
+                      />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Email <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={brokerInfo.brokerAutoEmail || ''}
+                            onChange={(e) => updateBrokerInfo('brokerAutoEmail', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                          <input
+                            type="tel"
+                            value={brokerInfo.brokerAutoPhone || ''}
+                            onChange={(e) => updateBrokerInfo('brokerAutoPhone', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -431,39 +449,41 @@ export default function SubcontractorBrokerPage() {
                   {/* Umbrella Broker */}
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Umbrella Policy Broker</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={brokerInfo.brokerUmbrellaName || ''}
-                          onChange={(e) => updateBrokerInfo('brokerUmbrellaName', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={brokerInfo.brokerUmbrellaEmail || ''}
-                          onChange={(e) => updateBrokerInfo('brokerUmbrellaEmail', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                        <input
-                          type="tel"
-                          value={brokerInfo.brokerUmbrellaPhone || ''}
-                          onChange={(e) => updateBrokerInfo('brokerUmbrellaPhone', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
+                    <div className="grid grid-cols-1 gap-4">
+                      <BrokerAutocomplete
+                        value={brokerInfo.brokerUmbrellaName || ''}
+                        onChange={(value) => updateBrokerInfo('brokerUmbrellaName', value)}
+                        onSelect={(broker) => {
+                          updateBrokerInfo('brokerUmbrellaName', broker.name);
+                          updateBrokerInfo('brokerUmbrellaEmail', broker.email);
+                          updateBrokerInfo('brokerUmbrellaPhone', broker.phone || '');
+                        }}
+                        label="Broker Name *"
+                        placeholder="Start typing Umbrella broker name..."
+                        policyType="UMBRELLA"
+                      />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Email <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={brokerInfo.brokerUmbrellaEmail || ''}
+                            onChange={(e) => updateBrokerInfo('brokerUmbrellaEmail', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                          <input
+                            type="tel"
+                            value={brokerInfo.brokerUmbrellaPhone || ''}
+                            onChange={(e) => updateBrokerInfo('brokerUmbrellaPhone', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -471,39 +491,41 @@ export default function SubcontractorBrokerPage() {
                   {/* Workers Compensation Broker */}
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Workers Compensation (WC) Broker</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={brokerInfo.brokerWcName || ''}
-                          onChange={(e) => updateBrokerInfo('brokerWcName', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={brokerInfo.brokerWcEmail || ''}
-                          onChange={(e) => updateBrokerInfo('brokerWcEmail', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                        <input
-                          type="tel"
-                          value={brokerInfo.brokerWcPhone || ''}
-                          onChange={(e) => updateBrokerInfo('brokerWcPhone', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
+                    <div className="grid grid-cols-1 gap-4">
+                      <BrokerAutocomplete
+                        value={brokerInfo.brokerWcName || ''}
+                        onChange={(value) => updateBrokerInfo('brokerWcName', value)}
+                        onSelect={(broker) => {
+                          updateBrokerInfo('brokerWcName', broker.name);
+                          updateBrokerInfo('brokerWcEmail', broker.email);
+                          updateBrokerInfo('brokerWcPhone', broker.phone || '');
+                        }}
+                        label="Broker Name *"
+                        placeholder="Start typing WC broker name..."
+                        policyType="WC"
+                      />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Email <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={brokerInfo.brokerWcEmail || ''}
+                            onChange={(e) => updateBrokerInfo('brokerWcEmail', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                          <input
+                            type="tel"
+                            value={brokerInfo.brokerWcPhone || ''}
+                            onChange={(e) => updateBrokerInfo('brokerWcPhone', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
