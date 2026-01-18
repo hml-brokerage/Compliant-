@@ -12,9 +12,25 @@ export interface EmailOptions {
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
   private transporter: nodemailer.Transporter;
+  private readonly emailProvider: string;
+  private readonly fromAddress: string;
 
   constructor() {
-    // Validate required environment variables
+    this.emailProvider = process.env.EMAIL_PROVIDER || "smtp";
+    this.fromAddress = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@example.com";
+
+    // Use test transporter if EMAIL_PROVIDER is set to 'test'
+    if (this.emailProvider === "test") {
+      this.logger.log("Using test email provider - emails will not be sent");
+      this.transporter = nodemailer.createTransport({
+        streamTransport: true,
+        newline: "unix",
+        buffer: true,
+      });
+      return;
+    }
+
+    // Validate required environment variables for SMTP
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       throw new Error(
         "SMTP_USER and SMTP_PASS environment variables are required",
@@ -41,7 +57,7 @@ export class EmailService {
   async sendEmail(options: EmailOptions): Promise<boolean> {
     try {
       const mailOptions = {
-        from: process.env.SMTP_USER,
+        from: this.fromAddress,
         to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
         subject: options.subject,
         html: options.html,
@@ -49,7 +65,12 @@ export class EmailService {
       };
 
       const info = await this.transporter.sendMail(mailOptions);
-      this.logger.log(`Email sent successfully: ${info.messageId}`);
+      
+      if (this.emailProvider === "test") {
+        this.logger.log(`Test email captured: ${options.subject} to ${mailOptions.to}`);
+      } else {
+        this.logger.log(`Email sent successfully: ${info.messageId}`);
+      }
       return true;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
