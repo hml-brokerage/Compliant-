@@ -45,9 +45,11 @@ export class ContractorsService {
   ) {}
 
   /**
-   * Generate a secure temporary password
+   * Generate a secure permanent password
+   * PRODUCTION: This password is permanent (not temporary)
+   * Users can change it later if needed via password reset
    */
-  private generateTempPassword(): string {
+  private generateSecurePassword(): string {
     // Generate a secure random password: 12 characters with uppercase, lowercase, numbers, special chars
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
     const bytes = randomBytes(12);
@@ -61,12 +63,14 @@ export class ContractorsService {
   /**
    * Auto-create user account for contractor/subcontractor
    * PRODUCTION: This happens automatically when contractor is added
+   * Password is PERMANENT - user receives it once and keeps using it
+   * Same credentials work for all links/emails sent to this user
    */
   private async autoCreateUserAccount(
     email: string,
     name: string,
     contractorType: string,
-  ): Promise<{ email: string; tempPassword: string; created: boolean }> {
+  ): Promise<{ email: string; password: string; created: boolean }> {
     try {
       // Check if user already exists
       const existingUser = await this.prisma.user.findUnique({
@@ -74,13 +78,13 @@ export class ContractorsService {
       });
 
       if (existingUser) {
-        console.log(`User account already exists for ${email}`);
-        return { email, tempPassword: '', created: false };
+        console.log(`User account already exists for ${email} - using existing credentials`);
+        return { email, password: '', created: false };
       }
 
-      // Generate temporary password
-      const tempPassword = this.generateTempPassword();
-      const hashedPassword = await bcrypt.hash(tempPassword, 10);
+      // Generate PERMANENT password
+      const password = this.generateSecurePassword();
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       // Determine role based on contractor type
       const role: UserRole = contractorType === 'SUBCONTRACTOR' 
@@ -92,7 +96,7 @@ export class ContractorsService {
       const firstName = nameParts[0] || 'User';
       const lastName = nameParts.slice(1).join(' ') || 'Account';
 
-      // Create user account
+      // Create user account with PERMANENT password
       await this.prisma.user.create({
         data: {
           email,
@@ -105,15 +109,19 @@ export class ContractorsService {
       });
 
       console.log(`✓ Auto-created user account for ${email} with role ${role}`);
+      console.log(`  Email: ${email}`);
+      console.log(`  Password: ${password} (PERMANENT - save this!)`);
+      console.log(`  Note: User can change password later if forgotten`);
       
-      // TODO: Send welcome email with temporary password
-      // await this.emailService.sendWelcomeEmail(email, firstName, tempPassword);
+      // TODO: Send welcome email with permanent credentials
+      // await this.emailService.sendWelcomeEmail(email, firstName, password);
+      // Email should say: "These are your permanent credentials. Keep them safe. You can change your password anytime."
 
-      return { email, tempPassword, created: true };
+      return { email, password, created: true };
     } catch (error) {
       console.error(`Failed to auto-create user account for ${email}:`, error);
       // Don't throw - contractor creation should succeed even if user creation fails
-      return { email, tempPassword: '', created: false };
+      return { email, password: '', created: false };
     }
   }
 
@@ -154,12 +162,16 @@ export class ContractorsService {
 
   /**
    * Find all contractors with role-based filtering and search
-   * PRODUCTION: Data isolation + search functionality
+   * PRODUCTION: Data isolation + PRIVACY + search functionality
    * - SUPER_ADMIN: sees everything
    * - ADMIN: sees contractors assigned to them
    * - CONTRACTOR/GC: sees only themselves + can search their subs
-   * - SUBCONTRACTOR: sees only themselves
-   * - BROKER: sees contractors they serve
+   * - SUBCONTRACTOR: sees ONLY themselves (PRIVACY: NOT other subs)
+   * - BROKER: sees ONLY subs that entered their broker info (PRIVACY: NOT all subs)
+   * 
+   * PRIVACY RULES:
+   * ✓ Subs CANNOT see other subs on the same project
+   * ✓ Brokers can ONLY see subs that listed them as broker
    * 
    * Search parameters:
    * - search: search by name, email, company
@@ -203,12 +215,14 @@ export class ContractorsService {
           break;
           
         case 'SUBCONTRACTOR':
-          // Subcontractor sees only their own record
+          // PRIVACY: Subcontractor sees ONLY their own record
+          // CANNOT see other subs on the same project
           where.email = user.email;
           break;
           
         case 'BROKER':
-          // Broker sees contractors they serve (where broker email matches)
+          // PRIVACY: Broker sees ONLY contractors that entered their broker info
+          // where broker email matches ANY broker field (global or per-policy)
           where.OR = [
             { brokerEmail: user.email },
             { brokerGlEmail: user.email },

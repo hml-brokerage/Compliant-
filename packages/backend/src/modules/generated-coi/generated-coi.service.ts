@@ -20,9 +20,11 @@ export class GeneratedCOIService {
   ) {}
 
   /**
-   * Generate a secure temporary password
+   * Generate a secure permanent password
+   * PRODUCTION: This password is permanent (not temporary)
+   * Users can change it later if needed via password reset
    */
-  private generateTempPassword(): string {
+  private generateSecurePassword(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
     const bytes = randomBytes(12);
     let password = '';
@@ -35,11 +37,13 @@ export class GeneratedCOIService {
   /**
    * Auto-create broker user account
    * PRODUCTION: This happens automatically when broker info is added
+   * Password is PERMANENT - broker receives it once and keeps using it
+   * Same credentials work for all links/emails sent to this broker
    */
   private async autoCreateBrokerAccount(
     email: string,
     name: string,
-  ): Promise<{ email: string; tempPassword: string; created: boolean }> {
+  ): Promise<{ email: string; password: string; created: boolean }> {
     try {
       // Check if user already exists
       const existingUser = await this.prisma.user.findUnique({
@@ -47,20 +51,20 @@ export class GeneratedCOIService {
       });
 
       if (existingUser) {
-        this.logger.log(`Broker account already exists for ${email}`);
-        return { email, tempPassword: '', created: false };
+        this.logger.log(`Broker account already exists for ${email} - using existing credentials`);
+        return { email, password: '', created: false };
       }
 
-      // Generate temporary password
-      const tempPassword = this.generateTempPassword();
-      const hashedPassword = await bcrypt.hash(tempPassword, 10);
+      // Generate PERMANENT password
+      const password = this.generateSecurePassword();
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       // Extract first/last name from full name
       const nameParts = name.split(' ');
       const firstName = nameParts[0] || 'Broker';
       const lastName = nameParts.slice(1).join(' ') || 'User';
 
-      // Create broker user account
+      // Create broker user account with PERMANENT password
       await this.prisma.user.create({
         data: {
           email,
@@ -73,14 +77,18 @@ export class GeneratedCOIService {
       });
 
       this.logger.log(`✓ Auto-created broker account for ${email}`);
+      this.logger.log(`  Email: ${email}`);
+      this.logger.log(`  Password: ${password} (PERMANENT - save this!)`);
+      this.logger.log(`  Note: Broker can change password later if forgotten`);
       
-      // TODO: Send welcome email with temporary password
-      // await this.emailService.sendBrokerWelcomeEmail(email, firstName, tempPassword);
+      // TODO: Send welcome email with permanent credentials
+      // await this.emailService.sendBrokerWelcomeEmail(email, firstName, password);
+      // Email should say: "These are your permanent credentials. Keep them safe. You can change your password anytime."
 
-      return { email, tempPassword, created: true };
+      return { email, password, created: true };
     } catch (error) {
       this.logger.error(`Failed to auto-create broker account for ${email}:`, error);
-      return { email, tempPassword: '', created: false };
+      return { email, password: '', created: false };
     }
   }
 
