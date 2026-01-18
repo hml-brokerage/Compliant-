@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface ErrorMessageProps {
   message?: string;
@@ -16,6 +19,8 @@ export function ErrorMessage({
   showBackButton = true,
   showDashboardLink = true,
 }: ErrorMessageProps) {
+  const router = useRouter();
+  
   // Determine the icon and color based on status code
   const is404 = statusCode === 404;
   const is500 = statusCode && statusCode >= 500;
@@ -50,7 +55,7 @@ export function ErrorMessage({
             )}
             {showBackButton && (
               <button
-                onClick={() => window.history.back()}
+                onClick={() => router.back()}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition text-sm font-medium"
               >
                 ← Go Back

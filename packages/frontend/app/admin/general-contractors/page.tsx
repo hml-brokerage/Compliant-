@@ -138,8 +138,8 @@ export default function GeneralContractorsPage() {
               message={error}
               statusCode={errorStatusCode}
               onRetry={fetchContractors}
-              showBackButton={false}
-              showDashboardLink={false}
+              showBackButton={true}
+              showDashboardLink={true}
             />
           )}
 

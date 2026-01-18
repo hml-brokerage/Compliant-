@@ -120,8 +120,8 @@ export default function ContractorDetailPage() {
             message={error || 'Contractor not found'}
             statusCode={errorStatusCode}
             onRetry={fetchContractorDetails}
-            showBackButton={false}
-            showDashboardLink={false}
+            showBackButton={true}
+            showDashboardLink={true}
           />
         </main>
       </div>
