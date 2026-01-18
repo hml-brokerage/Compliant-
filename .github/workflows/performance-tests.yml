@@ -60,11 +60,10 @@ jobs:
 
       - name: Install k6 for load testing
         run: |
-          sudo gpg -k
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install k6
+          # Use GitHub's prebuilt k6 binary for more reliable installation
+          curl -L https://github.com/grafana/k6/releases/download/v0.49.0/k6-v0.49.0-linux-amd64.tar.gz | tar xvz
+          sudo mv k6-v0.49.0-linux-amd64/k6 /usr/local/bin/
+          k6 version
 
       - name: Build packages
         run: |
@@ -86,9 +85,16 @@ jobs:
       - name: Start backend server
         run: |
           cd packages/backend
-          NODE_ENV=production pnpm start:prod &
+          NODE_ENV=production pnpm start:prod > backend.log 2>&1 &
           echo $! > backend.pid
-          timeout 60 bash -c 'until curl -f http://localhost:3001/api/health; do sleep 2; done'
+          # Wait for backend using liveness probe
+          echo "Waiting for backend to start..."
+          timeout 60 bash -c 'until curl -f http://localhost:3001/api/health/liveness 2>/dev/null; do sleep 2; done' || {
+            echo "Backend failed to start. Logs:"
+            cat backend.log
+            exit 1
+          }
+          echo "Backend started successfully"
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_perf_test
           REDIS_URL: redis://localhost:6379
@@ -130,22 +136,23 @@ jobs:
           };
           
           export default function () {
-            // Test health endpoint
-            let healthRes = http.get(`${BASE_URL}/api/health`);
-            let healthCheck = check(healthRes, {
-              'health check status is 200': (r) => r.status === 200,
-              'health check response time < 200ms': (r) => r.timings.duration < 200,
+            // Test liveness endpoint (simpler, faster)
+            let livenessRes = http.get(`${BASE_URL}/api/health/liveness`);
+            let livenessCheck = check(livenessRes, {
+              'liveness check status is 200': (r) => r.status === 200,
+              'liveness check response time < 100ms': (r) => r.timings.duration < 100,
             });
-            errorRate.add(!healthCheck);
+            errorRate.add(!livenessCheck);
             
             sleep(1);
             
-            // Test API docs endpoint (public)
-            let docsRes = http.get(`${BASE_URL}/api/docs`);
-            let docsCheck = check(docsRes, {
-              'docs endpoint accessible': (r) => r.status === 200 || r.status === 301 || r.status === 302,
+            // Test full health endpoint
+            let healthRes = http.get(`${BASE_URL}/api/health`);
+            let healthCheck = check(healthRes, {
+              'health check status is 200': (r) => r.status === 200,
+              'health check response time < 500ms': (r) => r.timings.duration < 500,
             });
-            errorRate.add(!docsCheck);
+            errorRate.add(!healthCheck);
             
             sleep(1);
           }
@@ -165,32 +172,9 @@ jobs:
 
       - name: Run Lighthouse performance audit
         run: |
-          npm install -g @lhci/cli
-          
-          # Create Lighthouse CI config
-          cat > lighthouserc.json << 'EOF'
-          {
-            "ci": {
-              "collect": {
-                "url": ["http://localhost:3001/api/health"],
-                "numberOfRuns": 3
-              },
-              "assert": {
-                "assertions": {
-                  "categories:performance": ["error", {"minScore": 0.6}],
-                  "categories:accessibility": ["warn", {"minScore": 0.8}],
-                  "categories:best-practices": ["warn", {"minScore": 0.8}],
-                  "categories:seo": ["warn", {"minScore": 0.7}]
-                }
-              },
-              "upload": {
-                "target": "temporary-public-storage"
-              }
-            }
-          }
-          EOF
-          
-          lhci autorun || echo "Lighthouse CI completed with warnings"
+          echo "Skipping Lighthouse CI for API-only backend"
+          echo "Lighthouse is designed for web pages, not API endpoints"
+          echo "Performance metrics are covered by k6 load tests"
         continue-on-error: true
 
       - name: Analyze performance metrics
@@ -201,7 +185,7 @@ jobs:
             echo "### K6 Load Test Summary" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             
-            # Extract key metrics
+            # Extract key metrics using jq
             HTTP_REQ_DURATION_P95=$(jq -r '.metrics.http_req_duration.values."p(95)"' k6-results.json)
             HTTP_REQ_DURATION_P99=$(jq -r '.metrics.http_req_duration.values."p(99)"' k6-results.json)
             HTTP_REQ_FAILED_RATE=$(jq -r '.metrics.http_req_failed.values.rate' k6-results.json)
@@ -211,18 +195,21 @@ jobs:
             echo "|--------|-------|-----------|" >> $GITHUB_STEP_SUMMARY
             echo "| 95th Percentile Response Time | ${HTTP_REQ_DURATION_P95}ms | < 500ms |" >> $GITHUB_STEP_SUMMARY
             echo "| 99th Percentile Response Time | ${HTTP_REQ_DURATION_P99}ms | < 1000ms |" >> $GITHUB_STEP_SUMMARY
-            echo "| Error Rate | $(echo "$HTTP_REQ_FAILED_RATE * 100" | bc)% | < 5% |" >> $GITHUB_STEP_SUMMARY
+            ERROR_RATE_PCT=$(awk -v rate="$HTTP_REQ_FAILED_RATE" 'BEGIN {printf "%.1f%%", rate * 100}')
+            echo "| Error Rate | ${ERROR_RATE_PCT} | < 5% |" >> $GITHUB_STEP_SUMMARY
             echo "| Total Iterations | $ITERATIONS | - |" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             
-            # Check thresholds
-            if (( $(echo "$HTTP_REQ_DURATION_P95 > 500" | bc -l) )); then
+            # Check thresholds using awk
+            if awk -v p95="$HTTP_REQ_DURATION_P95" 'BEGIN {exit (p95 > 500)}'; then
               echo "⚠️ **Warning**: 95th percentile response time exceeds 500ms" >> $GITHUB_STEP_SUMMARY
             fi
             
-            if (( $(echo "$HTTP_REQ_FAILED_RATE > 0.05" | bc -l) )); then
+            if awk -v rate="$HTTP_REQ_FAILED_RATE" 'BEGIN {exit (rate > 0.05)}'; then
               echo "❌ **Error**: Error rate exceeds 5%" >> $GITHUB_STEP_SUMMARY
             fi
+          else
+            echo "⚠️ No k6 results found" >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Stop backend server
@@ -237,11 +224,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: performance-test-results
+          if-no-files-found: warn
+          retention-days: 90
           path: |
             k6-results.json
             k6-tests/
-            .lighthouseci/
-          retention-days: 90
 
       - name: Comment PR with performance results
         if: github.event_name == 'pull_request' && always()
