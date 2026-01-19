@@ -7,6 +7,6 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "forwardPorts": [3000, 3001, 5432],
-  "postCreateCommand": "pnpm install",
+  "postCreateCommand": "npm install -g pnpm && pnpm install",
   "remoteUser": "node"
 }
