@@ -40,7 +40,8 @@ async function main() {
 
   console.log("✓ Created admin user:", admin.email);
 
-  // Create additional admin users (assistant admins)
+  // Create additional ADMIN users
+  // Note: ADMIN role = "Assistant Admin" with filtered access
   const admin2Password = await bcrypt.hash("Admin2123!@#", 10);
   const admin2 = await prisma.user.upsert({
     where: { email: "admin2@compliant.com" },

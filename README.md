@@ -275,7 +275,7 @@ cd packages/backend && pnpm db:seed
 
 # This creates test users including:
 # - 1 Super Admin (full access to everything)
-# - 3 Admin users (assistant admins, filtered by assignments)
+# - 3 ADMIN users (role-based filtering by assignments)
 # - Other role-based test users (Manager, Contractor, Subcontractor, Broker)
 ```
 
@@ -294,7 +294,7 @@ After running the seed script, you can log in with these accounts:
 | Subcontractor | subcontractor@compliant.com | Subcontractor123!@# | Subcontractor access |
 | Broker | broker@compliant.com | Broker123!@# | Insurance broker access |
 
-**Note:** Each admin user (Admin, Admin 2, Admin 3) has their own unique email address and can be assigned different contractors, projects, and COIs using the `assignedAdminEmail` field.
+**Note:** Each ADMIN role user has their own unique email address and can be assigned different contractors, projects, and COIs using the `assignedAdminEmail` field. ADMIN users have filtered access (only see items assigned to them), while SUPER_ADMIN sees everything.
 ```
 
 ## 🚢 Deployment
