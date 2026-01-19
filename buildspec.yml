@@ -28,8 +28,8 @@ phases:
 artifacts:
   files:
     # Include build outputs only (excludes node_modules, source files, etc.)
-    - 'packages/*/dist/**/*'      # Backend and shared package builds
-    - 'packages/*/build/**/*'     # Alternative build output directory
+    - 'packages/*/dist/**/*'      # TypeScript/NestJS build outputs
+    - 'packages/*/build/**/*'     # Reserved for future build outputs
     - 'packages/*/.next/**/*'     # Next.js frontend build
     - '!packages/*/.next/cache/**/*'  # Exclude Next.js build cache
   base-directory: .
