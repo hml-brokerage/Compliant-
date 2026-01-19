@@ -18,7 +18,7 @@ phases:
       - echo "Building all packages..."
       # Set placeholder DATABASE_URL for Prisma Client generation (no actual DB connection needed)
       # Override with actual DATABASE_URL in CodeBuild environment variables for production
-      - export DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
+      - export DATABASE_URL="${DATABASE_URL:-postgresql://user:pass@localhost:5432/dbname}"
       - pnpm build
       
   post_build:
