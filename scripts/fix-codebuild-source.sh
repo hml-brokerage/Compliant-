@@ -146,8 +146,8 @@ else
             # Get current environment configuration
             CURRENT_ENV=$(aws codebuild batch-get-projects --names "${PROJECT_NAME}" --query 'projects[0].environment' --output json)
             
-            # Add DATABASE_URL to environment variables
-            UPDATED_ENV=$(echo "$CURRENT_ENV" | jq '.environmentVariables += [{"name":"DATABASE_URL","value":"'"$DB_URL"'","type":"PLAINTEXT"}]')
+            # Add DATABASE_URL to environment variables using jq --arg for safe variable interpolation
+            UPDATED_ENV=$(echo "$CURRENT_ENV" | jq --arg dburl "$DB_URL" '.environmentVariables += [{"name":"DATABASE_URL","value":$dburl,"type":"PLAINTEXT"}]')
             
             # Update the project with new environment variables
             if aws codebuild update-project \

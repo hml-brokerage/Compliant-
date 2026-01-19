@@ -147,7 +147,7 @@ echo "  Type: ${VAR_TYPE}"
 CURRENT_ENV=$(aws codebuild batch-get-projects --names "${PROJECT_NAME}" --query 'projects[0].environment' --output json)
 
 # Check if variable already exists
-EXISTING_VAR=$(aws codebuild batch-get-projects --names "${PROJECT_NAME}" --query "projects[0].environment.environmentVariables[?name=='${VAR_NAME}'].name" --output text)
+EXISTING_VAR=$(aws codebuild batch-get-projects --names "${PROJECT_NAME}" --query "projects[0].environment.environmentVariables[?name==\`${VAR_NAME}\`].name" --output text)
 
 if [ -n "$EXISTING_VAR" ]; then
     echo -e "${YELLOW}⚠ Variable '${VAR_NAME}' already exists${NC}"
@@ -156,13 +156,13 @@ if [ -n "$EXISTING_VAR" ]; then
         echo "Aborted."
         exit 0
     fi
-    # Remove existing variable
-    UPDATED_ENV=$(echo "$CURRENT_ENV" | jq "del(.environmentVariables[] | select(.name==\"${VAR_NAME}\"))")
+    # Remove existing variable using jq --arg for safe variable interpolation
+    UPDATED_ENV=$(echo "$CURRENT_ENV" | jq --arg varname "$VAR_NAME" 'del(.environmentVariables[] | select(.name==$varname))')
 else
     UPDATED_ENV="$CURRENT_ENV"
 fi
 
-# Add new/updated variable
+# Add new/updated variable using jq --arg for safe variable interpolation
 UPDATED_ENV=$(echo "$UPDATED_ENV" | jq --arg name "$VAR_NAME" --arg value "$VAR_VALUE" --arg type "$VAR_TYPE" '.environmentVariables += [{"name":$name,"value":$value,"type":$type}]')
 
 # Update the project
