@@ -17,9 +17,9 @@ import { UsersModule } from "../users/users.module";
       ): Promise<JwtModuleOptions> => ({
         secret: configService.get<string>("JWT_SECRET") as string,
         signOptions: {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          expiresIn: (configService.get<string>("JWT_EXPIRATION") ||
-            "15m") as any,
+          expiresIn: (configService.get<string>("JWT_EXPIRATION") || "15m") as
+            | string
+            | number,
         },
       }),
       inject: [ConfigService],
