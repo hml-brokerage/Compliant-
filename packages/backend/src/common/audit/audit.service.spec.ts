@@ -33,7 +33,9 @@ describe("AuditService", () => {
 
   describe("log", () => {
     it("should log an audit entry to database", async () => {
-      const loggerSpy = jest.spyOn(service["logger"], "debug").mockImplementation();
+      const loggerSpy = jest
+        .spyOn(service["logger"], "debug")
+        .mockImplementation();
       const createSpy = jest
         .spyOn(prismaService.auditLog, "create")
         .mockResolvedValue({} as AuditLog);
@@ -59,7 +61,9 @@ describe("AuditService", () => {
     });
 
     it("should log anonymous events to database", async () => {
-      const loggerSpy = jest.spyOn(service["logger"], "debug").mockImplementation();
+      const loggerSpy = jest
+        .spyOn(service["logger"], "debug")
+        .mockImplementation();
       const createSpy = jest
         .spyOn(prismaService.auditLog, "create")
         .mockResolvedValue({} as AuditLog);
@@ -90,7 +94,9 @@ describe("AuditService", () => {
     });
 
     it("should handle errors gracefully", async () => {
-      const loggerErrorSpy = jest.spyOn(service["logger"], "error").mockImplementation();
+      const loggerErrorSpy = jest
+        .spyOn(service["logger"], "error")
+        .mockImplementation();
       const createSpy = jest
         .spyOn(prismaService.auditLog, "create")
         .mockRejectedValue(new Error("Test error"));
