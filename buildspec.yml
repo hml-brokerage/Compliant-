@@ -5,6 +5,13 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
+      - echo "=== CodeBuild Environment Info ==="
+      - echo "Build ID: $CODEBUILD_BUILD_ID"
+      - echo "Source Version: $CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - echo "Source Branch: $CODEBUILD_WEBHOOK_HEAD_REF"
+      - echo "Current Directory: $(pwd)"
+      - echo "Git Branch: $(git branch --show-current 2>/dev/null || echo 'N/A')"
+      - echo "=================================="
       - echo "Installing pnpm..."
       - npm install -g pnpm@8.15.0
       
