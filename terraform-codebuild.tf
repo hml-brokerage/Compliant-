@@ -36,6 +36,13 @@ variable "github_token_secret_arn" {
   sensitive   = true
 }
 
+variable "database_url" {
+  description = "Database URL for build (placeholder only, no actual DB connection made during build)"
+  type        = string
+  default     = "postgresql://user:pass@localhost:5432/dbname"
+  sensitive   = true
+}
+
 variable "aws_region" {
   description = "AWS region"
   type        = string
@@ -189,7 +196,7 @@ resource "aws_codebuild_project" "compliant" {
 
     environment_variable {
       name  = "DATABASE_URL"
-      value = "postgresql://user:pass@localhost:5432/dbname"
+      value = var.database_url
       type  = "PLAINTEXT"
     }
   }

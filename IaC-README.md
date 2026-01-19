@@ -24,8 +24,12 @@ aws cloudformation create-stack \
     ParameterKey=GitHubRepositoryUrl,ParameterValue=https://github.com/hml-brokerage/Compliant- \
     ParameterKey=SourceVersion,ParameterValue=refs/heads/main \
     ParameterKey=GitHubTokenSecretArn,ParameterValue=arn:aws:secretsmanager:us-east-1:123456789012:secret:github-token \
+    ParameterKey=DatabaseUrl,ParameterValue=postgresql://user:pass@localhost:5432/dbname \
   --capabilities CAPABILITY_IAM \
   --region us-east-1
+
+# Note: DatabaseUrl is a placeholder for Prisma Client generation during build.
+# Override with actual production DATABASE_URL in CodeBuild environment variables if needed.
 
 # Check stack status
 aws cloudformation describe-stacks \
@@ -61,8 +65,12 @@ project_name             = "compliant-build"
 github_repository_url    = "https://github.com/hml-brokerage/Compliant-"
 source_version          = "refs/heads/main"
 github_token_secret_arn = "arn:aws:secretsmanager:us-east-1:123456789012:secret:github-token"
+database_url            = "postgresql://user:pass@localhost:5432/dbname"
 aws_region              = "us-east-1"
 EOF
+
+# Note: database_url is a placeholder for Prisma Client generation during build.
+# Override with actual production DATABASE_URL in CodeBuild environment variables if needed.
 
 # Plan the deployment
 terraform plan
@@ -139,6 +147,24 @@ environment_variable {
   name  = "MY_VARIABLE"
   value = "my-value"
   type  = "PLAINTEXT"
+}
+```
+
+**For sensitive values**, use AWS Secrets Manager or Systems Manager Parameter Store:
+
+**CloudFormation**:
+```yaml
+- Name: DATABASE_URL
+  Value: arn:aws:secretsmanager:us-east-1:123456789012:secret:db-url
+  Type: SECRETS_MANAGER
+```
+
+**Terraform**:
+```hcl
+environment_variable {
+  name  = "DATABASE_URL"
+  value = "arn:aws:secretsmanager:us-east-1:123456789012:secret:db-url"
+  type  = "SECRETS_MANAGER"
 }
 ```
 

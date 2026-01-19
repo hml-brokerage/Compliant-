@@ -22,6 +22,12 @@ Parameters:
     Description: ARN of AWS Secrets Manager secret containing GitHub personal access token
     NoEcho: true
 
+  DatabaseUrl:
+    Type: String
+    Default: postgresql://user:pass@localhost:5432/dbname
+    Description: Database URL for build (placeholder only, no actual DB connection made during build)
+    NoEcho: true
+
 Resources:
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
@@ -106,7 +112,7 @@ Resources:
         PrivilegedMode: false
         EnvironmentVariables:
           - Name: DATABASE_URL
-            Value: postgresql://user:pass@localhost:5432/dbname
+            Value: !Ref DatabaseUrl
             Type: PLAINTEXT
       Source:
         Type: GITHUB
