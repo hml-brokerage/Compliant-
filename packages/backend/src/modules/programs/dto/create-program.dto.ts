@@ -94,7 +94,11 @@ export class CreateProgramDto {
   @IsOptional()
   tradeRequirements?: Record<string, unknown>;
 
-  @ApiPropertyOptional({ description: "Auto-approval rules", type: "object", additionalProperties: true })
+  @ApiPropertyOptional({
+    description: "Auto-approval rules",
+    type: "object",
+    additionalProperties: true,
+  })
   @IsObject()
   @IsOptional()
   autoApprovalRules?: Record<string, unknown>;

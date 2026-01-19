@@ -113,7 +113,9 @@ export class ContractorsService {
         },
       });
 
-      this.logger.log(`✓ Auto-created user account for ${email} with role ${role}`);
+      this.logger.log(
+        `✓ Auto-created user account for ${email} with role ${role}`,
+      );
       this.logger.log(`  Email: ${email}`);
       this.logger.log(`  Password: ${password} (PERMANENT - save this!)`);
       this.logger.log(`  Note: User can change password later if forgotten`);
@@ -124,7 +126,10 @@ export class ContractorsService {
 
       return { email, password, created: true };
     } catch (error) {
-      this.logger.error(`Failed to auto-create user account for ${email}:`, error);
+      this.logger.error(
+        `Failed to auto-create user account for ${email}:`,
+        error,
+      );
       // Don't throw - contractor creation should succeed even if user creation fails
       return { email, password: "", created: false };
     }

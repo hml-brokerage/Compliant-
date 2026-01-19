@@ -12,10 +12,14 @@ import { UsersModule } from "../users/users.module";
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({
-      useFactory: async (configService: ConfigService): Promise<JwtModuleOptions> => ({
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<JwtModuleOptions> => ({
         secret: configService.get<string>("JWT_SECRET") as string,
         signOptions: {
-          expiresIn: (configService.get<string>("JWT_EXPIRATION") || "15m") as any,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          expiresIn: (configService.get<string>("JWT_EXPIRATION") ||
+            "15m") as any,
         },
       }),
       inject: [ConfigService],
