@@ -19,7 +19,10 @@ Parameters:
 
   GitHubTokenSecretArn:
     Type: String
-    Description: ARN of AWS Secrets Manager secret containing GitHub personal access token
+    Default: ""
+    Description: |
+      (Optional) ARN of AWS Secrets Manager secret containing GitHub personal access token.
+      Leave empty when using OAuth authentication (recommended).
     NoEcho: true
 
   DatabaseUrl:
@@ -30,6 +33,9 @@ Parameters:
       For production, store the actual DATABASE_URL in AWS Secrets Manager and
       reference it using SECRETS_MANAGER type in environment variables instead of PLAINTEXT.
     NoEcho: true
+
+Conditions:
+  HasGitHubToken: !Not [!Equals [!Ref GitHubTokenSecretArn, ""]]
 
 Resources:
   CodeBuildServiceRole:
@@ -67,11 +73,6 @@ Resources:
                   - s3:ListBucket
                 Resource:
                   - !GetAtt ArtifactBucket.Arn
-              - Effect: Allow
-                Action:
-                  - secretsmanager:GetSecretValue
-                Resource:
-                  - !Ref GitHubTokenSecretArn
 
   ArtifactBucket:
     Type: AWS::S3::Bucket

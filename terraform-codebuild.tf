@@ -31,8 +31,9 @@ variable "source_version" {
 }
 
 variable "github_token_secret_arn" {
-  description = "ARN of AWS Secrets Manager secret containing GitHub personal access token"
+  description = "(Optional) ARN of AWS Secrets Manager secret containing GitHub personal access token. Leave empty when using OAuth authentication (recommended)."
   type        = string
+  default     = ""
   sensitive   = true
 }
 
@@ -154,13 +155,6 @@ resource "aws_iam_role_policy" "codebuild" {
           "s3:ListBucket"
         ]
         Resource = aws_s3_bucket.artifacts.arn
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "secretsmanager:GetSecretValue"
-        ]
-        Resource = var.github_token_secret_arn
       }
     ]
   })

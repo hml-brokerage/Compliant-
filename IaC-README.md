@@ -25,10 +25,13 @@ aws cloudformation create-stack \
     ParameterKey=ProjectName,ParameterValue=compliant-build \
     ParameterKey=GitHubRepositoryUrl,ParameterValue=https://github.com/hml-brokerage/Compliant- \
     ParameterKey=SourceVersion,ParameterValue=refs/heads/main \
-    ParameterKey=GitHubTokenSecretArn,ParameterValue=arn:aws:secretsmanager:us-east-1:123456789012:secret:github-token \
     ParameterKey=DatabaseUrl,ParameterValue=postgresql://user:pass@localhost:5432/dbname \
   --capabilities CAPABILITY_IAM \
   --region us-east-1
+
+# Note: GitHubTokenSecretArn is optional (defaults to empty) - OAuth is used by default
+# If you need to use a GitHub token instead of OAuth, add:
+#   ParameterKey=GitHubTokenSecretArn,ParameterValue=arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:YOUR_SECRET
 
 # Note: DatabaseUrl is a placeholder for Prisma Client generation during build.
 # Override with actual production DATABASE_URL in CodeBuild environment variables if needed.
@@ -66,9 +69,11 @@ cat > terraform.tfvars <<EOF
 project_name             = "compliant-build"
 github_repository_url    = "https://github.com/hml-brokerage/Compliant-"
 source_version          = "refs/heads/main"
-github_token_secret_arn = "arn:aws:secretsmanager:us-east-1:123456789012:secret:github-token"
 database_url            = "postgresql://user:pass@localhost:5432/dbname"
 aws_region              = "us-east-1"
+# github_token_secret_arn is optional (OAuth is used by default)
+# Uncomment and replace with your actual ARN if using GitHub token instead of OAuth:
+# github_token_secret_arn = "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:YOUR_SECRET"
 EOF
 
 # Note: database_url is a placeholder for Prisma Client generation during build.
@@ -89,16 +94,18 @@ terraform output
 Before deploying either template:
 
 1. **AWS Account**: You need an AWS account with appropriate permissions
-2. **GitHub OAuth**: Set up GitHub OAuth connection in CodeBuild console
+2. **GitHub OAuth** (Recommended): Set up GitHub OAuth connection in CodeBuild console
    - Go to [CodeBuild Console](https://console.aws.amazon.com/codebuild/)
    - Click "Settings" → "Source provider connections"
    - Connect your GitHub account
-3. **GitHub Token** (Optional): Store in AWS Secrets Manager if not using OAuth
+   - **Note**: Both templates use OAuth by default (no GitHub token needed)
+3. **GitHub Token** (Alternative): If not using OAuth, store a token in AWS Secrets Manager
    ```bash
    aws secretsmanager create-secret \
      --name github-token \
      --secret-string '{"token":"ghp_xxxxxxxxxxxxxxxxxxxx"}' \
      --region us-east-1
+   # Then provide the secret ARN when deploying the templates
    ```
 
 ## 🔒 Security Best Practices
