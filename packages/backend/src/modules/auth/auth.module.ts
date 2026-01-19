@@ -21,8 +21,8 @@ import { UsersModule } from "../users/users.module";
           signOptions: {
             // Type assertion is required because ConfigService.get<string>() returns string,
             // but SignOptions.expiresIn expects StringValue (a strict template literal type) | number.
+            // Using 'as never' forces TypeScript to accept the value without using the overly broad 'as any'.
             // The runtime value is guaranteed to be valid (e.g., "15m", "1h", "7d") by configuration.
-            // We use a more targeted assertion than 'as any' for better type safety.
             expiresIn: expiresIn as never,
           },
         };
