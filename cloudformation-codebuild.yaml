@@ -1,0 +1,165 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS CodeBuild project for Compliant platform - Fixes "reference not found for primary source" error'
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: compliant-build
+    Description: Name for the CodeBuild project
+
+  GitHubRepositoryUrl:
+    Type: String
+    Default: https://github.com/hml-brokerage/Compliant-
+    Description: GitHub repository URL
+
+  SourceVersion:
+    Type: String
+    Default: refs/heads/main
+    Description: Git reference to build (branch, tag, or commit). Use refs/heads/main for main branch.
+
+  GitHubTokenSecretArn:
+    Type: String
+    Default: ""
+    Description: |
+      (Optional) ARN of AWS Secrets Manager secret containing GitHub personal access token.
+      Leave empty when using OAuth authentication (recommended).
+    NoEcho: true
+
+  DatabaseUrl:
+    Type: String
+    Default: postgresql://user:pass@localhost:5432/dbname
+    Description: |
+      Database URL for build (placeholder only for Prisma Client generation).
+      For production, store the actual DATABASE_URL in AWS Secrets Manager and
+      reference it using SECRETS_MANAGER type in environment variables instead of PLAINTEXT.
+    NoEcho: true
+
+Conditions:
+  HasGitHubToken: !Not [!Equals [!Ref GitHubTokenSecretArn, ""]]
+
+Resources:
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodeBuildServicePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}'
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}:*'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                Resource:
+                  - !Sub '${ArtifactBucket.Arn}/*'
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt ArtifactBucket.Arn
+
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${ProjectName}-artifacts-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldArtifacts
+            Status: Enabled
+            ExpirationInDays: 30
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Ref ProjectName
+      Description: Build project for Compliant platform
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Artifacts:
+        Type: S3
+        Location: !Ref ArtifactBucket
+        Name: build-output
+        EncryptionDisabled: false
+        OverrideArtifactName: false
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: aws/codebuild/standard:7.0
+        PrivilegedMode: false
+        EnvironmentVariables:
+          # Note: For production use, store DATABASE_URL in AWS Secrets Manager
+          # and use Type: SECRETS_MANAGER instead of PLAINTEXT
+          - Name: DATABASE_URL
+            Value: !Ref DatabaseUrl
+            Type: PLAINTEXT
+      Source:
+        Type: GITHUB
+        Location: !Ref GitHubRepositoryUrl
+        GitCloneDepth: 1
+        BuildSpec: buildspec.yml
+        Auth:
+          Type: OAUTH
+      SourceVersion: !Ref SourceVersion
+      TimeoutInMinutes: 60
+      QueuedTimeoutInMinutes: 480
+      Cache:
+        Type: LOCAL
+        Modes:
+          - LOCAL_SOURCE_CACHE
+          - LOCAL_CUSTOM_CACHE
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+          GroupName: !Sub '/aws/codebuild/${ProjectName}'
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED,PULL_REQUEST_REOPENED
+          - - Type: EVENT
+              Pattern: PUSH
+            - Type: HEAD_REF
+              Pattern: ^refs/heads/main$
+
+Outputs:
+  CodeBuildProjectName:
+    Description: Name of the CodeBuild project
+    Value: !Ref CodeBuildProject
+
+  CodeBuildProjectArn:
+    Description: ARN of the CodeBuild project
+    Value: !GetAtt CodeBuildProject.Arn
+
+  ArtifactBucketName:
+    Description: S3 bucket for build artifacts
+    Value: !Ref ArtifactBucket
+
+  ServiceRoleArn:
+    Description: ARN of the CodeBuild service role
+    Value: !GetAtt CodeBuildServiceRole.Arn

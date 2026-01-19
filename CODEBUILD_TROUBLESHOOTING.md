@@ -11,6 +11,15 @@ git ls-remote --heads https://github.com/hml-brokerage/compliant-.git
 # Expected output should include refs/heads/main
 ```
 
+### Recommended: Use Infrastructure as Code (IaC) Templates
+
+The best way to set up CodeBuild correctly from the start is to use our IaC templates:
+
+- **CloudFormation**: `cloudformation-codebuild.yaml`
+- **Terraform**: `terraform-codebuild.tf`
+
+See [IaC-README.md](./IaC-README.md) for deployment instructions.
+
 ### AWS Console Fix (Fastest)
 
 1. Go to [AWS CodeBuild Console](https://console.aws.amazon.com/codebuild/)
@@ -51,12 +60,14 @@ The error happens because:
 
 **When using Infrastructure as Code:**
 
-CloudFormation:
+**Recommended Approach**: Use our pre-configured IaC templates (see [IaC-README.md](../IaC-README.md)):
+
+CloudFormation (`cloudformation-codebuild.yaml`):
 ```yaml
 SourceVersion: refs/heads/main
 ```
 
-Terraform:
+Terraform (`terraform-codebuild.tf`):
 ```hcl
 source_version = "refs/heads/main"
 ```

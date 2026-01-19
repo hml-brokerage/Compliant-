@@ -301,10 +301,18 @@ After running the seed script, you can log in with these accounts:
 
 ### AWS CodeBuild Setup
 
-This repository includes AWS CodeBuild configuration for CI/CD. See [AWS CodeBuild Setup Guide](./docs/AWS_CODEBUILD_SETUP.md) for:
-- Configuration instructions
-- Troubleshooting "reference not found" errors
-- Branch and source version setup
+This repository includes AWS CodeBuild configuration for CI/CD:
+
+**Quick Start - Infrastructure as Code Templates:**
+- **CloudFormation**: `cloudformation-codebuild.yaml`
+- **Terraform**: `terraform-codebuild.tf`
+- **Documentation**: See [IaC-README.md](./IaC-README.md) for deployment instructions
+
+**Guides:**
+- [AWS CodeBuild Setup Guide](./docs/AWS_CODEBUILD_SETUP.md) - Complete setup instructions
+- [CodeBuild Troubleshooting](./CODEBUILD_TROUBLESHOOTING.md) - Quick fixes for common errors
+
+The IaC templates properly configure CodeBuild with the correct source version (`refs/heads/main`) to avoid the "reference not found for primary source" error.
 
 ### Backend
 - Deploy to AWS ECS, Heroku, or similar
