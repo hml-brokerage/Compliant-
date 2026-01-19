@@ -299,6 +299,13 @@ After running the seed script, you can log in with these accounts:
 
 ## 🚢 Deployment
 
+### AWS CodeBuild Setup
+
+This repository includes AWS CodeBuild configuration for CI/CD. See [AWS CodeBuild Setup Guide](./docs/AWS_CODEBUILD_SETUP.md) for:
+- Configuration instructions
+- Troubleshooting "reference not found" errors
+- Branch and source version setup
+
 ### Backend
 - Deploy to AWS ECS, Heroku, or similar
 - Set environment variables
