@@ -272,6 +272,29 @@ pnpm db:push
 
 # Seed database with demo data (optional)
 cd packages/backend && pnpm db:seed
+
+# This creates test users including:
+# - 1 Super Admin (full access to everything)
+# - 3 ADMIN users (role-based filtering by assignments)
+# - Other role-based test users (Manager, Contractor, Subcontractor, Broker)
+```
+
+### Test User Credentials
+
+After running the seed script, you can log in with these accounts:
+
+| Role | Email | Password | Access Level |
+|------|-------|----------|--------------|
+| Super Admin | superadmin@compliant.com | SuperAdmin123!@# | Full access, sees everything |
+| Admin | admin@compliant.com | Admin123!@# | Limited to assigned items |
+| Admin 2 | admin2@compliant.com | Admin2123!@# | Limited to assigned items |
+| Admin 3 | admin3@compliant.com | Admin3123!@# | Limited to assigned items |
+| Manager | manager@compliant.com | Manager123!@# | Manager access |
+| Contractor | contractor@compliant.com | Contractor123!@# | General contractor access |
+| Subcontractor | subcontractor@compliant.com | Subcontractor123!@# | Subcontractor access |
+| Broker | broker@compliant.com | Broker123!@# | Insurance broker access |
+
+**Note:** Each ADMIN role user has their own unique email address and can be assigned different contractors, projects, and COIs using the `assignedAdminEmail` field. ADMIN users have filtered access (only see items assigned to them), while SUPER_ADMIN sees everything.
 ```
 
 ## 🚢 Deployment
