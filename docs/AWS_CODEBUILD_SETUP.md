@@ -30,6 +30,34 @@ This error occurs during the `DOWNLOAD_SOURCE` phase, **before** the buildspec.y
 
 ### Solutions
 
+#### Recommended: Use Infrastructure as Code Templates
+
+The most reliable way to configure CodeBuild correctly is using our pre-configured IaC templates. These templates include all necessary settings and automatically configure the `source_version` to point to `refs/heads/main`.
+
+**Available Templates:**
+- CloudFormation: `cloudformation-codebuild.yaml`
+- Terraform: `terraform-codebuild.tf`
+
+**Quick Start:**
+
+See [IaC-README.md](../IaC-README.md) for detailed deployment instructions.
+
+**CloudFormation:**
+```bash
+aws cloudformation create-stack \
+  --stack-name compliant-codebuild \
+  --template-body file://cloudformation-codebuild.yaml \
+  --parameters \
+    ParameterKey=SourceVersion,ParameterValue=refs/heads/main \
+  --capabilities CAPABILITY_IAM
+```
+
+**Terraform:**
+```bash
+terraform init
+terraform apply -var="source_version=refs/heads/main"
+```
+
 #### Fix 1: Update CodeBuild Source Configuration
 
 1. Go to AWS CodeBuild Console
@@ -70,6 +98,8 @@ aws codebuild update-project \
 
 #### Fix 3: Using CloudFormation/Terraform
 
+If you prefer to configure manually or customize the provided templates:
+
 **CloudFormation:**
 ```yaml
 CodeBuildProject:
@@ -98,6 +128,8 @@ resource "aws_codebuild_project" "compliant" {
   source_version = "refs/heads/main"  # Ensure this points to an existing branch
 }
 ```
+
+For complete, production-ready templates, see the provided IaC files: `cloudformation-codebuild.yaml` and `terraform-codebuild.tf`.
 
 #### Fix 4: For Webhook/Automated Builds
 
