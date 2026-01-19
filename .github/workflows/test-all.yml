@@ -1,0 +1,113 @@
+name: Test All
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: compliant_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/compliant_dev
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api
+      JWT_SECRET: test-secret-please-change-1234567890abcdef1234567890abcd
+      JWT_REFRESH_SECRET: test-refresh-secret-please-change-abcdef1234567890abcdef1234567890
+      PORT: 3001
+      PLAYWRIGHT_BASE_URL: http://localhost:3000
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+
+      - name: Generate Prisma client
+        run: pnpm -C packages/backend db:generate
+
+      - name: Push Prisma schema
+        run: pnpm db:push
+
+      - name: Seed database
+        run: pnpm -C packages/backend db:seed
+
+      - name: Build monorepo
+        run: pnpm build
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Start backend
+        run: nohup pnpm -C packages/backend dev > backend.log 2>&1 &
+
+      - name: Start frontend
+        run: nohup pnpm -C packages/frontend dev > frontend.log 2>&1 &
+
+      - name: Wait for backend readiness
+        run: |
+          for i in {1..60}; do
+            if curl -sSf "http://localhost:3001/api/health/liveness" >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Backend did not become ready"
+          tail -n 200 backend.log || true
+          exit 1
+
+      - name: Wait for frontend readiness
+        run: |
+          for i in {1..60}; do
+            status=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000")
+            if [ "$status" = "200" ] || [ "$status" = "302" ]; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Frontend did not become ready"
+          tail -n 200 frontend.log || true
+          exit 1
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Run Playwright E2E tests
+        run: pnpm exec playwright test
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
+
+      - name: Upload test results JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/results.json
+          retention-days: 7

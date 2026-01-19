@@ -12,6 +12,7 @@
     "build:shared": "cd packages/shared && pnpm build",
     "test": "turbo run test",
     "lint": "turbo run lint",
+    "test:all": "bash scripts/local-test.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "turbo run clean && rm -rf node_modules && find packages -name 'tsconfig.tsbuildinfo' -delete",
     "db:studio": "cd packages/backend && pnpm db:studio",
