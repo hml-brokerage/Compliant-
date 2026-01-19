@@ -1093,9 +1093,9 @@ This deployment guide covers:
 ✅ Troubleshooting common issues  
 
 For additional help, refer to:
-- [Implementation Guidelines](./IMPLEMENTATION_GUIDELINES.md)
-- [Testing Guide](./TESTING_GUIDE.md)
-- [Workflow Implementation](./WORKFLOW_IMPLEMENTATION.md)
+- [Implementation Guidelines](IMPLEMENTATION_GUIDELINES.md)
+- [Testing Guide](TESTING_GUIDE.md)
+- [Workflow Implementation](WORKFLOW_IMPLEMENTATION.md)
 
 ---
 
