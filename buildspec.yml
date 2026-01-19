@@ -16,6 +16,8 @@ phases:
   build:
     commands:
       - echo "Building all packages..."
+      # Set placeholder DATABASE_URL for Prisma Client generation (no actual DB connection needed)
+      # Override with actual DATABASE_URL in CodeBuild environment variables for production
       - export DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
       - pnpm build
       
@@ -25,10 +27,11 @@ phases:
 
 artifacts:
   files:
-    - 'packages/*/dist/**/*'
-    - 'packages/*/build/**/*'
-    - 'packages/*/.next/**/*'
-    - '!packages/*/.next/cache/**/*'
+    # Include build outputs only (excludes node_modules, source files, etc.)
+    - 'packages/*/dist/**/*'      # Backend and shared package builds
+    - 'packages/*/build/**/*'     # Alternative build output directory
+    - 'packages/*/.next/**/*'     # Next.js frontend build
+    - '!packages/*/.next/cache/**/*'  # Exclude Next.js build cache
   base-directory: .
 
 cache:
