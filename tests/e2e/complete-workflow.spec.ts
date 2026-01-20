@@ -102,13 +102,14 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('✓ Admin authenticated successfully');
       
       // Step 2: Admin creates GC contractor - system generates credentials
+      const uniqueEmail = `gc.abc.construction.${Date.now()}@example.com`;
       const gcContractor = await apiCall(
         '/contractors',
         'POST',
         adminToken,
         {
           name: 'ABC Construction Inc.',
-          email: 'gc.abc.construction@example.com',
+          email: uniqueEmail,
           phone: '(555) 999-1000',
           company: 'ABC Construction Inc.',
           address: '670 Myrtle Ave, Suite 163',
@@ -125,7 +126,7 @@ test.describe('Complete COI Workflow Tests', () => {
       contractorPassword = gcContractor.userAccount.password;
       
       expect(contractorId).toBeTruthy();
-      expect(contractorEmail).toBe('gc.abc.construction@example.com');
+      expect(contractorEmail).toBe(uniqueEmail);
       expect(contractorPassword).toBeTruthy();
       expect(gcContractor.userAccount.created).toBe(true);
       
@@ -163,13 +164,14 @@ test.describe('Complete COI Workflow Tests', () => {
     });
 
     test('Step 2: GC adds subcontractor to project', async () => {
+      const uniqueEmail = `elite.electrical.${Date.now()}@example.com`;
       const subcontractor = await apiCall(
         '/contractors',
         'POST',
         contractorToken,
         {
           name: 'Elite Electrical Services',
-          email: 'elite.electrical@example.com',
+          email: uniqueEmail,
           phone: '(555) 123-4567',
           company: 'Elite Electrical Services LLC',
           address: '670 Myrtle Ave, Suite 163',
@@ -188,7 +190,7 @@ test.describe('Complete COI Workflow Tests', () => {
       expect(subcontractorId).toBeTruthy();
       expect(subcontractor.contractorType).toBe('SUBCONTRACTOR');
       expect(subcontractor.status).toBe('ACTIVE');
-      expect(subcontractorEmail).toBe('elite.electrical@example.com');
+      expect(subcontractorEmail).toBe(uniqueEmail);
       expect(subcontractorPassword).toBeTruthy();
       expect(subcontractor.userAccount.created).toBe(true);
       
@@ -395,13 +397,14 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('✓ Admin authenticated successfully');
       
       // Admin creates GC contractor - system generates credentials
+      const uniqueEmail = `westside.construction.${Date.now()}@example.com`;
       const gcContractor = await apiCall(
         '/contractors',
         'POST',
         adminToken,
         {
           name: 'Westside Construction LLC',
-          email: 'westside.construction@example.com',
+          email: uniqueEmail,
           phone: '(555) 900-1001',
           company: 'Westside Construction LLC',
           address: '670 Myrtle Ave, Suite 163',
@@ -418,7 +421,7 @@ test.describe('Complete COI Workflow Tests', () => {
       contractorPassword = gcContractor.userAccount.password;
       
       expect(contractorId).toBeTruthy();
-      expect(contractorEmail).toBe('westside.construction@example.com');
+      expect(contractorEmail).toBe(uniqueEmail);
       expect(contractorPassword).toBeTruthy();
       expect(gcContractor.userAccount.created).toBe(true);
       
@@ -450,13 +453,14 @@ test.describe('Complete COI Workflow Tests', () => {
 
       projectId = project.id;
 
+      const uniqueEmail = `speedy.plumbing.${Date.now()}@example.com`;
       const subcontractor = await apiCall(
         '/contractors',
         'POST',
         contractorToken,
         {
           name: 'Speedy Plumbing Co',
-          email: 'speedy.plumbing@example.com',
+          email: uniqueEmail,
           company: 'Speedy Plumbing Company',
           address: '670 Myrtle Ave, Suite 163',
           city: 'Brooklyn',
@@ -471,7 +475,7 @@ test.describe('Complete COI Workflow Tests', () => {
       subcontractorEmail = subcontractor.userAccount.email;
       subcontractorPassword = subcontractor.userAccount.password;
       
-      expect(subcontractorEmail).toBe('speedy.plumbing@example.com');
+      expect(subcontractorEmail).toBe(uniqueEmail);
       expect(subcontractorPassword).toBeTruthy();
       expect(subcontractor.userAccount.created).toBe(true);
       
@@ -728,13 +732,14 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('✓ Admin authenticated successfully');
       
       // Admin creates GC contractor - system generates credentials
+      const uniqueEmail = `highway.builders.${Date.now()}@example.com`;
       const gcContractor = await apiCall(
         '/contractors',
         'POST',
         adminToken,
         {
           name: 'Highway Builders Inc.',
-          email: 'highway.builders@example.com',
+          email: uniqueEmail,
           phone: '(555) 800-1002',
           company: 'Highway Builders Inc.',
           address: '670 Myrtle Ave, Suite 163',
@@ -751,7 +756,7 @@ Contact admin if you have questions: admin@compliant.com`,
       contractorPassword = gcContractor.userAccount.password;
       
       expect(contractorId).toBeTruthy();
-      expect(contractorEmail).toBe('highway.builders@example.com');
+      expect(contractorEmail).toBe(uniqueEmail);
       expect(contractorPassword).toBeTruthy();
       expect(gcContractor.userAccount.created).toBe(true);
       
@@ -783,13 +788,14 @@ Contact admin if you have questions: admin@compliant.com`,
 
       projectId = project.id;
 
+      const uniqueEmail = `concrete.masters.${Date.now()}@example.com`;
       const subcontractor = await apiCall(
         '/contractors',
         'POST',
         contractorToken,
         {
           name: 'Concrete Masters Inc',
-          email: 'concrete.masters@example.com',
+          email: uniqueEmail,
           company: 'Concrete Masters Incorporated',
           address: '670 Myrtle Ave, Suite 163',
           city: 'Brooklyn',
@@ -804,7 +810,7 @@ Contact admin if you have questions: admin@compliant.com`,
       subcontractorEmail = subcontractor.userAccount.email;
       subcontractorPassword = subcontractor.userAccount.password;
       
-      expect(subcontractorEmail).toBe('concrete.masters@example.com');
+      expect(subcontractorEmail).toBe(uniqueEmail);
       expect(subcontractorPassword).toBeTruthy();
       expect(subcontractor.userAccount.created).toBe(true);
       

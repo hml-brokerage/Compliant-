@@ -71,9 +71,10 @@ test.describe('Real Login and Navigation with Screenshots', () => {
     console.log('\n📋 Step 0: Setup - Admin creates GC contractor');
     const adminToken = await getAuthToken(ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
     
+    const uniqueEmail = `test.gc.navigation.${Date.now()}@example.com`;
     const gcContractor = await createContractor(adminToken, {
       name: 'Test GC Navigation Company',
-      email: 'test.gc.navigation@example.com',
+      email: uniqueEmail,
       phone: '(555) 100-0001',
       company: 'Test GC Navigation Company',
       address: '670 Myrtle Ave, Suite 163',
@@ -288,9 +289,10 @@ test.describe('Real Login and Navigation with Screenshots', () => {
     console.log('\n📋 Step 0: Setup - Admin creates subcontractor');
     const adminToken = await getAuthToken(ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
     
+    const uniqueEmail = `test.sub.navigation.${Date.now()}@example.com`;
     const subContractor = await createContractor(adminToken, {
       name: 'Test Sub Navigation Company',
-      email: 'test.sub.navigation@example.com',
+      email: uniqueEmail,
       phone: '(555) 200-0001',
       company: 'Test Sub Navigation Company',
       address: '670 Myrtle Ave, Suite 163',

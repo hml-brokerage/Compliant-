@@ -229,9 +229,10 @@ test.describe('Real-World COI Workflow - Prestige Builders & MPI Plumbing', () =
 
     // Step 2: Admin Creates GC Contractor - Prestige Builders
     console.log('\n📋 Step 2: Admin Creates GC Contractor - Prestige Builders');
+    const uniqueEmail = `prestige.builders.${Date.now()}@example.com`;
     const gcContractor = await apiCallPW('/contractors', 'POST', adminToken, {
       name: 'Prestige Builders',
-      email: 'prestige.builders@example.com',
+      email: uniqueEmail,
       phone: '(555) 123-4567',
       company: 'Prestige Builders LLC',
       address: '670 Myrtle Ave, Suite 163',
@@ -245,7 +246,7 @@ test.describe('Real-World COI Workflow - Prestige Builders & MPI Plumbing', () =
     gcEmail = gcContractor.userAccount.email;
     gcPassword = gcContractor.userAccount.password;
     
-    expect(gcEmail).toBe('prestige.builders@example.com');
+    expect(gcEmail).toBe(uniqueEmail);
     expect(gcPassword).toBeTruthy();
     expect(gcContractor.userAccount.created).toBe(true);
     
