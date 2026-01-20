@@ -34,6 +34,7 @@ export default function BrokerSignPage() {
     if (coiId) {
       fetchCOI();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coiId]);
 
   const fetchCOI = async () => {

@@ -45,6 +45,7 @@ export default function EditProgramPage() {
     if (isAuthenticated && programId) {
       loadProgram();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, programId]);
 
   const loadProgram = async () => {
