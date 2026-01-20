@@ -184,7 +184,26 @@ pnpm test:cov    # Coverage report
 # Frontend tests
 cd packages/frontend
 pnpm test        # Component tests
+
+# E2E Browser Tests (Playwright)
+pnpm test:e2e           # Run all E2E tests
+pnpm test:e2e:ui        # Run with interactive UI
+pnpm test:e2e:headed    # Run with visible browser
+pnpm test:e2e:debug     # Debug mode
+pnpm test:e2e:report    # View HTML report
 ```
+
+### E2E Testing with Screenshots
+
+All E2E tests capture:
+- 📸 **Screenshots at every step** - Saved to `docs/e2e-screenshots/`
+- 📊 **Console monitoring** - Browser logs, errors, and warnings
+- 🎥 **Video recordings** - Full test execution videos
+- 🔍 **Detailed traces** - Debug information for failures
+
+Screenshots and console logs are **committed to PRs** for visual verification and review.
+
+See [E2E Testing Documentation](./docs/e2e-screenshots/README.md) for details.
 
 ## 🔄 CI/CD Workflows
 

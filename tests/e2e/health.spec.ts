@@ -3,7 +3,37 @@ import { test, expect } from '@playwright/test';
 /**
  * Basic E2E Health Check Tests
  * These tests verify that the application is running and accessible
+ * 
+ * Screenshots and console logs are saved to: docs/e2e-screenshots/
+ * These are committed to the PR for visual verification
  */
+
+// Store console messages for each test
+const consoleMessages: Array<{ type: string; text: string; timestamp: string }> = [];
+
+test.beforeEach(async ({ page }) => {
+  // Monitor console messages
+  page.on('console', msg => {
+    const message = {
+      type: msg.type(),
+      text: msg.text(),
+      timestamp: new Date().toISOString(),
+    };
+    consoleMessages.push(message);
+    console.log(`[${msg.type().toUpperCase()}] ${msg.text()}`);
+  });
+
+  // Monitor page errors
+  page.on('pageerror', error => {
+    const message = {
+      type: 'pageerror',
+      text: error.message,
+      timestamp: new Date().toISOString(),
+    };
+    consoleMessages.push(message);
+    console.log(`[PAGE ERROR] ${error.message}`);
+  });
+});
 
 test.describe('Health Checks', () => {
   test('backend health endpoint should be accessible', async ({ request }) => {
@@ -37,6 +67,12 @@ test.describe('Health Checks', () => {
     // Wait for the page to load
     await page.waitForLoadState('networkidle');
     
+    // Capture screenshot after page load (saved to docs/e2e-screenshots/)
+    await page.screenshot({ 
+      path: 'docs/e2e-screenshots/health-checks/01-frontend-loaded.png', 
+      fullPage: true 
+    });
+    
     // Verify the page loaded without critical errors
     // Check that we're on the expected base URL
     if (baseURL) {
@@ -51,6 +87,12 @@ test.describe('Health Checks', () => {
     
     // Wait for the page to be ready
     await page.waitForLoadState('domcontentloaded');
+    
+    // Capture screenshot of page content (saved to docs/e2e-screenshots/)
+    await page.screenshot({ 
+      path: 'docs/e2e-screenshots/health-checks/02-frontend-content.png', 
+      fullPage: true 
+    });
     
     // Check if the page has loaded some content
     const bodyContent = await page.textContent('body');
