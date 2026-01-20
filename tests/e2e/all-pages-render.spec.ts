@@ -157,6 +157,9 @@ test.describe('Comprehensive Page Renders - All Pages in System', () => {
     console.log('📋 Capturing: New Contractor Form');
     await page.goto('/admin/contractors/new');
     await page.waitForLoadState('networkidle');
+    // Wait for the form to actually load (not just the loading spinner)
+    await page.waitForSelector('form', { timeout: 10000 }).catch(() => console.log('Form did not load'));
+    await page.waitForTimeout(1000);
     await screenshots.capture(page, '012-admin-contractors-new', true);
 
     // General Contractors List
@@ -177,6 +180,9 @@ test.describe('Comprehensive Page Renders - All Pages in System', () => {
     console.log('📋 Capturing: New Project Form');
     await page.goto('/admin/projects/new');
     await page.waitForLoadState('networkidle');
+    // Wait for the form to actually load
+    await page.waitForSelector('form', { timeout: 10000 }).catch(() => console.log('Form did not load'));
+    await page.waitForTimeout(1000);
     await screenshots.capture(page, '015-admin-projects-new', true);
 
     // Programs List
@@ -190,6 +196,9 @@ test.describe('Comprehensive Page Renders - All Pages in System', () => {
     console.log('📋 Capturing: New Program Form');
     await page.goto('/admin/programs/new');
     await page.waitForLoadState('networkidle');
+    // Wait for the form to actually load
+    await page.waitForSelector('form', { timeout: 10000 }).catch(() => console.log('Form did not load'));
+    await page.waitForTimeout(1000);
     await screenshots.capture(page, '017-admin-programs-new', true);
 
     // COI List
