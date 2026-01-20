@@ -84,7 +84,7 @@ export class AIExtractionService {
     } catch (err) {
       const error = err as Error;
       this.logger.warn(
-        `PDF text extraction failed (mimetype=${file.mimetype}, size=${file.size}): ${error?.message || err}`,
+        `PDF text extraction failed (mimetype=${file.mimetype}, size=${file.size}): ${error.message}`,
       );
       // Don't throw - let the caller handle gracefully by using filename fallback
       throw err;
@@ -118,7 +118,7 @@ export class AIExtractionService {
       } catch (err) {
         const error = err as Error;
         this.logger.warn(
-          `Falling back after PDF text extraction error: ${error?.message || err}`,
+          `Falling back after PDF text extraction error: ${error.message}`,
         );
         pdfText = file.originalname || "Uploaded PDF";
       }
@@ -137,7 +137,7 @@ export class AIExtractionService {
         } catch (err) {
           const error = err as Error;
           this.logger.warn(
-            `Anthropic extraction failed, falling back to rule-based parser: ${error?.message || err}`,
+            `Anthropic extraction failed, falling back to rule-based parser: ${error.message}`,
           );
           return this.extractWithFallback(pdfText);
         }
@@ -147,7 +147,7 @@ export class AIExtractionService {
         } catch (err) {
           const error = err as Error;
           this.logger.warn(
-            `OpenAI extraction failed, falling back to rule-based parser: ${error?.message || err}`,
+            `OpenAI extraction failed, falling back to rule-based parser: ${error.message}`,
           );
           return this.extractWithFallback(pdfText);
         }
@@ -361,7 +361,7 @@ START WITH THE JSON:
         } catch (regexErr) {
           const error = regexErr as Error;
           this.logger.warn(
-            `Regex build failed for keyword "${keyword}": ${error?.message || regexErr}`,
+            `Regex build failed for keyword "${keyword}": ${error.message}`,
           );
           continue; // Skip bad keywords and keep trying others
         }
