@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { notificationApi, Notification } from '../../../lib/api/notifications';
-import { useToast } from '../../../components';
+import { notificationApi, Notification } from '../../lib/api/notifications';
+import { useToast } from '../../components';
 
 interface MessagingInboxProps {
   onClose: () => void;

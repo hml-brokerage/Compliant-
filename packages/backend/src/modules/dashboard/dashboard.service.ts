@@ -71,11 +71,14 @@ export class DashboardService {
       if (filters.endDate) where.createdAt.lte = new Date(filters.endDate);
     }
 
-    const gcs = await this.prisma.generalContractor.findMany({
-      where,
+    const gcs = await this.prisma.contractor.findMany({
+      where: {
+        ...where,
+        contractorType: 'GENERAL_CONTRACTOR',
+      },
       include: {
         _count: {
-          select: { projects: true },
+          select: { projectContractors: true },
         },
       },
       orderBy: { createdAt: 'desc' },
@@ -84,11 +87,11 @@ export class DashboardService {
 
     return gcs.map((gc: any) => ({
       id: gc.id,
-      name: gc.companyName,
+      name: gc.name || gc.company,
       type: 'gc' as const,
       status: 'active',
       date: gc.createdAt.toISOString(),
-      description: `General Contractor with ${gc._count.projects} project(s)`,
+      description: `General Contractor with ${gc._count.projectContractors} project(s)`,
     }));
   }
 
@@ -115,7 +118,11 @@ export class DashboardService {
     const projects = await this.prisma.project.findMany({
       where,
       include: {
-        generalContractor: true,
+        projectContractors: {
+          include: {
+            contractor: true,
+          },
+        },
       },
       orderBy: { createdAt: 'desc' },
       take: 10,
@@ -174,7 +181,8 @@ export class DashboardService {
     thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
     const where: any = {
-      policies: {
+      contractorType: 'SUBCONTRACTOR',
+      insuranceDocuments: {
         some: {
           expirationDate: {
             lte: thirtyDaysFromNow,
@@ -184,13 +192,13 @@ export class DashboardService {
     };
 
     if (filters.search) {
-      where.companyName = { contains: filters.search, mode: 'insensitive' };
+      where.name = { contains: filters.search, mode: 'insensitive' };
     }
 
-    const subcontractors = await this.prisma.subcontractor.findMany({
+    const subcontractors = await this.prisma.contractor.findMany({
       where,
       include: {
-        policies: {
+        insuranceDocuments: {
           where: {
             expirationDate: {
               lte: thirtyDaysFromNow,
@@ -216,7 +224,7 @@ export class DashboardService {
 
       return {
         id: sub.id,
-        name: sub.companyName,
+        name: sub.name || sub.company,
         type: 'compliance' as const,
         status: daysUntilExpiration <= 0 ? 'expired' : 'expiring',
         date: policy?.expirationDate.toISOString() || new Date().toISOString(),
@@ -229,7 +237,7 @@ export class DashboardService {
     this.logger.log(`Fetching dashboard stats for user ${userId}`);
 
     const [gcCount, projectCount, pendingCOIs, complianceRate] = await Promise.all([
-      this.prisma.generalContractor.count(),
+      this.prisma.contractor.count({ where: { contractorType: 'GENERAL_CONTRACTOR' } }),
       this.prisma.project.count({ where: { status: 'ACTIVE' } }),
       this.prisma.generatedCOI.count({ where: { status: 'AWAITING_ADMIN_REVIEW' } }),
       this.calculateComplianceRate(),
@@ -244,18 +252,15 @@ export class DashboardService {
   }
 
   private async calculateComplianceRate(): Promise<number> {
-    const totalSubcontractors = await this.prisma.subcontractor.count();
+    const totalSubcontractors = await this.prisma.contractor.count({
+      where: { contractorType: 'SUBCONTRACTOR' },
+    });
     if (totalSubcontractors === 0) return 100;
 
-    const compliantSubcontractors = await this.prisma.subcontractor.count({
+    const compliantSubcontractors = await this.prisma.contractor.count({
       where: {
-        policies: {
-          every: {
-            expirationDate: {
-              gte: new Date(),
-            },
-          },
-        },
+        contractorType: 'SUBCONTRACTOR',
+        insuranceStatus: 'COMPLIANT',
       },
     });
 

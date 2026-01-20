@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../config/prisma.service';
 import { EmailService } from '../email/email.service';
 
 export enum NotificationType {
@@ -160,7 +160,9 @@ export class NotificationService {
         message: replyMessage,
         metadata: {
           originalNotificationId: notificationId,
-          ...originalNotification.metadata,
+          ...(typeof originalNotification.metadata === 'object' && originalNotification.metadata !== null 
+            ? originalNotification.metadata 
+            : {}),
         },
         read: false,
         threadId,
