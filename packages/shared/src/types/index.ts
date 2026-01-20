@@ -64,7 +64,6 @@ export interface Contractor {
   contractorType: ContractorType;
   status: ContractorStatus;
   insuranceStatus: InsuranceStatus;
-  trades?: string[];
   address?: string;
   city?: string;
   state?: string;
