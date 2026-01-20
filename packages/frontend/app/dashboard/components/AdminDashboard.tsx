@@ -3,14 +3,115 @@
 import { User } from '@compliant/shared';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
+import { FilterBar } from '../../../components';
 
 interface AdminDashboardProps {
   user: User;
   onLogout: () => void;
 }
 
+interface DashboardItem {
+  id: string;
+  name: string;
+  type: 'gc' | 'project' | 'coi' | 'compliance';
+  status: string;
+  date: string;
+  description: string;
+}
+
 export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) {
   const router = useRouter();
+  const [filter, setFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  // Mock data for dashboard items - would come from API in real implementation
+  const mockItems: DashboardItem[] = [
+    {
+      id: '1',
+      name: 'ABC Construction',
+      type: 'gc',
+      status: 'active',
+      date: '2026-01-15',
+      description: 'General Contractor with 5 active projects'
+    },
+    {
+      id: '2',
+      name: 'Downtown Office Build',
+      type: 'project',
+      status: 'active',
+      date: '2026-01-10',
+      description: 'Commercial construction project'
+    },
+    {
+      id: '3',
+      name: 'Smith Electrical COI',
+      type: 'coi',
+      status: 'pending',
+      date: '2026-01-18',
+      description: 'COI awaiting review for approval'
+    },
+    {
+      id: '4',
+      name: 'Johnson Plumbing',
+      type: 'compliance',
+      status: 'expiring',
+      date: '2026-01-25',
+      description: 'Insurance expiring in 7 days'
+    },
+    {
+      id: '5',
+      name: 'Riverside Mall Project',
+      type: 'project',
+      status: 'active',
+      date: '2026-01-12',
+      description: 'Retail construction project'
+    },
+    {
+      id: '6',
+      name: 'XYZ Contractors',
+      type: 'gc',
+      status: 'active',
+      date: '2026-01-08',
+      description: 'General Contractor with 3 active projects'
+    },
+  ];
+
+  const filteredItems = mockItems.filter((item) => {
+    const matchesFilter = filter === 'all' || item.type === filter;
+    const matchesSearch = searchTerm === '' ||
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  const filterOptions = [
+    { value: 'all', label: 'All Items', count: mockItems.length },
+    { value: 'gc', label: 'General Contractors', count: mockItems.filter(i => i.type === 'gc').length },
+    { value: 'project', label: 'Projects', count: mockItems.filter(i => i.type === 'project').length },
+    { value: 'coi', label: 'COI Reviews', count: mockItems.filter(i => i.type === 'coi').length },
+    { value: 'compliance', label: 'Compliance', count: mockItems.filter(i => i.type === 'compliance').length },
+  ];
+
+  const getTypeIcon = (type: string) => {
+    const icons = {
+      gc: '🏢',
+      project: '🏗️',
+      coi: '📄',
+      compliance: '⚠️',
+    };
+    return icons[type as keyof typeof icons] || '📋';
+  };
+
+  const getStatusColor = (status: string) => {
+    const colors = {
+      active: 'bg-green-100 text-green-800',
+      pending: 'bg-orange-100 text-orange-800',
+      expiring: 'bg-red-100 text-red-800',
+    };
+    return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow">
@@ -80,6 +181,56 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               <h3 className="text-lg font-semibold text-gray-700">Compliance Rate</h3>
               <p className="text-3xl font-bold text-purple-600 mt-2">87%</p>
               <p className="text-sm text-gray-500 mt-1">Overall</p>
+            </div>
+          </div>
+
+          {/* Filter Bar for Recent Activity */}
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Recent Activity</h3>
+            <FilterBar
+              options={filterOptions}
+              selectedValue={filter}
+              onFilterChange={setFilter}
+              searchEnabled={true}
+              searchPlaceholder="Search items..."
+              searchValue={searchTerm}
+              onSearchChange={setSearchTerm}
+            />
+          </div>
+
+          {/* Recent Activity List */}
+          <div className="bg-white rounded-lg shadow mb-8">
+            <div className="p-6">
+              <div className="space-y-4">
+                {filteredItems.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No items found matching your filters</p>
+                  </div>
+                ) : (
+                  filteredItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className="text-3xl">{getTypeIcon(item.type)}</span>
+                        <div>
+                          <h4 className="font-semibold text-gray-900">{item.name}</h4>
+                          <p className="text-sm text-gray-600">{item.description}</p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {new Date(item.date).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusColor(item.status)}`}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
 
