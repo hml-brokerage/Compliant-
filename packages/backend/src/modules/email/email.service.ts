@@ -105,7 +105,7 @@ export class EmailService {
               Set Your Password
             </a>
           </p>
-          <p style="color: #6b7280; font-size: 12px;">This link will expire in 24 hours for security reasons.</p>
+          <p style="color: #6b7280; font-size: 12px;">This link will expire in 7 days for security reasons.</p>
           <p style="color: #6b7280; font-size: 12px;">If the button doesn't work, copy and paste this link into your browser:<br>${resetLink}</p>
         </div>
         <p><strong>Next Steps:</strong></p>
@@ -150,7 +150,7 @@ export class EmailService {
               Set Your Password
             </a>
           </p>
-          <p style="color: #6b7280; font-size: 12px;">This link will expire in 24 hours for security reasons.</p>
+          <p style="color: #6b7280; font-size: 12px;">This link will expire in 7 days for security reasons.</p>
           <p style="color: #6b7280; font-size: 12px;">If the button doesn't work, copy and paste this link into your browser:<br>${resetLink}</p>
         </div>
         <p><strong>Your Responsibilities:</strong></p>
