@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures/test-fixtures';
-import { test, expect, Page } from '@playwright/test';
+// Updated to use enhanced fixtures
+import type { Page } from '@playwright/test';
 import { ScreenshotHelper } from './screenshot-helper';
 
 /**
