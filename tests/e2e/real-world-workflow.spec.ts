@@ -1,3 +1,4 @@
+import { test, expect } from './fixtures/test-fixtures';
 import { test, expect } from '@playwright/test';
 import { ScreenshotHelper } from './screenshot-helper';
 

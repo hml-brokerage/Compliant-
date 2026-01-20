@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/test-fixtures';
 
 /**
  * Complete COI Workflow E2E Tests for Compliant Platform
@@ -18,64 +18,19 @@ import { test, expect } from '@playwright/test';
  * - ACTIVE: Approved and active
  * - DEFICIENCY_PENDING: Rejected with issues, awaiting correction
  * - EXPIRED: Policy expiration date passed
+ * 
+ * ENHANCED WITH:
+ * - Automatic token refresh during long workflows
+ * - Exponential backoff retry logic for rate limiting
+ * - Test isolation with automatic cleanup
+ * - Better error handling and timeouts
  */
-
-// Configuration
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3001';
-const API_PATH = '/api';
-const API_VERSION = '1';
 
 // Only Admin has pre-seeded credentials
 // GC/Contractor, Subcontractor, and Broker accounts are auto-created when added
 const CREDENTIALS = {
   admin: { email: 'admin@compliant.com', password: 'Admin123!@#' },
 };
-
-// Helper function to get auth token via API
-async function getAuthToken(email: string, password: string): Promise<string> {
-  const response = await fetch(`${API_BASE_URL}${API_PATH}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-Version': API_VERSION,
-    },
-    body: JSON.stringify({ email, password }),
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Login failed (${response.status}): ${error}`);
-  }
-
-  const data = await response.json();
-  return data.accessToken;
-}
-
-// Helper function to make authenticated API calls
-async function apiCall(
-  endpoint: string,
-  method: string,
-  token: string,
-  body?: any
-): Promise<any> {
-  const response = await fetch(`${API_BASE_URL}${API_PATH}${endpoint}`, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'X-API-Version': API_VERSION,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
-
-  const responseText = await response.text();
-  
-  if (!response.ok) {
-    throw new Error(`API call failed (${response.status}): ${responseText}`);
-  }
-
-  return responseText ? JSON.parse(responseText) : null;
-}
 
 test.describe('Complete COI Workflow Tests', () => {
   
@@ -93,7 +48,7 @@ test.describe('Complete COI Workflow Tests', () => {
     let subcontractorId: string;
     let coiId: string;
 
-    test('Setup: Admin creates GC and authenticates', async () => {
+    test('Setup: Admin creates GC and authenticates', async ({ getAuthToken, apiCall }) => {
       console.log('\n=== COMPLIANT WORKFLOW - First-Time Submission ===\n');
       
       // Step 1: Admin authenticates (only admin has pre-seeded credentials)
@@ -139,7 +94,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('✓ GC authenticated with generated credentials');
     });
 
-    test('Step 1: GC creates a project', async () => {
+    test('Step 1: GC creates a project', async ({ apiCall }) => {
       const project = await apiCall(
         '/projects',
         'POST',
@@ -163,7 +118,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log(`✓ Project created: ${project.name} (ID: ${projectId})`);
     });
 
-    test('Step 2: GC adds subcontractor to project', async () => {
+    test('Step 2: GC adds subcontractor to project', async ({ getAuthToken, apiCall }) => {
       const uniqueEmail = `elite.electrical.${Date.now()}@example.com`;
       const subcontractor = await apiCall(
         '/contractors',
@@ -203,7 +158,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('✓ Subcontractor authenticated with generated credentials');
     });
 
-    test('Step 3: Admin creates COI for subcontractor - Status: AWAITING_BROKER_INFO', async () => {
+    test('Step 3: Admin creates COI for subcontractor - Status: AWAITING_BROKER_INFO', async ({ getAuthToken, apiCall }) => {
       const coi = await apiCall(
         '/generated-coi',
         'POST',
@@ -224,7 +179,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log(`  Status: ${coi.status} ← Initial state`);
     });
 
-    test('Step 4: Subcontractor provides broker information - Status: AWAITING_BROKER_UPLOAD', async () => {
+    test('Step 4: Subcontractor provides broker information - Status: AWAITING_BROKER_UPLOAD', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${coiId}/broker-info`,
         'PATCH',
@@ -257,7 +212,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log(`  Status: ${updatedCoi.status} ← Broker can now upload policies`);
     });
 
-    test('Step 5: Broker uploads policy documents - Status: AWAITING_BROKER_SIGNATURE', async () => {
+    test('Step 5: Broker uploads policy documents - Status: AWAITING_BROKER_SIGNATURE', async ({ getAuthToken, apiCall }) => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1); // 1 year validity
 
@@ -302,7 +257,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log(`  Status: ${updatedCoi.status} ← Ready for signatures`);
     });
 
-    test('Step 6: Broker signs all policies - Status: AWAITING_ADMIN_REVIEW', async () => {
+    test('Step 6: Broker signs all policies - Status: AWAITING_ADMIN_REVIEW', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${coiId}/sign`,
         'PATCH',
@@ -332,7 +287,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log(`  Status: ${updatedCoi.status} ← Ready for admin review`);
     });
 
-    test('Step 7: Admin reviews and approves COI - Status: ACTIVE', async () => {
+    test('Step 7: Admin reviews and approves COI - Status: ACTIVE', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${coiId}/review`,
         'PATCH',
@@ -352,7 +307,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('\n✅ COMPLIANT WORKFLOW COMPLETED SUCCESSFULLY\n');
     });
 
-    test('Verify: Retrieve COI details and confirm all data', async () => {
+    test('Verify: Retrieve COI details and confirm all data', async ({ getAuthToken, apiCall }) => {
       const coiDetails = await apiCall(
         `/generated-coi/${coiId}`,
         'GET',
@@ -386,7 +341,7 @@ test.describe('Complete COI Workflow Tests', () => {
     let subcontractorId: string;
     let coiId: string;
 
-    test('Setup: Admin creates GC and authenticates', async () => {
+    test('Setup: Admin creates GC and authenticates', async ({ getAuthToken, apiCall }) => {
       console.log('\n=== NON-COMPLIANT WORKFLOW - Deficiency Handling ===\n');
       
       // Admin authenticates
@@ -436,7 +391,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('✓ Using admin token for broker actions');
     });
 
-    test('Step 1: GC creates project and adds subcontractor', async () => {
+    test('Step 1: GC creates project and adds subcontractor', async ({ getAuthToken, apiCall }) => {
       const project = await apiCall(
         '/projects',
         'POST',
@@ -487,7 +442,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('✓ Subcontractor authenticated with generated credentials');
     });
 
-    test('Step 2-5: Create COI and complete through signing (fast-forward)', async () => {
+    test('Step 2-5: Create COI and complete through signing (fast-forward)', async ({ getAuthToken, apiCall }) => {
       const coi = await apiCall(
         '/generated-coi',
         'POST',
@@ -561,7 +516,7 @@ test.describe('Complete COI Workflow Tests', () => {
       console.log('    - WC policy already expired');
     });
 
-    test('Step 6: Admin rejects COI with detailed deficiency notes - Status: DEFICIENCY_PENDING', async () => {
+    test('Step 6: Admin rejects COI with detailed deficiency notes - Status: DEFICIENCY_PENDING', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${coiId}/review`,
         'PATCH',
@@ -604,7 +559,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('  Deficiency notes sent to subcontractor and broker');
     });
 
-    test('Step 7: Broker uploads corrected policies', async () => {
+    test('Step 7: Broker uploads corrected policies', async ({ getAuthToken, apiCall }) => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1); // Proper 1-year validity
 
@@ -645,7 +600,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('  - WC policy replaced with current policy');
     });
 
-    test('Step 8: Broker re-signs all policies', async () => {
+    test('Step 8: Broker re-signs all policies', async ({ getAuthToken, apiCall }) => {
       await apiCall(
         `/generated-coi/${coiId}/sign`,
         'PATCH',
@@ -668,7 +623,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('✓ All corrected policies signed');
     });
 
-    test('Step 9: Broker resubmits for review - Status: AWAITING_ADMIN_REVIEW', async () => {
+    test('Step 9: Broker resubmits for review - Status: AWAITING_ADMIN_REVIEW', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${coiId}/resubmit`,
         'PATCH',
@@ -685,7 +640,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log(`  Status: ${updatedCoi.status} ← Back to admin review queue`);
     });
 
-    test('Step 10: Admin re-reviews and approves corrected COI - Status: ACTIVE', async () => {
+    test('Step 10: Admin re-reviews and approves corrected COI - Status: ACTIVE', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${coiId}/review`,
         'PATCH',
@@ -722,7 +677,7 @@ Contact admin if you have questions: admin@compliant.com`,
     let originalCoiId: string;
     let renewedCoiId: string;
 
-    test('Setup: Admin creates GC and authenticates', async () => {
+    test('Setup: Admin creates GC and authenticates', async ({ getAuthToken, apiCall }) => {
       console.log('\n=== RENEWAL WORKFLOW - Second-Time Submission ===\n');
       
       // Admin authenticates
@@ -772,7 +727,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('✓ Using admin token for broker actions');
     });
 
-    test('Step 1: Create and approve original COI (fast-forward)', async () => {
+    test('Step 1: Create and approve original COI (fast-forward)', async ({ getAuthToken, apiCall }) => {
       const project = await apiCall(
         '/projects',
         'POST',
@@ -915,7 +870,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('  Subcontractor has been working on project');
     });
 
-    test('Step 2: Admin initiates COI renewal - Broker info auto-populated', async () => {
+    test('Step 2: Admin initiates COI renewal - Broker info auto-populated', async ({ getAuthToken, apiCall }) => {
       const renewedCoi = await apiCall(
         `/generated-coi/${originalCoiId}/renew`,
         'POST',
@@ -945,7 +900,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('  Original COI ID: ' + originalCoiId);
     });
 
-    test('Step 3: Broker uploads renewed policy documents - Status: AWAITING_BROKER_SIGNATURE', async () => {
+    test('Step 3: Broker uploads renewed policy documents - Status: AWAITING_BROKER_SIGNATURE', async ({ getAuthToken, apiCall }) => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1); // New 1-year validity
 
@@ -986,7 +941,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log(`  Status: ${updatedCoi.status}`);
     });
 
-    test('Step 4: Broker signs renewed policies - Status: AWAITING_ADMIN_REVIEW', async () => {
+    test('Step 4: Broker signs renewed policies - Status: AWAITING_ADMIN_REVIEW', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${renewedCoiId}/sign`,
         'PATCH',
@@ -1012,7 +967,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log(`  Status: ${updatedCoi.status} ← Ready for admin review`);
     });
 
-    test('Step 5: Admin approves renewed COI - Status: ACTIVE', async () => {
+    test('Step 5: Admin approves renewed COI - Status: ACTIVE', async ({ getAuthToken, apiCall }) => {
       const updatedCoi = await apiCall(
         `/generated-coi/${renewedCoiId}/review`,
         'PATCH',
@@ -1033,7 +988,7 @@ Contact admin if you have questions: admin@compliant.com`,
       console.log('\n✅ RENEWAL WORKFLOW COMPLETED (Second-time submission)\n');
     });
 
-    test('Verify: Both original and renewed COIs exist with proper relationship', async () => {
+    test('Verify: Both original and renewed COIs exist with proper relationship', async ({ getAuthToken, apiCall }) => {
       const originalCoi = await apiCall(
         `/generated-coi/${originalCoiId}`,
         'GET',
@@ -1071,12 +1026,12 @@ Contact admin if you have questions: admin@compliant.com`,
   test.describe('4. COI Status Transitions and Edge Cases', () => {
     let adminToken: string;
 
-    test('Setup: Authenticate admin', async () => {
+    test('Setup: Authenticate admin', async ({ getAuthToken, apiCall }) => {
       console.log('\n=== COI STATUS TRANSITIONS AND EDGE CASES ===\n');
       adminToken = await getAuthToken(CREDENTIALS.admin.email, CREDENTIALS.admin.password);
     });
 
-    test('Verify: List all COIs', async () => {
+    test('Verify: List all COIs', async ({ getAuthToken, apiCall }) => {
       const cois = await apiCall(
         '/generated-coi',
         'GET',
@@ -1099,7 +1054,7 @@ Contact admin if you have questions: admin@compliant.com`,
       });
     });
 
-    test('Verify: Query expiring COIs', async () => {
+    test('Verify: Query expiring COIs', async ({ getAuthToken, apiCall }) => {
       const expiringCois = await apiCall(
         '/generated-coi/expiring?daysUntilExpiration=60',
         'GET',
@@ -1120,7 +1075,7 @@ Contact admin if you have questions: admin@compliant.com`,
       }
     });
 
-    test('Summary: All COI statuses demonstrated', async () => {
+    test('Summary: All COI statuses demonstrated', async ({ getAuthToken, apiCall }) => {
       console.log('\n=== WORKFLOW TESTING SUMMARY ===\n');
       console.log('✅ COI Status Transitions Tested:');
       console.log('   1. AWAITING_BROKER_INFO → Initial COI creation');
