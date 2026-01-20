@@ -33,7 +33,7 @@ append_if_missing packages/backend/.env JWT_SECRET "$(rand_secret)"
 append_if_missing packages/backend/.env JWT_REFRESH_SECRET "$(rand_secret)"
 
 # Detect GitHub Codespaces and generate appropriate API URL
-if [ -n "${CODESPACE_NAME:-}" ]; then
+if [ -n "${CODESPACE_NAME:-}" ] && [ -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]; then
   log "Detected GitHub Codespaces environment"
   API_URL="https://${CODESPACE_NAME}-3001.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/api"
   log "Using Codespaces API URL: ${API_URL}"
