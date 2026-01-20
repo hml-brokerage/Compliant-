@@ -67,6 +67,7 @@ describe("ContractorsService", () => {
           useValue: {
             sendEmail: jest.fn(),
             sendWelcomeEmail: jest.fn(),
+            sendContractorWelcomeEmail: jest.fn(),
           },
         },
       ],
