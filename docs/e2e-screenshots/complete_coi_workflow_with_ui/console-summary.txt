@@ -1,319 +1,484 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: complete_coi_workflow_with_ui
-Generated: 2026-01-20T18:12:09.242Z
+Generated: 2026-01-20T19:02:35.151Z
 
-Console Summary: 71 messages (59 errors, 0 warnings, 1 logs, 11 info, 0 debug)
+Console Summary: 467 messages (406 errors, 0 warnings, 0 logs, 61 info, 0 debug)
 
 Breakdown by Type:
-- Errors: 59
+- Errors: 406
 - Warnings: 0
-- Logs: 1
-- Info: 11
+- Logs: 0
+- Info: 61
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T18:11:44.436Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:45.023Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:45.025Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:45.029Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:45.030Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:45.444Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
-[2026-01-20T18:11:47.579Z] [LOG] [Fast Refresh] rebuilding
-[2026-01-20T18:11:48.256Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:48.819Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:48.821Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:48.825Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:48.826Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:49.251Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:49.796Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:49.796Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:49.798Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:49.798Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:50.164Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=1obve - net::ERR_ABORTED
-[2026-01-20T18:11:52.653Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:53.206Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:53.207Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:53.210Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:53.211Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:53.629Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:54.195Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:54.196Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:54.201Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:54.202Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:56.902Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:57.465Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:57.465Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:57.467Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:57.467Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:57.884Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:11:58.429Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:58.430Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:58.434Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:11:58.434Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:11:58.801Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
-[2026-01-20T18:11:59.040Z] [ERROR] Warning: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render%s HotReload SubcontractorDashboard SubcontractorDashboard 
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:14:11)
-    at DashboardPage (webpack-internal:///(app-pages-browser)/./app/dashboard/page.tsx:28:118)
-    at ClientPageRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/client-page.js:14:11)
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
-    at AuthProvider (webpack-internal:///(app-pages-browser)/./lib/auth/AuthContext.tsx:18:11)
-    at QueryClientProvider (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/@tanstack+react-query@5.90.19_react@18.3.1/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:27:11)
-    at Providers (webpack-internal:///(app-pages-browser)/./app/providers.tsx:17:11)
-    at body
-    at html
-    at RootLayout (Server)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
-    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
-    at HotReload (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
-    at Router (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:207:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
-    at AppRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:585:13)
-    at ServerRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:112:27)
-    at Root (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:117:11)
-[2026-01-20T18:11:59.044Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
-    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
-    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.044Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.045Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.045Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.047Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
-    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
-    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.047Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.052Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.052Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
-TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.054Z] [ERROR] The above error occurred in the <NotFoundErrorBoundary> component:
-
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:14:11)
-    at DashboardPage (webpack-internal:///(app-pages-browser)/./app/dashboard/page.tsx:28:118)
-    at ClientPageRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/client-page.js:14:11)
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
-    at AuthProvider (webpack-internal:///(app-pages-browser)/./lib/auth/AuthContext.tsx:18:11)
-    at QueryClientProvider (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/@tanstack+react-query@5.90.19_react@18.3.1/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:27:11)
-    at Providers (webpack-internal:///(app-pages-browser)/./app/providers.tsx:17:11)
-    at body
-    at html
-    at RootLayout (Server)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
-    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
-    at HotReload (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
-    at Router (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:207:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
-    at AppRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:585:13)
-    at ServerRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:112:27)
-    at Root (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:117:11)
-
-React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundaryHandler.
-[2026-01-20T18:11:59.056Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:11:59.056Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'length')
-    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
-    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
-    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
-    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
-    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
-    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
-    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
-    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
-    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
-    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
-    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
-    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
-    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T18:12:01.104Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:12:01.661Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:01.661Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:01.672Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:01.672Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:02.103Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:12:02.650Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:02.651Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:02.656Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:02.657Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:05.365Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:12:05.912Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:05.914Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:05.918Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:05.921Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:06.331Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T18:12:06.879Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:06.880Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T18:12:06.884Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T18:12:06.884Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:50.309Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:50.418Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.421Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.426Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.429Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:50.431Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.433Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:50.434Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:50.794Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:50.872Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.878Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.880Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.883Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:50.885Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:50.887Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:50.889Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:51.239Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:51.331Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.335Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.340Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.344Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:51.345Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.346Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:51.348Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:51.731Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:51.803Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.808Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.811Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.813Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:51.816Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:51.817Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:51.819Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:52.165Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:52.241Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.250Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.252Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:52.253Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.260Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.261Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:52.263Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:52.667Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:52.750Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.751Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.757Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.759Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:52.761Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:52.762Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:52.763Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:53.102Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:53.177Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.182Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.184Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.187Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:53.190Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.191Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:53.193Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:53.533Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:53.605Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.608Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.614Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.618Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:53.619Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:53.621Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:53.623Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:53.959Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:54.034Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.039Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.042Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.050Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:54.050Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.051Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:54.052Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:54.393Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:54.483Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.494Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.496Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.500Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:54.524Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.528Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:54.528Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:54.904Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:54.977Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.982Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:54.984Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:54.986Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:54.989Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:54.990Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:54.991Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:55.324Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:55.410Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:55.412Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:55.417Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:55.419Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:55.421Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:55.422Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:55.423Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:55.759Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:55.830Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:55.837Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:55.838Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:55.840Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:55.844Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:55.845Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:55.847Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:56.174Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:56.247Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:56.253Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:56.255Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:56.258Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:56.262Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:56.264Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:56.265Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:56.599Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:56.672Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:56.677Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:56.679Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:56.682Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:56.683Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:56.684Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:56.686Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:57.072Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:57.152Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:57.156Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:57.157Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:57.159Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:57.162Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:57.162Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:57.164Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:57.530Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:57.606Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:57.610Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:57.612Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:57.614Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:57.617Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:57.617Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:57.618Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:57.978Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:58.053Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:58.057Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:58.060Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:58.062Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:58.065Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:58.065Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:58.067Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:58.478Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:58.576Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:58.577Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:58.583Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:58.586Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:58.586Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:58.587Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:58.588Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:58.924Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:58.999Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:59.004Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:59.008Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:59.012Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:59.013Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:59.014Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:59.015Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:59.406Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:59.482Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:59.486Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:59.488Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:59.490Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:59.492Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:59.493Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:59.494Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:59.841Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:01:59.917Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:59.920Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:01:59.924Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:59.926Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:01:59.928Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:01:59.929Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:01:59.930Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:00.312Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:00.386Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:00.390Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:00.393Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:00.396Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:00.397Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:00.397Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:00.399Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:00.722Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:00.798Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:00.802Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:00.824Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:00.826Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:00.827Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:00.828Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:00.829Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:01.220Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:01.294Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:01.299Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:01.301Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:01.304Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:01.307Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:01.308Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:01.309Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:01.650Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:01.725Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:01.729Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:01.735Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:01.735Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:01.738Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:01.739Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:01.740Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:02.071Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:02.144Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:02.148Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:02.152Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:02.154Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:02.155Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:02.157Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:02.158Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:02.487Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:02.562Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:02.569Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:02.571Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:02.573Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:02.576Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:02.576Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:02.578Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:02.924Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:02.999Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:03.003Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:03.007Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:03.009Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:03.011Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:03.012Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:03.014Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:03.429Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:03.527Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:03.528Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:03.535Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:03.537Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:03.537Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:03.538Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:03.538Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:03.869Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:03.940Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:03.944Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:03.948Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:03.950Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:03.952Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:03.952Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:03.953Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:04.351Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:04.429Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:04.434Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:04.436Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:04.438Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:04.440Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:04.441Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:04.443Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:04.783Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:04.859Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:04.862Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:04.866Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:04.868Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:04.870Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:04.871Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:04.872Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:05.208Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:05.282Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:05.287Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:05.290Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:05.292Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:05.294Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:05.295Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:05.296Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:05.688Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:05.782Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:05.784Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:05.789Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:05.791Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:05.793Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:05.793Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:05.795Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:06.133Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:06.219Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:06.225Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:06.227Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:06.232Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:06.233Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:06.233Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:06.234Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:06.569Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:06.643Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:06.648Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:06.650Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:06.652Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:06.656Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:06.657Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:06.658Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:07.066Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:07.138Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:07.143Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:07.145Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:07.148Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:07.151Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:07.153Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:07.153Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:07.486Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:07.561Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:07.566Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:07.569Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:07.570Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:07.573Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:07.574Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:07.576Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:07.908Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:07.985Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:07.989Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:07.991Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:07.993Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:07.998Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:07.998Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:07.999Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:08.396Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:08.490Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:08.492Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:08.498Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:08.500Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:08.500Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:08.500Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:08.502Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:08.838Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:08.913Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:08.917Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:08.920Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:08.921Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:08.924Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:08.925Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:08.927Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:09.259Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:09.343Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:09.356Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:09.357Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:09.357Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:09.387Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:09.387Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:09.394Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:09.754Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:09.828Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:09.833Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:09.835Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:09.837Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:09.840Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:09.840Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:09.842Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:10.224Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:10.301Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:10.304Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:10.306Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:10.309Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:10.311Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:10.312Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:10.314Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:10.654Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:10.729Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:10.752Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:10.754Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:10.755Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:10.762Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:10.763Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:10.764Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:11.143Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:11.218Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:11.223Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:11.225Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:11.229Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:11.229Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:11.231Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:11.232Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:11.569Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:11.641Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:11.645Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:11.650Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:11.653Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:11.653Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:11.654Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:11.655Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:12.033Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:12.107Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:12.112Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:12.114Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:12.115Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:12.119Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:12.120Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:12.121Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:12.455Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:12.536Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:12.540Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-01-20T19:02:12.542Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:12.545Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:12.546Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:12.548Z] [ERROR] REQUEST FAILED: http://localhost:3000/login - net::ERR_ABORTED
+[2026-01-20T19:02:12.548Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:12.884Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:12.956Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:12.957Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:12.960Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:12.961Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:13.742Z] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-01-20T19:02:13.743Z] [ERROR] Login failed: AxiosError
+[2026-01-20T19:02:16.311Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:16.411Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:16.411Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:16.412Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:16.412Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:16.796Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:16.876Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:16.877Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:16.881Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:16.882Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:17.615Z] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-01-20T19:02:17.617Z] [ERROR] Login failed: AxiosError
+[2026-01-20T19:02:20.193Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:20.274Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:20.276Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:20.279Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:20.279Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:20.666Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:20.742Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:20.743Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:20.747Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:20.747Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:21.449Z] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-01-20T19:02:21.449Z] [ERROR] Login failed: AxiosError
+[2026-01-20T19:02:23.992Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:24.070Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:24.071Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:24.090Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:24.091Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:24.468Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:24.551Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:24.551Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:24.556Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:24.557Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:25.282Z] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-01-20T19:02:25.283Z] [ERROR] Login failed: AxiosError
+[2026-01-20T19:02:27.847Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:27.932Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:27.937Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:27.941Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:27.941Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:28.319Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:28.402Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:28.403Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:28.406Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:28.407Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:29.115Z] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-01-20T19:02:29.116Z] [ERROR] Login failed: AxiosError
+[2026-01-20T19:02:31.621Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:31.714Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:31.715Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:31.726Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:31.726Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:32.138Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T19:02:32.216Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:32.217Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:32.221Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T19:02:32.222Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T19:02:32.965Z] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-01-20T19:02:32.966Z] [ERROR] Login failed: AxiosError
 
 === END OF SUMMARY ===

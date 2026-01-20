@@ -39,7 +39,7 @@ import { AllExceptionsFilter } from "./common/filters/http-exception.filter";
         // In test/development environments, allow more requests to support E2E tests
         limit:
           process.env.NODE_ENV === "test"
-            ? 10000
+            ? 1000000 // Effectively unlimited for E2E tests
             : process.env.NODE_ENV === "development"
               ? 1000
               : 10,
