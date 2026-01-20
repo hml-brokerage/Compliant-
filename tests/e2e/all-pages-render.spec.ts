@@ -47,6 +47,11 @@ async function rateLimitedFetch(url: string, options: RequestInit, retryCount = 
       return rateLimitedFetch(url, options, retryCount + 1);
     }
     
+    // If we exhausted retries for 429, throw an error
+    if (response.status === 429) {
+      throw new Error(`Rate limit exceeded (429) after ${API_MAX_RETRIES} retries`);
+    }
+    
     // Add delay after successful request to prevent rate limiting
     // This is necessary to avoid 429 errors when making multiple sequential API calls
     if (response.ok) {
@@ -62,12 +67,19 @@ async function rateLimitedFetch(url: string, options: RequestInit, retryCount = 
       error.message.includes('ECONNRESET') ||
       error.message.includes('ETIMEDOUT') ||
       error.message.includes('ECONNREFUSED') ||
-      error.message.includes('fetch failed')
+      error.message.includes('fetch failed') ||
+      // Check error.code for Node.js error codes
+      ('code' in error && typeof error.code === 'string' && (
+        error.code === 'ECONNRESET' ||
+        error.code === 'ETIMEDOUT' ||
+        error.code === 'ECONNREFUSED'
+      ))
     );
     
     if (isRetryableError && retryCount < API_MAX_RETRIES) {
       const retryDelay = API_RETRY_DELAY_BASE * Math.pow(2, retryCount);
-      console.log(`⚠️  Network error (${error.message}), retrying in ${retryDelay}ms... (attempt ${retryCount + 1}/${API_MAX_RETRIES})`);
+      const errorInfo = 'code' in error ? `${error.code}: ${error.message}` : error.message;
+      console.log(`⚠️  Network error (${errorInfo}), retrying in ${retryDelay}ms... (attempt ${retryCount + 1}/${API_MAX_RETRIES})`);
       await sleep(retryDelay);
       return rateLimitedFetch(url, options, retryCount + 1);
     }
