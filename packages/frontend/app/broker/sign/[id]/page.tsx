@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../lib/auth/AuthContext';
 
@@ -30,14 +30,7 @@ export default function BrokerSignPage() {
   const [signing, setSigning] = useState(false);
   const [signature, setSignature] = useState<string>('');
 
-  useEffect(() => {
-    if (coiId) {
-      fetchCOI();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coiId]);
-
-  const fetchCOI = async () => {
+  const fetchCOI = useCallback(async () => {
     setLoading(true);
     try {
       const { coiApi } = await import('../../../../lib/api/coi');
@@ -48,7 +41,13 @@ export default function BrokerSignPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [coiId]);
+
+  useEffect(() => {
+    if (coiId) {
+      fetchCOI();
+    }
+  }, [coiId, fetchCOI]);
 
   const handleSign = async (policyType: string) => {
     if (!signature.trim()) {
