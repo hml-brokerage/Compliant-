@@ -1,7 +1,7 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: frontend_navigation
-Generated: 2026-01-20T14:10:25.312Z
+Generated: 2026-01-20T17:26:28.018Z
 
 Console Summary: 5 messages (4 errors, 0 warnings, 0 logs, 1 info, 0 debug)
 
@@ -13,10 +13,10 @@ Breakdown by Type:
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T14:10:24.422Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T14:10:24.533Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T14:10:24.535Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T14:10:24.536Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T14:10:24.536Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T17:26:27.104Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T17:26:27.218Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T17:26:27.218Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T17:26:27.222Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T17:26:27.222Z] [ERROR] Auth check failed: AxiosError
 
 === END OF SUMMARY ===

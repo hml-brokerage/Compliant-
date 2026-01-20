@@ -1,7 +1,7 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: login_workflow
-Generated: 2026-01-20T14:10:27.742Z
+Generated: 2026-01-20T17:26:30.564Z
 
 Console Summary: 10 messages (8 errors, 0 warnings, 0 logs, 2 info, 0 debug)
 
@@ -13,15 +13,15 @@ Breakdown by Type:
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T14:10:25.848Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T14:10:25.957Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T14:10:25.959Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T14:10:25.959Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T14:10:25.960Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T14:10:26.897Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T14:10:26.980Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T14:10:26.981Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T14:10:26.985Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T14:10:26.986Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T17:26:28.562Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T17:26:28.674Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T17:26:28.675Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T17:26:28.680Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T17:26:28.680Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T17:26:29.682Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T17:26:29.772Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T17:26:29.773Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T17:26:29.777Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T17:26:29.778Z] [ERROR] Auth check failed: AxiosError
 
 === END OF SUMMARY ===
