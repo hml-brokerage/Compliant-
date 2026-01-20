@@ -48,12 +48,9 @@ export default function SubcontractorCompliancePage() {
   const fetchComplianceStatus = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch compliance status
-      // const response = await apiClient.get('/api/subcontractor/compliance');
-      // setCompliance(response.data);
-      
-      // Mock data
-      setCompliance(null);
+      const { subcontractorApi } = await import('../../../lib/api/subcontractor');
+      const data = await subcontractorApi.getComplianceStatus();
+      setCompliance(data);
     } catch (error) {
       console.error('Failed to fetch compliance status:', error);
     } finally {

@@ -41,9 +41,9 @@ export default function BrokerDashboard({ user, onLogout }: BrokerDashboardProps
 
   const fetchDashboardData = async () => {
     try {
-      // TODO: Implement API call to fetch dashboard data
-      // const response = await apiClient.get('/api/broker/dashboard');
-      // setStats(response.data);
+      const { dashboardApi } = await import('../../../lib/api/dashboard');
+      const data = await dashboardApi.getDashboard();
+      setStats(data);
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);

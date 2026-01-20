@@ -27,35 +27,9 @@ export default function BrokerUploadListPage() {
   const fetchSubcontractors = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch subcontractors assigned to this broker
-      // const response = await apiClient.get('/api/broker/subcontractors');
-      // setSubcontractors(response.data);
-      
-      // Mock data - subcontractors that need COI uploads
-      setSubcontractors([
-        {
-          id: '1',
-          name: 'John Smith',
-          company: 'Smith Electric Co.',
-          email: 'john@smithelectric.com',
-          projects: [
-            { id: '1', name: 'Downtown Office Tower', gcName: 'ABC Construction' }
-          ],
-          needsCOI: true,
-          coiStatus: 'pending'
-        },
-        {
-          id: '2',
-          name: 'Maria Garcia',
-          company: 'Garcia Plumbing Services',
-          email: 'maria@garciaplumbing.com',
-          projects: [
-            { id: '2', name: 'Riverside Apartments', gcName: 'XYZ Builders' }
-          ],
-          needsCOI: true,
-          coiStatus: 'deficient'
-        }
-      ]);
+      const { brokerApi } = await import('../../../lib/api/broker');
+      const data = await brokerApi.getSubcontractors();
+      setSubcontractors(data.data || data);
     } catch (error) {
       console.error('Failed to fetch subcontractors:', error);
     } finally {

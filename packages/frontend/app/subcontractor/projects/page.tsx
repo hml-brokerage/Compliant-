@@ -33,12 +33,9 @@ export default function SubcontractorProjectsPage() {
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch assigned projects
-      // const response = await apiClient.get('/api/subcontractor/projects');
-      // setProjects(response.data);
-      
-      // Mock data for demo
-      setProjects([]);
+      const { subcontractorApi } = await import('../../../lib/api/subcontractor');
+      const data = await subcontractorApi.getProjects();
+      setProjects(data);
     } catch (error) {
       console.error('Failed to fetch projects:', error);
     } finally {

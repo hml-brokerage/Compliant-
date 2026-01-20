@@ -1,0 +1,39 @@
+import apiClient from './client';
+
+export const coiApi = {
+  // Get COI details by ID
+  getById: async (id: string) => {
+    const response = await apiClient.get(`/generated-coi/${id}`);
+    return response.data;
+  },
+
+  // Get all COIs (filtered by user role)
+  getAll: async () => {
+    const response = await apiClient.get('/generated-coi');
+    return response.data;
+  },
+
+  // Sign COI policies
+  signCOI: async (id: string, data: { policyType: string; signature: string }) => {
+    const response = await apiClient.patch(`/generated-coi/${id}/sign`, data);
+    return response.data;
+  },
+
+  // Review COI (admin only)
+  reviewCOI: async (id: string, data: { approved: boolean; notes?: string }) => {
+    const response = await apiClient.patch(`/generated-coi/${id}/review`, data);
+    return response.data;
+  },
+
+  // Update broker information
+  updateBrokerInfo: async (id: string, data: any) => {
+    const response = await apiClient.patch(`/generated-coi/${id}/broker-info`, data);
+    return response.data;
+  },
+
+  // Upload policies
+  uploadPolicies: async (id: string, data: any) => {
+    const response = await apiClient.patch(`/generated-coi/${id}/upload`, data);
+    return response.data;
+  },
+};

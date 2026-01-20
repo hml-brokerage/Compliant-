@@ -49,12 +49,9 @@ export default function AdminCOIReviewsPage() {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch COI reviews
-      // const response = await apiClient.get('/api/admin/coi-reviews');
-      // setReviews(response.data);
-      
-      // Mock data
-      setReviews([]);
+      const { adminApi } = await import('../../../lib/api/admin');
+      const data = await adminApi.getCOIReviews();
+      setReviews(data);
     } catch (error) {
       console.error('Failed to fetch COI reviews:', error);
     } finally {
@@ -72,10 +69,13 @@ export default function AdminCOIReviewsPage() {
 
     setProcessing(true);
     try {
-      // TODO: Implement API call to approve/reject COI
-      // const response = await apiClient.post(`/api/admin/coi-reviews/${selectedReview.id}/${action}`, {
-      //   notes: rejectionNotes,
-      // });
+      const { adminApi } = await import('../../../lib/api/admin');
+      
+      if (action === 'approve') {
+        await adminApi.approveCOI(selectedReview.id, rejectionNotes);
+      } else {
+        await adminApi.rejectCOI(selectedReview.id, rejectionNotes);
+      }
       
       alert(
         `COI ${action === 'approve' ? 'approved' : 'rejected'} successfully! ` +
