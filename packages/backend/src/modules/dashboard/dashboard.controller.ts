@@ -27,7 +27,10 @@ export class DashboardController {
 
   @Get()
   @ApiOperation({ summary: "Get dashboard data for current user" })
-  @ApiResponse({ status: 200, description: "Dashboard data retrieved successfully" })
+  @ApiResponse({
+    status: 200,
+    description: "Dashboard data retrieved successfully",
+  })
   getDashboard(@GetUser() user: User) {
     return this.dashboardService.getDashboardData(user);
   }
@@ -46,7 +49,13 @@ export class DashboardController {
     @Query("page", new DefaultValuePipe(1), ParseIntPipe) page?: number,
     @Query("limit", new DefaultValuePipe(20), ParseIntPipe) limit?: number,
   ) {
-    return this.dashboardService.getFilteredProjects(user, status, search, page, limit);
+    return this.dashboardService.getFilteredProjects(
+      user,
+      status,
+      search,
+      page,
+      limit,
+    );
   }
 
   @Get("contractors")
@@ -56,7 +65,10 @@ export class DashboardController {
   @ApiQuery({ name: "search", required: false, type: String })
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
-  @ApiResponse({ status: 200, description: "Contractors retrieved successfully" })
+  @ApiResponse({
+    status: 200,
+    description: "Contractors retrieved successfully",
+  })
   getContractors(
     @GetUser() user: User,
     @Query("status") status?: string,

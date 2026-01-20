@@ -18,7 +18,10 @@ import {
   ApiQuery,
   ApiParam,
 } from "@nestjs/swagger";
-import { NotificationsService, ReplyToNotificationDto } from "./notifications.service";
+import {
+  NotificationsService,
+  ReplyToNotificationDto,
+} from "./notifications.service";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { GetUser } from "../../common/decorators/get-user.decorator";
 import { User } from "@prisma/client";
@@ -38,7 +41,10 @@ export class NotificationsController {
     type: Boolean,
     description: "Filter to only unread notifications",
   })
-  @ApiResponse({ status: 200, description: "Notifications retrieved successfully" })
+  @ApiResponse({
+    status: 200,
+    description: "Notifications retrieved successfully",
+  })
   getNotifications(
     @GetUser() user: User,
     @Query("unreadOnly", new DefaultValuePipe(false), ParseBoolPipe)
@@ -50,7 +56,10 @@ export class NotificationsController {
   @Get(":id")
   @ApiOperation({ summary: "Get a single notification by ID" })
   @ApiParam({ name: "id", description: "Notification ID" })
-  @ApiResponse({ status: 200, description: "Notification retrieved successfully" })
+  @ApiResponse({
+    status: 200,
+    description: "Notification retrieved successfully",
+  })
   @ApiResponse({ status: 404, description: "Notification not found" })
   getNotification(@Param("id") id: string, @GetUser() user: User) {
     return this.notificationsService.getNotification(id, user.id);
@@ -89,7 +98,10 @@ export class NotificationsController {
   @Get("thread/:threadId")
   @ApiOperation({ summary: "Get all notifications in a thread" })
   @ApiParam({ name: "threadId", description: "Thread ID" })
-  @ApiResponse({ status: 200, description: "Thread notifications retrieved successfully" })
+  @ApiResponse({
+    status: 200,
+    description: "Thread notifications retrieved successfully",
+  })
   @ApiResponse({ status: 404, description: "Thread not found" })
   getThread(@Param("threadId") threadId: string, @GetUser() user: User) {
     return this.notificationsService.getThread(threadId, user.id);
@@ -98,7 +110,10 @@ export class NotificationsController {
   @Delete(":id")
   @ApiOperation({ summary: "Delete a notification" })
   @ApiParam({ name: "id", description: "Notification ID" })
-  @ApiResponse({ status: 200, description: "Notification deleted successfully" })
+  @ApiResponse({
+    status: 200,
+    description: "Notification deleted successfully",
+  })
   @ApiResponse({ status: 404, description: "Notification not found" })
   async deleteNotification(@Param("id") id: string, @GetUser() user: User) {
     await this.notificationsService.deleteNotification(id, user.id);

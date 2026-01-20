@@ -37,7 +37,12 @@ import { AllExceptionsFilter } from "./common/filters/http-exception.filter";
       {
         ttl: 60000, // 60 seconds in milliseconds
         // In test/development environments, allow more requests to support E2E tests
-        limit: process.env.NODE_ENV === 'test' ? 10000 : (process.env.NODE_ENV === 'development' ? 1000 : 10),
+        limit:
+          process.env.NODE_ENV === "test"
+            ? 10000
+            : process.env.NODE_ENV === "development"
+              ? 1000
+              : 10,
       },
     ]),
     PrismaModule,

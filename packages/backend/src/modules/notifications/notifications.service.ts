@@ -33,7 +33,7 @@ export interface ReplyToNotificationDto {
 @Injectable()
 export class NotificationsService {
   private readonly logger = new Logger(NotificationsService.name);
-  
+
   // In-memory storage for notifications (in production, would use a database table)
   private notifications: Map<string, Notification> = new Map();
 
@@ -68,10 +68,13 @@ export class NotificationsService {
   /**
    * Get all notifications for a user
    */
-  async getNotifications(userId: string, unreadOnly: boolean = false): Promise<Notification[]> {
+  async getNotifications(
+    userId: string,
+    unreadOnly: boolean = false,
+  ): Promise<Notification[]> {
     const userNotifications = Array.from(this.notifications.values())
-      .filter(n => n.userId === userId)
-      .filter(n => !unreadOnly || !n.read)
+      .filter((n) => n.userId === userId)
+      .filter((n) => !unreadOnly || !n.read)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     return userNotifications;
@@ -108,10 +111,11 @@ export class NotificationsService {
    * Mark all notifications as read for a user
    */
   async markAllAsRead(userId: string): Promise<void> {
-    const userNotifications = Array.from(this.notifications.values())
-      .filter(n => n.userId === userId);
+    const userNotifications = Array.from(this.notifications.values()).filter(
+      (n) => n.userId === userId,
+    );
 
-    userNotifications.forEach(n => {
+    userNotifications.forEach((n) => {
       n.read = true;
       this.notifications.set(n.id, n);
     });
@@ -162,8 +166,8 @@ export class NotificationsService {
    */
   async getThread(threadId: string, userId: string): Promise<Notification[]> {
     const threadNotifications = Array.from(this.notifications.values())
-      .filter(n => n.threadId === threadId)
-      .filter(n => n.userId === userId)
+      .filter((n) => n.threadId === threadId)
+      .filter((n) => n.userId === userId)
       .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
     if (threadNotifications.length === 0) {
@@ -177,7 +181,8 @@ export class NotificationsService {
    * Delete a notification
    */
   async deleteNotification(id: string, userId: string): Promise<void> {
-    const notification = await this.getNotification(id, userId);
+    // Verify notification exists and belongs to user
+    await this.getNotification(id, userId);
     this.notifications.delete(id);
     this.logger.log(`Deleted notification ${id}`);
   }

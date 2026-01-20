@@ -13,9 +13,39 @@ export interface DashboardStats {
 
 export interface DashboardData {
   stats: DashboardStats;
-  recentProjects: any[];
-  recentContractors: any[];
-  recentCOIs: any[];
+  recentProjects: Project[];
+  recentContractors: Contractor[];
+  recentCOIs: GeneratedCOI[];
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  status: string;
+  startDate: Date;
+  address: string | null;
+  createdAt: Date;
+}
+
+export interface Contractor {
+  id: string;
+  name: string;
+  email: string;
+  company: string | null;
+  contractorType: string;
+  status: string;
+  insuranceStatus: string;
+  trades: string[];
+  createdAt: Date;
+}
+
+export interface GeneratedCOI {
+  id: string;
+  projectName: string | null;
+  subcontractorName: string | null;
+  status: string;
+  createdAt: Date;
+  glExpirationDate: Date | null;
 }
 
 @Injectable()
@@ -28,7 +58,9 @@ export class DashboardService {
    * Get dashboard data for the current user based on their role
    */
   async getDashboardData(user: User): Promise<DashboardData> {
-    this.logger.log(`Getting dashboard data for user ${user.email} with role ${user.role}`);
+    this.logger.log(
+      `Getting dashboard data for user ${user.email} with role ${user.role}`,
+    );
 
     // Build filter based on user role
     const filter = this.buildFilterForUser(user);
@@ -52,7 +84,7 @@ export class DashboardService {
   /**
    * Build Prisma filter based on user role and permissions
    */
-  private buildFilterForUser(user: User) {
+  private buildFilterForUser(user: User): Record<string, unknown> {
     // Super admins see everything
     if (user.role === UserRole.SUPER_ADMIN) {
       return {};
@@ -75,7 +107,10 @@ export class DashboardService {
   /**
    * Get statistics for the dashboard
    */
-  private async getStats(filter: any, user: User): Promise<DashboardStats> {
+  private async getStats(
+    filter: Record<string, unknown>,
+    _user: User,
+  ): Promise<DashboardStats> {
     // Count total projects with correct field name
     const totalProjects = await this.prisma.project.count({
       where: filter,
@@ -135,7 +170,10 @@ export class DashboardService {
   /**
    * Get recent projects
    */
-  private async getRecentProjects(filter: any, user: User) {
+  private async getRecentProjects(
+    filter: Record<string, unknown>,
+    _user: User,
+  ): Promise<Project[]> {
     return this.prisma.project.findMany({
       where: filter,
       orderBy: { createdAt: "desc" },
@@ -154,7 +192,10 @@ export class DashboardService {
   /**
    * Get recent contractors
    */
-  private async getRecentContractors(filter: any, user: User) {
+  private async getRecentContractors(
+    filter: Record<string, unknown>,
+    _user: User,
+  ): Promise<Contractor[]> {
     return this.prisma.contractor.findMany({
       where: filter,
       orderBy: { createdAt: "desc" },
@@ -167,6 +208,7 @@ export class DashboardService {
         contractorType: true,
         status: true,
         insuranceStatus: true,
+        trades: true,
         createdAt: true,
       },
     });
@@ -175,7 +217,10 @@ export class DashboardService {
   /**
    * Get recent COIs
    */
-  private async getRecentCOIs(filter: any, user: User) {
+  private async getRecentCOIs(
+    _filter: Record<string, unknown>,
+    _user: User,
+  ): Promise<GeneratedCOI[]> {
     return this.prisma.generatedCOI.findMany({
       orderBy: { createdAt: "desc" },
       take: 10,
@@ -199,9 +244,15 @@ export class DashboardService {
     search?: string,
     page: number = 1,
     limit: number = 20,
-  ) {
+  ): Promise<{
+    data: Project[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
     const filter = this.buildFilterForUser(user);
-    const where: any = { ...filter };
+    const where: Record<string, unknown> = { ...filter };
 
     if (status) {
       where.status = status;
@@ -254,9 +305,15 @@ export class DashboardService {
     search?: string,
     page: number = 1,
     limit: number = 20,
-  ) {
+  ): Promise<{
+    data: Contractor[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
     const filter = this.buildFilterForUser(user);
-    const where: any = { ...filter };
+    const where: Record<string, unknown> = { ...filter };
 
     if (status) {
       where.status = status;
