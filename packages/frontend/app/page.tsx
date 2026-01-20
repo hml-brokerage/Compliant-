@@ -22,9 +22,6 @@ export default function HomePage() {
             Dashboard
           </Link>
         </div>
-        <div className="mt-12 text-sm text-gray-500">
-          <p>Built with Next.js 14, NestJS, PostgreSQL, and Prisma</p>
-        </div>
       </div>
     </div>
   );
