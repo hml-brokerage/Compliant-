@@ -43,11 +43,13 @@ async function bootstrap() {
   );
 
   // Header-based versioning
-  app.enableVersioning({
-    type: VersioningType.HEADER,
-    header: "X-API-Version",
-    defaultVersion: "1",
-  });
+  // Note: Versioning will be handled at application level if needed in the future
+  // For now, all routes are v1 by default
+  // app.enableVersioning({
+  //   type: VersioningType.HEADER,
+  //   header: "X-API-Version",
+  //   defaultVersion: "1",
+  // });
 
   // API prefix (removed version from path since we use header-based versioning)
   // NOTE: Controllers already have full paths, so this adds the /api prefix

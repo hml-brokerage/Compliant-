@@ -9,6 +9,7 @@ import {
   Res,
   Req,
   UnauthorizedException,
+  Version,
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import { Response, Request } from "express";

@@ -7,6 +7,7 @@ import {
   Param,
   UseGuards,
   Request,
+  Version,
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
 import { GeneratedCOIService } from "./generated-coi.service";
