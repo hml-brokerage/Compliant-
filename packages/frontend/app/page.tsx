@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { useAuth } from '../lib/auth/AuthContext';
+import { UserRole } from '@compliant/shared';
 
 export default function HomePage() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
+
+  const isAdmin = !!user && [UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MANAGER].includes(user.role as any);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white p-24">
@@ -28,7 +31,7 @@ export default function HomePage() {
           </Link>
         </div>
         
-        {!loading && isAuthenticated && (
+        {!loading && isAuthenticated && isAdmin && (
           <div className="mt-12 pt-12 border-t border-gray-300">
             <h2 className="text-2xl font-semibold mb-6 text-gray-900">Admin Tools</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

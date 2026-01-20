@@ -87,6 +87,13 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
             <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Link
+                href="/admin/programs"
+                className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
+              >
+                <h4 className="font-semibold text-gray-900">Programs</h4>
+                <p className="text-sm text-gray-600 mt-1">Create and manage insurance programs</p>
+              </Link>
+              <Link
                 href="/admin/general-contractors"
                 className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow transition"
               >
