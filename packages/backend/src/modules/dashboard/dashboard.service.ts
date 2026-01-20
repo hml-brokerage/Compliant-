@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../config/prisma.service';
 import { DashboardFilterDto, FilterType } from '../../common/dto/dashboard-filter.dto';
 
 export interface DashboardItem {
@@ -82,7 +82,7 @@ export class DashboardService {
       take: 10,
     });
 
-    return gcs.map((gc) => ({
+    return gcs.map((gc: any) => ({
       id: gc.id,
       name: gc.companyName,
       type: 'gc' as const,
@@ -121,7 +121,7 @@ export class DashboardService {
       take: 10,
     });
 
-    return projects.map((project) => ({
+    return projects.map((project: any) => ({
       id: project.id,
       name: project.name,
       type: 'project' as const,
@@ -159,7 +159,7 @@ export class DashboardService {
       take: 10,
     });
 
-    return cois.map((coi) => ({
+    return cois.map((coi: any) => ({
       id: coi.id,
       name: `${coi.subcontractor.companyName} COI`,
       type: 'coi' as const,
@@ -205,7 +205,7 @@ export class DashboardService {
       take: 10,
     });
 
-    return subcontractors.map((sub) => {
+    return subcontractors.map((sub: any) => {
       const policy = sub.policies[0];
       const daysUntilExpiration = policy
         ? Math.ceil(

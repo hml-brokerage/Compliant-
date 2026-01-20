@@ -61,8 +61,8 @@ export class NotificationService {
           });
           this.logger.log(`Email notification sent to ${user.email}`);
         }
-      } catch (error) {
-        this.logger.error(`Failed to send email notification: ${error.message}`);
+      } catch (error: any) {
+        this.logger.error(`Failed to send email notification: ${error?.message || 'Unknown error'}`);
       }
     }
 

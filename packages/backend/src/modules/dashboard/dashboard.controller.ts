@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
 import { DashboardFilterDto } from '../../common/dto/dashboard-filter.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { GetUser } from '../auth/decorators/get-user.decorator';
+import { GetUser } from '../../common/decorators/get-user.decorator';
 import { User } from '@prisma/client';
 
 @ApiTags('dashboard')
