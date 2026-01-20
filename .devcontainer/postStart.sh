@@ -37,7 +37,12 @@ if [ -n "${CODESPACE_NAME:-}" ] && [ -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOM
   # Validate environment variables contain only safe characters
   # CODESPACE_NAME: alphanumeric, hyphens, underscores
   # GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN: valid domain format (proper domain segments separated by dots)
-  if [[ "${CODESPACE_NAME}" =~ ^[a-zA-Z0-9_-]+$ ]] && [[ "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}" =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*$ ]]; then
+  
+  # Regex patterns for validation
+  local codespace_name_pattern='^[a-zA-Z0-9_-]+$'
+  local domain_pattern='^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*$'
+  
+  if [[ "${CODESPACE_NAME}" =~ ${codespace_name_pattern} ]] && [[ "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}" =~ ${domain_pattern} ]]; then
     log "Detected GitHub Codespaces environment"
     API_URL="https://${CODESPACE_NAME}-3001.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/api"
   else
