@@ -20,6 +20,9 @@ playwright-report/
 /tests/screenshots/
 /packages/*/screenshots/
 
+# E2E screenshots are committed to PR for review
+!/docs/e2e-screenshots/
+
 # Logs
 logs
 *.log
