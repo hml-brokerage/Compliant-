@@ -37,9 +37,9 @@ export default function SubcontractorDashboard({ user, onLogout }: Subcontractor
 
   const fetchDashboardData = async () => {
     try {
-      // TODO: Implement API call to fetch dashboard data
-      // const response = await apiClient.get('/api/subcontractor/dashboard');
-      // setStats(response.data);
+      const { dashboardApi } = await import('../../../lib/api/dashboard');
+      const data = await dashboardApi.getDashboard();
+      setStats(data);
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);

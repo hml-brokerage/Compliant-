@@ -49,14 +49,13 @@ export default function AdminReportsPage() {
   const handleGenerateReport = async () => {
     setGenerating(true);
     try {
-      // TODO: Implement API call to generate report
-      // const response = await apiClient.post('/api/admin/reports/generate', {
-      //   reportType: selectedReport,
-      //   dateRange
-      // });
+      const { adminApi } = await import('../../../lib/api/admin');
+      await adminApi.generateReport({
+        reportType: selectedReport || 'compliance',
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      });
       
-      // Simulate report generation
-      await new Promise(resolve => setTimeout(resolve, 2000));
       alert(`${reports.find(r => r.id === selectedReport)?.name} generated successfully!`);
     } catch (error) {
       console.error('Failed to generate report:', error);

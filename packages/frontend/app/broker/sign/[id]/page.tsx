@@ -39,10 +39,9 @@ export default function BrokerSignPage() {
   const fetchCOI = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch COI details
-      // const response = await apiClient.get(`/api/broker/coi/${coiId}`);
-      // setCoi(response.data);
-      setCoi(null);
+      const { coiApi } = await import('../../../../lib/api/coi');
+      const data = await coiApi.getById(coiId);
+      setCoi(data);
     } catch (error) {
       console.error('Failed to fetch COI:', error);
     } finally {
@@ -58,11 +57,11 @@ export default function BrokerSignPage() {
 
     setSigning(true);
     try {
-      // TODO: Implement API call to sign COI
-      // const response = await apiClient.post(`/api/broker/coi/${coiId}/sign`, {
-      //   policyType,
-      //   signature,
-      // });
+      const { coiApi } = await import('../../../../lib/api/coi');
+      await coiApi.signCOI(coiId, {
+        policyType,
+        signature,
+      });
       
       alert(`${policyType} signed successfully! Notifications sent to GC, Subcontractor, and Admin.`);
       fetchCOI();

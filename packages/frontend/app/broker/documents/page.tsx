@@ -35,12 +35,9 @@ export default function BrokerDocumentsPage() {
   const fetchDocuments = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch all subcontractors and documents
-      // const response = await apiClient.get('/api/broker/documents');
-      // setDocuments(response.data);
-      
-      // Mock data
-      setDocuments([]);
+      const { brokerApi } = await import('../../../lib/api/broker');
+      const data = await brokerApi.getDocuments();
+      setDocuments(data);
     } catch (error) {
       console.error('Failed to fetch documents:', error);
     } finally {

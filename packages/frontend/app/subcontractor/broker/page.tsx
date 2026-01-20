@@ -47,13 +47,21 @@ export default function SubcontractorBrokerPage() {
   const fetchBrokerInfo = async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch existing broker info
-      // const response = await apiClient.get('/api/subcontractor/broker');
-      // setBrokerInfo(response.data);
-      // setBrokerType(response.data.brokerType || null);
-      // if (response.data.brokerType) {
-      //   setShowChoiceDialog(false);
-      // }
+      const { subcontractorApi } = await import('../../../lib/api/subcontractor');
+      const data = await subcontractorApi.getBrokerInfo();
+      if (data.brokerName) {
+        setBrokerInfo({
+          brokerName: data.brokerName,
+          brokerEmail: data.brokerEmail || '',
+          brokerPhone: data.brokerPhone || '',
+          brokerCompany: data.brokerCompany || '',
+          brokerType: data.brokerType || 'GLOBAL',
+        });
+        setBrokerType(data.brokerType || null);
+        if (data.brokerType) {
+          setShowChoiceDialog(false);
+        }
+      }
     } catch (error) {
       console.error('Failed to fetch broker info:', error);
     } finally {
@@ -72,11 +80,13 @@ export default function SubcontractorBrokerPage() {
     setSaving(true);
 
     try {
-      // TODO: Implement API call to save broker info
-      // const response = await apiClient.post('/api/subcontractor/broker', {
-      //   ...brokerInfo,
-      //   brokerType,
-      // });
+      const { subcontractorApi } = await import('../../../lib/api/subcontractor');
+      await subcontractorApi.saveBrokerInfo({
+        brokerName: brokerInfo.brokerName || '',
+        brokerEmail: brokerInfo.brokerEmail || '',
+        brokerPhone: brokerInfo.brokerPhone || '',
+        brokerCompany: brokerInfo.brokerCompany || '',
+      });
       
       alert('Broker information saved successfully! Your broker(s) will receive account credentials via email.');
       router.push('/dashboard');

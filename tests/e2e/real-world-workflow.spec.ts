@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/test-fixtures';
+// Updated to use enhanced fixtures
 import { ScreenshotHelper } from './screenshot-helper';
 
 /**

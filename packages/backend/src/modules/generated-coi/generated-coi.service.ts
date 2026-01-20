@@ -12,6 +12,7 @@ import { SignPoliciesDto } from "./dto/sign-policies.dto";
 import { ReviewCOIDto } from "./dto/review-coi.dto";
 import { COIStatus, UserRole } from "@prisma/client";
 import { HoldHarmlessService } from "../hold-harmless/hold-harmless.service";
+import { EmailService } from "../email/email.service";
 import * as bcrypt from "bcrypt";
 import { randomBytes } from "crypto";
 
@@ -22,6 +23,7 @@ export class GeneratedCOIService {
   constructor(
     private prisma: PrismaService,
     private holdHarmlessService: HoldHarmlessService,
+    private emailService: EmailService,
   ) {}
 
   /**
@@ -73,7 +75,7 @@ export class GeneratedCOIService {
       const lastName = nameParts.slice(1).join(" ") || "User";
 
       // Create broker user account with PERMANENT password
-      await this.prisma.user.create({
+      const brokerUser = await this.prisma.user.create({
         data: {
           email,
           password: hashedPassword,
@@ -85,13 +87,48 @@ export class GeneratedCOIService {
       });
 
       this.logger.log(`✓ Auto-created broker account for ${email}`);
-      this.logger.log(`  Email: ${email}`);
-      this.logger.log(`  Password: ${password} (PERMANENT - save this!)`);
-      this.logger.log(`  Note: Broker can change password later if forgotten`);
+      // Note: Password is securely sent via email, never logged
 
-      // TODO: Send welcome email with permanent credentials
-      // await this.emailService.sendBrokerWelcomeEmail(email, firstName, password);
-      // Email should say: "These are your permanent credentials. Keep them safe. You can change your password anytime."
+      // Send welcome email with permanent credentials
+      try {
+        // Generate a password reset token for broker to set their own password
+        const resetToken = randomBytes(32).toString("hex");
+        const resetTokenExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+        // Store the reset token in the database
+        await this.prisma.user.update({
+          where: { id: brokerUser.id },
+          data: {
+            resetToken,
+            resetTokenExpiry,
+          },
+        });
+
+        // Get the subcontractor name for context by finding the contractor with this broker email
+        const subcontractor = await this.prisma.contractor.findFirst({
+          where: {
+            contractorType: "SUBCONTRACTOR",
+            brokerEmail: email,
+          },
+        });
+
+        const subcontractorName = subcontractor
+          ? subcontractor.name
+          : "a subcontractor";
+
+        await this.emailService.sendBrokerWelcomeEmail(
+          email,
+          firstName,
+          resetToken,
+          subcontractorName,
+        );
+        this.logger.log(`✓ Welcome email sent to broker: ${email}`);
+      } catch (emailError) {
+        this.logger.error(
+          `Failed to send welcome email to broker ${email}:`,
+          emailError,
+        );
+      }
 
       return { email, password, created: true };
     } catch (error) {

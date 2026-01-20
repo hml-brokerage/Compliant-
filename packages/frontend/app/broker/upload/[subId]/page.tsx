@@ -42,21 +42,9 @@ export default function BrokerUploadSubPage() {
   const fetchSubcontractor = useCallback(async () => {
     setLoading(true);
     try {
-      // TODO: Implement API call to fetch specific subcontractor
-      // const response = await apiClient.get(`/api/broker/subcontractors/${subId}`);
-      // setSubcontractor(response.data);
-      
-      // Mock data for now
-      setSubcontractor({
-        id: subId,
-        name: 'John Smith',
-        company: 'Smith Electric Co.',
-        email: 'john@smithelectric.com',
-        projects: [
-          { id: '1', name: 'Downtown Office Tower', gcName: 'ABC Construction' },
-          { id: '2', name: 'Riverside Apartments', gcName: 'XYZ Builders' }
-        ]
-      });
+      const { brokerApi } = await import('../../../../lib/api/broker');
+      const data = await brokerApi.getSubcontractorById(subId);
+      setSubcontractor(data);
     } catch (error) {
       console.error('Failed to fetch subcontractor:', error);
       alert('Failed to load subcontractor information');
@@ -127,10 +115,8 @@ export default function BrokerUploadSubPage() {
         }
       });
 
-      // TODO: Implement API call to upload documents
-      // const response = await apiClient.post('/api/broker/upload-coi', formData, {
-      //   headers: { 'Content-Type': 'multipart/form-data' },
-      // });
+      const { brokerApi } = await import('../../../../lib/api/broker');
+      await brokerApi.uploadDocuments(subId, formData);
 
       alert('Documents uploaded successfully! Email notifications sent to GC, Subcontractor, and Admin.');
       router.push('/dashboard');
