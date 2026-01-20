@@ -31,7 +31,18 @@ append_if_missing packages/backend/.env DATABASE_URL "postgresql://postgres:post
 append_if_missing packages/backend/.env PORT "3001"
 append_if_missing packages/backend/.env JWT_SECRET "$(rand_secret)"
 append_if_missing packages/backend/.env JWT_REFRESH_SECRET "$(rand_secret)"
-append_if_missing packages/frontend/.env.local NEXT_PUBLIC_API_URL "http://localhost:3001/api"
+
+# Detect GitHub Codespaces and generate appropriate API URL
+if [ -n "${CODESPACE_NAME:-}" ]; then
+  log "Detected GitHub Codespaces environment"
+  API_URL="https://${CODESPACE_NAME}-3001.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/api"
+  log "Using Codespaces API URL: ${API_URL}"
+else
+  API_URL="http://localhost:3001/api"
+  log "Using local API URL: ${API_URL}"
+fi
+
+append_if_missing packages/frontend/.env.local NEXT_PUBLIC_API_URL "${API_URL}"
 
 log "Post-start: pushing Prisma schema"
 pnpm db:push || warn "Prisma push failed; verify Postgres is healthy"

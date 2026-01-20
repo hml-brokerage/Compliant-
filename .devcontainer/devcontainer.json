@@ -4,9 +4,26 @@
   "service": "app",
   "workspaceFolder": "/workspace",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "forwardPorts": [3000, 3001, 5432],
+  "portsAttributes": {
+    "3000": {
+      "label": "Frontend",
+      "onAutoForward": "notify",
+      "requireLocalPort": false
+    },
+    "3001": {
+      "label": "Backend API",
+      "onAutoForward": "notify",
+      "requireLocalPort": false
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "ignore"
+    }
+  },
   "remoteUser": "node",
   "postCreateCommand": [
     "npm i -g pnpm@8",
