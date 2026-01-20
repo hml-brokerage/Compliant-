@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FilterBar, useToast } from '../../../components';
 import { dashboardApi, DashboardItem, DashboardStats } from '../../../lib/api/dashboard';
+import { notificationApi } from '../../../lib/api/notifications';
+import MessagingInbox from '../../components/MessagingInbox';
 
 interface AdminDashboardProps {
   user: User;
@@ -20,14 +22,30 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
   const [items, setItems] = useState<DashboardItem[]>([]);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showMessaging, setShowMessaging] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     loadDashboardData();
+    loadUnreadCount();
+    
+    // Poll for unread count every 30 seconds
+    const interval = setInterval(loadUnreadCount, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     loadItems();
   }, [filter, searchTerm]);
+
+  const loadUnreadCount = async () => {
+    try {
+      const count = await notificationApi.getUnreadCount();
+      setUnreadCount(count);
+    } catch (error: any) {
+      console.error('Error loading unread count:', error);
+    }
+  };
 
   const loadDashboardData = async () => {
     try {
@@ -55,6 +73,11 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     } catch (error: any) {
       console.error('Error loading items:', error);
     }
+  };
+
+  const handleMessagingClose = () => {
+    setShowMessaging(false);
+    loadUnreadCount(); // Refresh count after closing
   };
 
   const filterOptions = [
@@ -105,6 +128,20 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               <h1 className="text-2xl font-bold text-gray-900">Compliant Platform</h1>
             </div>
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => setShowMessaging(true)}
+                className="relative px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Messages
+                {unreadCount > 0 && (
+                  <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
+              </button>
               <span className="text-sm text-gray-700">
                 {user?.firstName} {user?.lastName}
               </span>
@@ -264,6 +301,9 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
           </div>
         </div>
       </main>
+
+      {/* Messaging Inbox Modal */}
+      {showMessaging && <MessagingInbox onClose={handleMessagingClose} />}
     </div>
   );
 }
