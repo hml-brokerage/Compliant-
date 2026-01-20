@@ -25,9 +25,9 @@ const ADMIN_CREDENTIALS = {
   password: 'Admin123!@#'
 };
 
-// New user data to be created
+// New user data to be created - USING REAL EMAIL ADDRESSES PROVIDED
 const NEW_GC_DATA = {
-  email: 'miriam@prestigebuilders.com',
+  email: 'miriamsabel1@gmail.com',
   password: 'PrestigeGC2026!',
   firstName: 'Miriam',
   lastName: 'Sabel',
@@ -36,7 +36,7 @@ const NEW_GC_DATA = {
 };
 
 const NEW_SUB_DATA = {
-  email: 'contact@mpiplumbing.com',
+  email: 'msa62624@gmail.com',
   password: 'MPISub2026!',
   firstName: 'MPI',
   lastName: 'Contact',
@@ -45,7 +45,7 @@ const NEW_SUB_DATA = {
 };
 
 const NEW_BROKER_DATA = {
-  email: 'miriam@hmlbrokerage.com',
+  email: 'msabel@hmlbrokerage.com',
   password: 'HMLBroker2026!',
   firstName: 'Miriam',
   lastName: 'Sabel',
