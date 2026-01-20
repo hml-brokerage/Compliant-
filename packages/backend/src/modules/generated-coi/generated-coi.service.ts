@@ -87,14 +87,22 @@ export class GeneratedCOIService {
       });
 
       this.logger.log(`✓ Auto-created broker account for ${email}`);
-      this.logger.log(`  Email: ${email}`);
-      this.logger.log(`  Password: ${password} (PERMANENT - save this!)`);
-      this.logger.log(`  Note: Broker can change password later if forgotten`);
+      // Note: Password is securely sent via email, never logged
 
       // Send welcome email with permanent credentials
       try {
         // Generate a password reset token for broker to set their own password
         const resetToken = randomBytes(32).toString("hex");
+        const resetTokenExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        
+        // Store the reset token in the database
+        await this.prisma.user.update({
+          where: { id: brokerUser.id },
+          data: {
+            resetToken,
+            resetTokenExpiry,
+          },
+        });
 
         // Get the subcontractor name for context by finding the contractor with this broker email
         const subcontractor = await this.prisma.contractor.findFirst({

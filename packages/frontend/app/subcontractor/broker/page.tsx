@@ -51,7 +51,7 @@ export default function SubcontractorBrokerPage() {
       const data = await subcontractorApi.getBrokerInfo();
       if (data.brokerName) {
         setBrokerInfo({
-          brokerName: data.brokerName || '',
+          brokerName: data.brokerName,
           brokerEmail: data.brokerEmail || '',
           brokerPhone: data.brokerPhone || '',
           brokerCompany: data.brokerCompany || '',
