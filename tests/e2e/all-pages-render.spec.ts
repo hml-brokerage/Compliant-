@@ -48,16 +48,26 @@ async function rateLimitedFetch(url: string, options: RequestInit, retryCount = 
     }
     
     // Add delay after successful request to prevent rate limiting
+    // This is necessary to avoid 429 errors when making multiple sequential API calls
     if (response.ok) {
       await sleep(API_RATE_LIMIT_DELAY);
     }
     
     return response;
   } catch (error) {
-    // Network errors - retry with exponential backoff
-    if (retryCount < API_MAX_RETRIES) {
+    // Retry on network errors that may be transient (timeout, connection reset, etc.)
+    // Don't retry on permanent errors like DNS failures
+    const isRetryableError = error instanceof Error && (
+      error.message.includes('timeout') ||
+      error.message.includes('ECONNRESET') ||
+      error.message.includes('ETIMEDOUT') ||
+      error.message.includes('ECONNREFUSED') ||
+      error.message.includes('fetch failed')
+    );
+    
+    if (isRetryableError && retryCount < API_MAX_RETRIES) {
       const retryDelay = API_RETRY_DELAY_BASE * Math.pow(2, retryCount);
-      console.log(`⚠️  Network error, retrying in ${retryDelay}ms... (attempt ${retryCount + 1}/${API_MAX_RETRIES})`);
+      console.log(`⚠️  Network error (${error.message}), retrying in ${retryDelay}ms... (attempt ${retryCount + 1}/${API_MAX_RETRIES})`);
       await sleep(retryDelay);
       return rateLimitedFetch(url, options, retryCount + 1);
     }
