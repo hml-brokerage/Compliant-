@@ -221,8 +221,9 @@ export default function EditProgramPage() {
       }
 
       await apiClient.patch(`/programs/${programId}`, payload);
-      setSuccessMessage('Program updated successfully!');
       setSubmitting(false);
+      // Redirect to program details page after successful update
+      router.push(`/admin/programs/${programId}`);
     } catch (err: any) {
       const msg = err?.response?.data?.message || 'Failed to update program';
       setError(Array.isArray(msg) ? msg.join(', ') : String(msg));

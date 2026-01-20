@@ -7,7 +7,7 @@ import { UserRole } from '@compliant/shared';
 export default function HomePage() {
   const { isAuthenticated, loading, user } = useAuth();
 
-  const isAdmin = !!user && [UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MANAGER].includes(user.role as any);
+  const isAdmin = !!user && [UserRole.ADMIN, UserRole.MANAGER].includes(user.role as any);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white p-24">
