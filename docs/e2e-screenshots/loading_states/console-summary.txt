@@ -1,7 +1,7 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: loading_states
-Generated: 2026-01-20T17:26:41.161Z
+Generated: 2026-01-20T18:14:10.092Z
 
 Console Summary: 5 messages (4 errors, 0 warnings, 0 logs, 1 info, 0 debug)
 
@@ -13,10 +13,10 @@ Breakdown by Type:
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T17:26:40.487Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:26:40.614Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:40.616Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:40.617Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:40.617Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:14:09.426Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:14:09.550Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:14:09.551Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:14:09.551Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:14:09.552Z] [ERROR] Auth check failed: AxiosError
 
 === END OF SUMMARY ===

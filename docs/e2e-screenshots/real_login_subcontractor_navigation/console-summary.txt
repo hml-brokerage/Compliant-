@@ -1,40 +1,39 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: real_login_subcontractor_navigation
-Generated: 2026-01-20T17:26:22.369Z
+Generated: 2026-01-20T18:13:52.119Z
 
-Console Summary: 35 messages (28 errors, 0 warnings, 4 logs, 3 info, 0 debug)
+Console Summary: 34 messages (27 errors, 0 warnings, 4 logs, 3 info, 0 debug)
 
 Breakdown by Type:
-- Errors: 28
+- Errors: 27
 - Warnings: 0
 - Logs: 4
 - Info: 3
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T17:26:15.531Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:26:15.633Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:15.634Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:15.638Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:15.639Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:16.495Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
-[2026-01-20T17:26:18.564Z] [LOG] [Fast Refresh] rebuilding
-[2026-01-20T17:26:18.915Z] [LOG] [Fast Refresh] done in 351ms
-[2026-01-20T17:26:19.270Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:26:19.352Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:19.352Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:19.358Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:19.359Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:19.402Z] [ERROR] REQUEST FAILED: http://localhost:3000/login?_rsc=tlsy5 - net::ERR_ABORTED
-[2026-01-20T17:26:20.012Z] [LOG] [Fast Refresh] rebuilding
-[2026-01-20T17:26:20.879Z] [LOG] [Fast Refresh] done in 867ms
-[2026-01-20T17:26:21.281Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:26:21.365Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:21.365Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:21.368Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:26:21.368Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:26:21.401Z] [ERROR] Warning: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render%s HotReload SubcontractorCompliancePage SubcontractorCompliancePage 
+[2026-01-20T18:13:45.379Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:13:45.482Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:13:45.485Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:13:45.488Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:13:45.488Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:13:48.439Z] [LOG] [Fast Refresh] rebuilding
+[2026-01-20T18:13:48.789Z] [LOG] [Fast Refresh] done in 352ms
+[2026-01-20T18:13:49.151Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:13:49.236Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:13:49.237Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:13:49.245Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:13:49.245Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:13:49.283Z] [ERROR] REQUEST FAILED: http://localhost:3000/login?_rsc=tlsy5 - net::ERR_ABORTED
+[2026-01-20T18:13:49.882Z] [LOG] [Fast Refresh] rebuilding
+[2026-01-20T18:13:50.729Z] [LOG] [Fast Refresh] done in 847ms
+[2026-01-20T18:13:51.116Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:13:51.198Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:13:51.199Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:13:51.210Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:13:51.212Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:13:51.237Z] [ERROR] Warning: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render%s HotReload SubcontractorCompliancePage SubcontractorCompliancePage 
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:17:78)
     at ClientPageRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/client-page.js:14:11)
     at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
@@ -88,7 +87,7 @@ Breakdown by Type:
     at AppRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:585:13)
     at ServerRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:112:27)
     at Root (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:117:11)
-[2026-01-20T17:26:21.402Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.240Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -105,7 +104,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.402Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.241Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -119,7 +118,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.403Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.241Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -133,7 +132,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.403Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.241Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -147,7 +146,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.404Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.242Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -161,7 +160,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.408Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.245Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -179,7 +178,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.410Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.245Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -194,7 +193,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.411Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.246Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -209,7 +208,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.411Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.247Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -224,7 +223,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.411Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.247Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'generalLiability')
 TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
@@ -239,7 +238,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.415Z] [ERROR] The above error occurred in the <NotFoundErrorBoundary> component:
+[2026-01-20T18:13:51.251Z] [ERROR] The above error occurred in the <NotFoundErrorBoundary> component:
 
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:17:78)
     at ClientPageRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/client-page.js:14:11)
@@ -296,7 +295,7 @@ TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at Root (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:117:11)
 
 React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundaryHandler.
-[2026-01-20T17:26:21.417Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.253Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
     at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
@@ -310,7 +309,7 @@ React will try to recreate this component tree from scratch using the error boun
     at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
     at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
     at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
-[2026-01-20T17:26:21.417Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'generalLiability')
+[2026-01-20T18:13:51.253Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'generalLiability')
     at SubcontractorCompliancePage (webpack-internal:///(app-pages-browser)/./app/subcontractor/compliance/page.tsx:531:103)
     at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
     at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)

@@ -229,6 +229,7 @@ model GeneratedCOI {
   subcontractorName String?
 
   status COIStatus @default(AWAITING_BROKER_INFO)
+  brokerType    BrokerType?
 
   // Broker information
   brokerName    String?

@@ -1,87 +1,319 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: complete_coi_workflow_with_ui
-Generated: 2026-01-20T17:24:28.881Z
+Generated: 2026-01-20T18:12:09.242Z
 
-Console Summary: 70 messages (58 errors, 0 warnings, 0 logs, 12 info, 0 debug)
+Console Summary: 71 messages (59 errors, 0 warnings, 1 logs, 11 info, 0 debug)
 
 Breakdown by Type:
-- Errors: 58
+- Errors: 59
 - Warnings: 0
-- Logs: 0
-- Info: 12
+- Logs: 1
+- Info: 11
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T17:24:04.232Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:04.829Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:04.830Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:04.831Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:04.832Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:05.234Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=1obve - net::ERR_ABORTED
-[2026-01-20T17:24:07.709Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:08.282Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:08.283Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:08.284Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:08.284Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:08.704Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:09.263Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:09.264Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:09.265Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:09.266Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:09.552Z] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
-[2026-01-20T17:24:09.557Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:09.561Z] [ERROR] Login failed: AxiosError
-[2026-01-20T17:24:09.898Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:10.473Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:10.474Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:10.477Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:10.477Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:12.121Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:12.659Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:12.660Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:12.662Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:12.662Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:13.164Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:13.720Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:13.721Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:13.726Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:13.726Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:14.096Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
-[2026-01-20T17:24:16.427Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:16.981Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:16.982Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:16.984Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:16.985Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:17.396Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:17.940Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:17.940Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:17.941Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:17.942Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:18.323Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
-[2026-01-20T17:24:20.711Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:21.244Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:21.252Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:21.253Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:21.254Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:21.695Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:22.226Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:22.228Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:22.231Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:22.231Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:22.655Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=1obve - net::ERR_ABORTED
-[2026-01-20T17:24:22.671Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
-[2026-01-20T17:24:25.006Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:25.559Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:25.559Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:25.562Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:25.563Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:25.975Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
-[2026-01-20T17:24:26.534Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:26.536Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:26.539Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T17:24:26.539Z] [ERROR] Auth check failed: AxiosError
-[2026-01-20T17:24:26.876Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=1obve - net::ERR_ABORTED
-[2026-01-20T17:24:26.892Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
+[2026-01-20T18:11:44.436Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:45.023Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:45.025Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:45.029Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:45.030Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:45.444Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
+[2026-01-20T18:11:47.579Z] [LOG] [Fast Refresh] rebuilding
+[2026-01-20T18:11:48.256Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:48.819Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:48.821Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:48.825Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:48.826Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:49.251Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:49.796Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:49.796Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:49.798Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:49.798Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:50.164Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=1obve - net::ERR_ABORTED
+[2026-01-20T18:11:52.653Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:53.206Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:53.207Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:53.210Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:53.211Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:53.629Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:54.195Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:54.196Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:54.201Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:54.202Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:56.902Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:57.465Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:57.465Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:57.467Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:57.467Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:57.884Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:11:58.429Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:58.430Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:58.434Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:11:58.434Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:11:58.801Z] [ERROR] REQUEST FAILED: http://localhost:3000/dashboard?_rsc=16jui - net::ERR_ABORTED
+[2026-01-20T18:11:59.040Z] [ERROR] Warning: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render%s HotReload SubcontractorDashboard SubcontractorDashboard 
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:14:11)
+    at DashboardPage (webpack-internal:///(app-pages-browser)/./app/dashboard/page.tsx:28:118)
+    at ClientPageRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/client-page.js:14:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
+    at AuthProvider (webpack-internal:///(app-pages-browser)/./lib/auth/AuthContext.tsx:18:11)
+    at QueryClientProvider (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/@tanstack+react-query@5.90.19_react@18.3.1/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:27:11)
+    at Providers (webpack-internal:///(app-pages-browser)/./app/providers.tsx:17:11)
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:117:11)
+[2026-01-20T18:11:59.044Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.044Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.045Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.045Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.047Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.047Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.052Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.052Z] [ERROR] PAGE ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.054Z] [ERROR] The above error occurred in the <NotFoundErrorBoundary> component:
+
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:14:11)
+    at DashboardPage (webpack-internal:///(app-pages-browser)/./app/dashboard/page.tsx:28:118)
+    at ClientPageRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/client-page.js:14:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/layout-router.js:370:11)
+    at AuthProvider (webpack-internal:///(app-pages-browser)/./lib/auth/AuthContext.tsx:18:11)
+    at QueryClientProvider (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/@tanstack+react-query@5.90.19_react@18.3.1/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:27:11)
+    at Providers (webpack-internal:///(app-pages-browser)/./app/providers.tsx:17:11)
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/app-index.js:117:11)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundaryHandler.
+[2026-01-20T18:11:59.056Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:11:59.056Z] [ERROR] Application error: TypeError: Cannot read properties of undefined (reading 'length')
+    at SubcontractorDashboard (webpack-internal:///(app-pages-browser)/./app/dashboard/components/SubcontractorDashboard.tsx:598:40)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16290:20)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18472:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.6_@playwright+test@1.57.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[2026-01-20T18:12:01.104Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:12:01.661Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:01.661Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:01.672Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:01.672Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:02.103Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:12:02.650Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:02.651Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:02.656Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:02.657Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:05.365Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:12:05.912Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:05.914Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:05.918Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:05.921Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:06.331Z] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-01-20T18:12:06.879Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:06.880Z] [ERROR] Auth check failed: AxiosError
+[2026-01-20T18:12:06.884Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-01-20T18:12:06.884Z] [ERROR] Auth check failed: AxiosError
 
 === END OF SUMMARY ===
