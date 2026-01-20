@@ -76,13 +76,6 @@ test.describe('Real Login and Navigation with Screenshots', () => {
       email: 'test.gc.navigation@example.com',
       phone: '(555) 100-0001',
       company: 'Test GC Navigation Company',
-      contractorType: 'CONTRACTOR',
-      status: 'ACTIVE',
-      address: '123 Test St',
-      city: 'Test City',
-      state: 'CA',
-      zipCode: '90001',
-      trades: ['General Contracting'],
     });
     
     const gcEmail = gcContractor.userAccount.email;
@@ -294,13 +287,6 @@ test.describe('Real Login and Navigation with Screenshots', () => {
       email: 'test.sub.navigation@example.com',
       phone: '(555) 200-0001',
       company: 'Test Sub Navigation Company',
-      contractorType: 'SUBCONTRACTOR',
-      status: 'ACTIVE',
-      address: '456 Test Ave',
-      city: 'Test City',
-      state: 'CA',
-      zipCode: '90002',
-      trades: ['Electrical', 'HVAC'],
     });
     
     const subEmail = subContractor.userAccount.email;

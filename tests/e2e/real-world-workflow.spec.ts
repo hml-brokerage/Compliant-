@@ -235,13 +235,6 @@ test.describe('Real-World COI Workflow - Prestige Builders & MPI Plumbing', () =
       email: 'prestige.builders@example.com',
       phone: '(555) 123-4567',
       company: 'Prestige Builders LLC',
-      contractorType: 'CONTRACTOR',
-      status: 'ACTIVE',
-      address: '123 Builder Ave',
-      city: 'Brooklyn',
-      state: 'NY',
-      zipCode: '11206',
-      trades: ['General Contracting'],
     });
     
     gcEmail = gcContractor.userAccount.email;
@@ -305,7 +298,12 @@ test.describe('Real-World COI Workflow - Prestige Builders & MPI Plumbing', () =
 
     // Step 6: GC Adds Subcontractor - MPI Plumbing (Standard Trade)
     console.log('\n📋 Step 7: GC Adds Subcontractor - MPI Plumbing');
-    const subcontractor = await apiCallPW('/contractors', 'POST', gcToken, SUBCONTRACTOR_DATA);
+    const subcontractor = await apiCallPW('/contractors', 'POST', gcToken, {
+      name: SUBCONTRACTOR_DATA.name,
+      email: SUBCONTRACTOR_DATA.email,
+      phone: SUBCONTRACTOR_DATA.phone,
+      company: SUBCONTRACTOR_DATA.company,
+    });
     subcontractorId = subcontractor.id;
     subEmail = subcontractor.userAccount.email;
     subPassword = subcontractor.userAccount.password;

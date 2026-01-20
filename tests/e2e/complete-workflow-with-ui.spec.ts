@@ -148,13 +148,6 @@ test.describe('Complete COI Workflow - Prestige Builders & MPI Plumbing', () => 
         email: NEW_GC_DATA.email,
         phone: '(555) 123-4567',
         company: NEW_GC_DATA.company,
-        contractorType: 'CONTRACTOR',
-        status: 'ACTIVE',
-        address: '123 Builder Ave',
-        city: 'Brooklyn',
-        state: 'NY',
-        zipCode: '11206',
-        trades: ['General Contracting'],
       });
       
       gcEmail = gcContractor.userAccount.email;
@@ -217,9 +210,6 @@ test.describe('Complete COI Workflow - Prestige Builders & MPI Plumbing', () => 
         email: NEW_SUB_DATA.email,
         phone: '(555) 234-5678',
         company: NEW_SUB_DATA.company,
-        contractorType: 'SUBCONTRACTOR',
-        status: 'ACTIVE',
-        trades: ['Plumbing', 'HVAC'],
       });
       subcontractorId = subcontractor.id;
       subEmail = subcontractor.userAccount.email;

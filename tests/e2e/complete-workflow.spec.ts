@@ -111,13 +111,6 @@ test.describe('Complete COI Workflow Tests', () => {
           email: 'gc.abc.construction@example.com',
           phone: '(555) 999-1000',
           company: 'ABC Construction Inc.',
-          contractorType: 'CONTRACTOR', // GC role
-          status: 'ACTIVE',
-          address: '789 Builder Ave',
-          city: 'Construction City',
-          state: 'CA',
-          zipCode: '90210',
-          trades: ['General Contracting'],
         }
       );
       
@@ -173,13 +166,6 @@ test.describe('Complete COI Workflow Tests', () => {
           email: 'elite.electrical@example.com',
           phone: '(555) 123-4567',
           company: 'Elite Electrical Services LLC',
-          contractorType: 'SUBCONTRACTOR',
-          status: 'ACTIVE',
-          address: '456 Industrial Blvd',
-          city: 'Construction City',
-          state: 'CA',
-          zipCode: '90210',
-          trades: ['Electrical', 'Low Voltage'],
         }
       );
 
@@ -406,13 +392,6 @@ test.describe('Complete COI Workflow Tests', () => {
           email: 'westside.construction@example.com',
           phone: '(555) 900-1001',
           company: 'Westside Construction LLC',
-          contractorType: 'CONTRACTOR',
-          status: 'ACTIVE',
-          address: '456 West Ave',
-          city: 'Construction City',
-          state: 'CA',
-          zipCode: '90211',
-          trades: ['General Contracting'],
         }
       );
       
@@ -461,9 +440,6 @@ test.describe('Complete COI Workflow Tests', () => {
           name: 'Speedy Plumbing Co',
           email: 'speedy.plumbing@example.com',
           company: 'Speedy Plumbing Company',
-          contractorType: 'SUBCONTRACTOR',
-          status: 'ACTIVE',
-          trades: ['Plumbing', 'HVAC'],
         }
       );
 
@@ -737,13 +713,6 @@ Contact admin if you have questions: admin@compliant.com`,
           email: 'highway.builders@example.com',
           phone: '(555) 800-1002',
           company: 'Highway Builders Inc.',
-          contractorType: 'CONTRACTOR',
-          status: 'ACTIVE',
-          address: '789 Highway Blvd',
-          city: 'Construction City',
-          state: 'CA',
-          zipCode: '90212',
-          trades: ['General Contracting', 'Civil Engineering'],
         }
       );
       
@@ -792,9 +761,6 @@ Contact admin if you have questions: admin@compliant.com`,
           name: 'Concrete Masters Inc',
           email: 'concrete.masters@example.com',
           company: 'Concrete Masters Incorporated',
-          contractorType: 'SUBCONTRACTOR',
-          status: 'ACTIVE',
-          trades: ['Concrete', 'Formwork'],
         }
       );
 
