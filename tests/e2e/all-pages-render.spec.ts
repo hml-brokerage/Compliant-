@@ -146,12 +146,8 @@ test.describe('Comprehensive Page Renders - All Pages in System', () => {
     await page.waitForTimeout(1000);
     await screenshots.capture(page, '010-admin-dashboard', true);
 
-    // Contractors List
-    console.log('📋 Capturing: Contractors List');
-    await page.goto('/admin/contractors');
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
-    await screenshots.capture(page, '011-admin-contractors-list', true);
+    // Note: /admin/contractors redirects to /admin/general-contractors
+    // Skipping duplicate screenshot
 
     // New Contractor Form
     console.log('📋 Capturing: New Contractor Form');
@@ -160,14 +156,14 @@ test.describe('Comprehensive Page Renders - All Pages in System', () => {
     // Wait for the form to actually load (not just the loading spinner)
     await page.waitForSelector('form', { timeout: 10000 }).catch(() => console.log('Form did not load'));
     await page.waitForTimeout(1000);
-    await screenshots.capture(page, '012-admin-contractors-new', true);
+    await screenshots.capture(page, '011-admin-contractors-new', true);
 
-    // General Contractors List
+    // General Contractors List  
     console.log('📋 Capturing: General Contractors List');
     await page.goto('/admin/general-contractors');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(1000);
-    await screenshots.capture(page, '013-admin-general-contractors-list', true);
+    await screenshots.capture(page, '012-admin-general-contractors-list', true);
 
     // Projects List
     console.log('📋 Capturing: Projects List');

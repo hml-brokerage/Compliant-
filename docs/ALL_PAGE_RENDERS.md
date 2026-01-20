@@ -53,77 +53,71 @@ Full administrative access with complete CRUD operations for all entities.
    ![Admin Dashboard](e2e-screenshots/all_pages_admin/003-010_admin_dashboard.png)
 
 ### Contractors Management
-2. **Contractors List**
-   - **Route:** `/admin/contractors`
-   - **Description:** List and manage all contractors
-   
-   ![Admin Contractors List](e2e-screenshots/all_pages_admin/004-011_admin_contractors_list.png)
-
-3. **New Contractor Form**
+2. **New Contractor Form**
    - **Route:** `/admin/contractors/new`
    - **Description:** Create new contractor with details
    
    ![New Contractor Form](e2e-screenshots/all_pages_admin/005-012_admin_contractors_new.png)
 
-4. **General Contractors List**
+3. **General Contractors List**
    - **Route:** `/admin/general-contractors`
-   - **Description:** Manage general contractors specifically
+   - **Description:** Manage general contractors (note: `/admin/contractors` redirects here)
    
    ![General Contractors List](e2e-screenshots/all_pages_admin/006-013_admin_general_contractors_list.png)
 
 ### Projects Management
-5. **Projects List**
+4. **Projects List**
    - **Route:** `/admin/projects`
    - **Description:** View and manage all projects
    
    ![Admin Projects List](e2e-screenshots/all_pages_admin/007-014_admin_projects_list.png)
 
-6. **New Project Form**
+5. **New Project Form**
    - **Route:** `/admin/projects/new`
    - **Description:** Create new construction project
    
    ![New Project Form](e2e-screenshots/all_pages_admin/008-015_admin_projects_new.png)
 
 ### Programs Management
-7. **Programs List**
+6. **Programs List**
    - **Route:** `/admin/programs`
    - **Description:** Manage insurance programs
    
    ![Admin Programs List](e2e-screenshots/all_pages_admin/009-016_admin_programs_list.png)
 
-8. **New Program Form**
+7. **New Program Form**
    - **Route:** `/admin/programs/new`
    - **Description:** Create new insurance program
    
    ![New Program Form](e2e-screenshots/all_pages_admin/010-017_admin_programs_new.png)
 
 ### COI Management
-9. **COI List**
+8. **COI List**
    - **Route:** `/admin/coi`
    - **Description:** View all Certificates of Insurance
    
    ![Admin COI List](e2e-screenshots/all_pages_admin/011-018_admin_coi_list.png)
 
-10. **COI Reviews**
+9. **COI Reviews**
     - **Route:** `/admin/coi-reviews`
     - **Description:** Review and approve pending COIs
     
     ![COI Reviews](e2e-screenshots/all_pages_admin/012-019_admin_coi_reviews.png)
 
 ### User & System Management
-11. **Users List**
+10. **Users List**
     - **Route:** `/admin/users`
     - **Description:** Manage system users and roles
     
     ![Admin Users List](e2e-screenshots/all_pages_admin/013-020_admin_users_list.png)
 
-12. **Reports**
+11. **Reports**
     - **Route:** `/admin/reports`
     - **Description:** Generate and view system reports
     
     ![Admin Reports](e2e-screenshots/all_pages_admin/014-021_admin_reports.png)
 
-13. **Settings**
+12. **Settings**
     - **Route:** `/admin/settings`
     - **Description:** System configuration and settings
     
