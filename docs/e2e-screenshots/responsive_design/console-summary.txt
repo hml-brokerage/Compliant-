@@ -1,7 +1,7 @@
 
 === CONSOLE MONITORING SUMMARY ===
 Test: responsive_design
-Generated: 2026-01-20T06:36:19.383Z
+Generated: 2026-01-20T12:24:58.002Z
 
 Console Summary: 8 messages (8 errors, 0 warnings, 0 logs, 0 info, 0 debug)
 
@@ -13,13 +13,13 @@ Breakdown by Type:
 - Debug: 0
 
 === ALL MESSAGES ===
-[2026-01-20T06:36:14.987Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T06:36:14.989Z] [ERROR] Auth check failed: Z
-[2026-01-20T06:36:16.155Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T06:36:16.155Z] [ERROR] Auth check failed: Z
-[2026-01-20T06:36:17.254Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T06:36:17.255Z] [ERROR] Auth check failed: Z
-[2026-01-20T06:36:18.342Z] [ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
-[2026-01-20T06:36:18.343Z] [ERROR] Auth check failed: Z
+[2026-01-20T12:24:53.616Z] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-01-20T12:24:53.617Z] [ERROR] Auth check failed: Z
+[2026-01-20T12:24:54.774Z] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-01-20T12:24:54.774Z] [ERROR] Auth check failed: Z
+[2026-01-20T12:24:55.867Z] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-01-20T12:24:55.867Z] [ERROR] Auth check failed: Z
+[2026-01-20T12:24:56.962Z] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-01-20T12:24:56.962Z] [ERROR] Auth check failed: Z
 
 === END OF SUMMARY ===

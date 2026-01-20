@@ -34,7 +34,8 @@ import { AllExceptionsFilter } from "./common/filters/http-exception.filter";
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 60 seconds in milliseconds
-        limit: 10,
+        // In test/development environments, allow more requests to support E2E tests
+        limit: process.env.NODE_ENV === 'test' ? 1000 : (process.env.NODE_ENV === 'development' ? 100 : 10),
       },
     ]),
     PrismaModule,
