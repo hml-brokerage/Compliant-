@@ -21,7 +21,9 @@
 [build]
   base = "."
   # Build both shared package, backend, and frontend
+  # Install root dependencies first for Netlify Functions (serverless-http)
   command = """
+    pnpm install &&
     cd packages/shared && pnpm install && pnpm build &&
     cd ../backend && pnpm install && pnpm build &&
     cd ../frontend && pnpm install && pnpm build
@@ -125,6 +127,7 @@
 # Deploy previews (PR builds)
 [context.deploy-preview]
   command = """
+    pnpm install &&
     cd packages/shared && pnpm install && pnpm build &&
     cd ../backend && pnpm install && pnpm build &&
     cd ../frontend && pnpm install && pnpm build
@@ -133,6 +136,7 @@
 # Branch deploys
 [context.branch-deploy]
   command = """
+    pnpm install &&
     cd packages/shared && pnpm install && pnpm build &&
     cd ../backend && pnpm install && pnpm build &&
     cd ../frontend && pnpm install && pnpm build
@@ -141,6 +145,7 @@
 # Production context
 [context.production]
   command = """
+    pnpm install &&
     cd packages/shared && pnpm install && pnpm build &&
     cd ../backend && pnpm install && pnpm build &&
     cd ../frontend && pnpm install && pnpm build

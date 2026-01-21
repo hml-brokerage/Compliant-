@@ -2,6 +2,8 @@
 
 This guide provides step-by-step instructions for deploying the Compliant Platform to Netlify's free tier.
 
+> **⚠️ IMPORTANT**: Netlify deployment is intended for **demos, prototyping, and testing** purposes. For production workloads and enterprise use, deploy to traditional platforms (AWS ECS, Heroku, DigitalOcean, etc.) that don't have serverless limitations. The application is fully compatible with both serverless and traditional deployment platforms.
+
 ## 📋 Overview
 
 The Compliant Platform consists of two main components:
@@ -17,10 +19,14 @@ This guide covers deploying **both frontend and backend** to Netlify for free.
 - Each function invocation is stateless
 - Best for API endpoints, not long-running processes
 - Database connections should use connection pooling
+- **Not recommended for production** - Use traditional platforms for enterprise workloads
 
 **For production use**, consider:
-- Netlify Pro ($19/month) - 26 second timeout
-- Alternative: Use Render/Railway for backend (see alternative options section)
+- AWS ECS/EKS - Full container orchestration
+- DigitalOcean App Platform - Simple container deployment
+- Render/Railway - Easy deployment with better timeouts
+- Heroku - Traditional PaaS (Hobby plan: $7/month)
+- Or any traditional Node.js hosting platform
 
 ## 🆓 Netlify Free Tier Limits
 

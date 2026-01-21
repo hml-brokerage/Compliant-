@@ -26,6 +26,9 @@
     "backend": "cd packages/backend && pnpm dev",
     "frontend": "cd packages/frontend && pnpm dev"
   },
+  "dependencies": {
+    "serverless-http": "^3.2.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.9",
