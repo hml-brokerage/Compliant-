@@ -2,6 +2,15 @@
 
 Enterprise-grade insurance tracking application for General Contractors and their subcontractors. Built with NestJS backend, Next.js 14 frontend, and PostgreSQL database.
 
+## ☁️ Cloud Platform Compatibility
+
+[![Azure Compatible](https://img.shields.io/badge/Azure-Compatible-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](./AZURE_COMPATIBILITY.md)
+[![AWS Compatible](https://img.shields.io/badge/AWS-Compatible-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)](./README.md#-deployment)
+[![Docker Compatible](https://img.shields.io/badge/Docker-Compatible-2496ED?style=for-the-badge&logo=docker&logoColor=white)](./Dockerfile)
+[![Kubernetes Ready](https://img.shields.io/badge/Kubernetes-Ready-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)](./k8s/)
+
+**✅ YES, this application is fully Azure compatible!** [Read the Azure deployment guide →](./AZURE_DEPLOYMENT.md)
+
 ## 📊 Project Status
 
 ### Build & CI/CD
