@@ -63,10 +63,19 @@
 # Netlify Functions Configuration
 # ------------------------------------------------------------------------------
 [functions]
-  # Use esbuild for faster bundling
-  node_bundler = "esbuild"
-  # Include only built files and package.json (not node_modules to avoid 250MB limit)
-  included_files = ["packages/backend/dist/**", "packages/backend/package.json"]
+  # Disable bundling - NestJS dependencies don't work well with esbuild
+  # node_bundler = "esbuild"  # Commented out - using raw node_modules instead
+  # Include backend build and minimal node_modules
+  # Note: This may exceed 250MB limit - consider frontend-only deployment for production
+  included_files = [
+    "packages/backend/dist/**",
+    "packages/backend/package.json",
+    "packages/backend/node_modules/@nestjs/**",
+    "packages/backend/node_modules/@prisma/**",
+    "packages/backend/node_modules/reflect-metadata/**",
+    "packages/backend/node_modules/rxjs/**",
+    "packages/shared/dist/**"
+  ]
 
 # ------------------------------------------------------------------------------
 # Redirects and Rewrites
