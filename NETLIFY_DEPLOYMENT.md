@@ -5,10 +5,22 @@ This guide provides step-by-step instructions for deploying the Compliant Platfo
 ## 📋 Overview
 
 The Compliant Platform consists of two main components:
-- **Frontend**: Next.js 14 application (can be deployed to Netlify)
-- **Backend**: NestJS API server (requires separate hosting)
+- **Frontend**: Next.js 14 application (deployed to Netlify)
+- **Backend**: NestJS API server (deployed to Netlify Functions)
 
-This guide covers deploying the **frontend** to Netlify for free and provides options for backend deployment.
+This guide covers deploying **both frontend and backend** to Netlify for free.
+
+## ⚠️ Important Notes on Backend Deployment
+
+**Netlify Functions** work differently from traditional servers:
+- Serverless functions have a **10-second execution limit** (free tier)
+- Each function invocation is stateless
+- Best for API endpoints, not long-running processes
+- Database connections should use connection pooling
+
+**For production use**, consider:
+- Netlify Pro ($19/month) - 26 second timeout
+- Alternative: Use Render/Railway for backend (see alternative options section)
 
 ## 🆓 Netlify Free Tier Limits
 
@@ -141,9 +153,160 @@ Add this badge to your README.md for one-click deployment:
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/hml-brokerage/Compliant-)
 ```
 
-## 🔧 Backend Deployment Options
+## 🚀 Backend Deployment to Netlify (Option 0: Netlify Functions)
 
-The NestJS backend requires a Node.js server. Here are free/affordable options:
+**✅ Best for: Full-stack deployment on Netlify**
+
+Deploy your NestJS backend as Netlify Functions for a complete serverless solution.
+
+### Prerequisites
+
+1. Netlify account
+2. Frontend already deployed to Netlify (see above)
+3. PostgreSQL database (Supabase, Neon, etc.)
+
+### Step 1: Create Netlify Function Wrapper
+
+Create `netlify/functions/api.js` in your project root:
+
+```javascript
+// netlify/functions/api.js
+const serverless = require('serverless-http');
+const { NestFactory } = require('@nestjs/core');
+const { AppModule } = require('../../packages/backend/dist/app.module');
+
+let cachedApp;
+
+async function bootstrap() {
+  if (!cachedApp) {
+    const app = await NestFactory.create(AppModule, {
+      logger: ['error', 'warn', 'log'],
+    });
+    
+    app.enableCors({
+      origin: process.env.FRONTEND_URL || '*',
+      credentials: true,
+    });
+    
+    await app.init();
+    cachedApp = app;
+  }
+  return cachedApp;
+}
+
+exports.handler = async (event, context) => {
+  const app = await bootstrap();
+  const handler = serverless(app.getHttpAdapter().getInstance());
+  return handler(event, context);
+};
+```
+
+### Step 2: Update netlify.toml Configuration
+
+Update your `netlify.toml` to include backend build and function configuration:
+
+```toml
+[build]
+  base = "."
+  command = """
+    cd packages/shared && pnpm install && pnpm build &&
+    cd ../backend && pnpm install && pnpm build &&
+    cd ../frontend && pnpm install && pnpm build
+  """
+  publish = "packages/frontend/.next"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20.0.0"
+  PNPM_VERSION = "8.15.0"
+
+# Redirect API calls to Netlify Functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Function settings
+[functions]
+  node_bundler = "esbuild"
+  
+[[functions.api]]
+  # Increase timeout (requires Netlify Pro for >10s)
+  timeout = 10
+```
+
+### Step 3: Install Serverless Dependencies
+
+Add to `packages/backend/package.json`:
+
+```json
+{
+  "dependencies": {
+    "serverless-http": "^3.2.0"
+  }
+}
+```
+
+Then run:
+```bash
+cd packages/backend
+pnpm install
+```
+
+### Step 4: Set Environment Variables
+
+In Netlify Dashboard, add these environment variables:
+
+**Frontend Variables:**
+- `NEXT_PUBLIC_API_URL` = `/.netlify/functions/api`
+
+**Backend Variables:**
+- `DATABASE_URL` = Your PostgreSQL connection string
+- `JWT_SECRET` = Your JWT secret (min 32 chars)
+- `JWT_REFRESH_SECRET` = Your refresh secret (min 32 chars)
+- `JWT_EXPIRATION` = `15m`
+- `JWT_REFRESH_EXPIRATION` = `7d`
+- `NODE_ENV` = `production`
+- `FRONTEND_URL` = Your Netlify site URL
+
+### Step 5: Deploy
+
+```bash
+# Commit changes
+git add netlify/functions/api.js netlify.toml
+git commit -m "Add Netlify Functions backend deployment"
+git push
+
+# Netlify will automatically rebuild and deploy
+```
+
+### ⚠️ Important Limitations
+
+**Free Tier Constraints:**
+- **10-second timeout** per function execution
+- Cold starts may take 1-2 seconds
+- Not suitable for long-running operations
+- Database connections should use pooling
+
+**Workarounds:**
+1. Use connection pooling (e.g., Prisma connection pooling)
+2. Optimize slow queries
+3. Consider Netlify Pro ($19/month) for 26-second timeout
+4. For heavy workloads, use alternative backend hosting (see below)
+
+### Step 6: Test Your Deployment
+
+```bash
+# Test the API endpoint
+curl https://your-site.netlify.app/.netlify/functions/api/health
+
+# Or visit in browser
+# https://your-site.netlify.app/.netlify/functions/api/docs
+```
+
+## 🔧 Alternative Backend Deployment Options
+
+If Netlify Functions' limitations don't work for your use case, consider these alternatives:
 
 ### Option 1: Render (Free Tier - Recommended)
 
