@@ -193,10 +193,10 @@ stages:
               scriptLocation: 'inlineScript'
               inlineScript: |
                 echo "Running database migrations..."
-                az webapp ssh --resource-group compliant-rg --name compliant-backend-staging <<EOF
-                cd packages/backend
-                npx prisma migrate deploy
-                EOF
+                # Note: SSH to web app may require additional setup
+                # Alternative: Use deployment slot with migration task
+                echo "⚠️  Manual migration recommended: az webapp ssh --resource-group compliant-rg --name compliant-backend-staging"
+                echo "   Then run: cd packages/backend && npx prisma migrate deploy"
           
           - task: AzureCLI@2
             displayName: 'Run smoke tests'
@@ -261,10 +261,10 @@ stages:
               scriptLocation: 'inlineScript'
               inlineScript: |
                 echo "Running database migrations..."
-                az webapp ssh --resource-group compliant-rg --name compliant-backend-prod <<EOF
-                cd packages/backend
-                npx prisma migrate deploy
-                EOF
+                # Note: SSH to web app may require additional setup
+                # Alternative: Use deployment slot with migration task
+                echo "⚠️  Manual migration recommended: az webapp ssh --resource-group compliant-rg --name compliant-backend-prod"
+                echo "   Then run: cd packages/backend && npx prisma migrate deploy"
           
           - task: AzureCLI@2
             displayName: 'Run smoke tests'

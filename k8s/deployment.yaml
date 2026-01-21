@@ -73,7 +73,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: compliantacr.azurecr.io/compliant-backend:latest
+        image: compliantacr.azurecr.io/compliant-backend:latest  # TODO: Replace 'latest' with specific version tag in production (e.g., v1.0.0 or build ID)
         imagePullPolicy: Always
         ports:
         - containerPort: 3001
@@ -273,9 +273,7 @@ spec:
   - Egress
   ingress:
   - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
+    - podSelector: {}  # Allow traffic from any pod in the namespace (for Azure Application Gateway Ingress Controller)
     ports:
     - protocol: TCP
       port: 3001
