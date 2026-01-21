@@ -8774,7 +8774,7 @@ packages:
     dev: true
 
   /serverless-http@3.2.0:
-    resolution: {integrity: sha512-QvYezRON5xry4ZI6XTahl6q531yCPQ0EV3FyQbiLC3vQAF/Vg/+gAA42XOBIX8oHl+zkm3hIX3LZHgCSe7AFYA==}
+    resolution: {integrity: sha512-QvSyZXljRLIGqwcJ4xsKJXwkZnAVkse1OajepxfjkBXV0BMvRS5R546Z4kCBI8IygDzkQY0foNPC/rnipaE9pQ==}
     engines: {node: '>=10'}
 
   /serve-static@2.2.1:
