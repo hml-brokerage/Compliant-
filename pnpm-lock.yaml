@@ -11,6 +11,24 @@ importers:
 
   .:
     dependencies:
+      '@nestjs/common':
+        specifier: ^11.1.12
+        version: 11.1.12(@nestjs/platform-express@11.1.12)(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.1.12
+        version: 11.1.12(@nestjs/common@11.1.12)(@nestjs/platform-express@11.1.12)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/platform-express':
+        specifier: ^11.1.12
+        version: 11.1.12(@nestjs/common@11.1.12)(@nestjs/core@11.1.12)
+      '@prisma/client':
+        specifier: ^5.22.0
+        version: 5.22.0(prisma@5.22.0)
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
       serverless-http:
         specifier: ^3.2.0
         version: 3.2.0
